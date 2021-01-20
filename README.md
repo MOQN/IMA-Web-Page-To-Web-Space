@@ -3,8 +3,8 @@ Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Links
 * [Course Note Fall 2021]()
-* [Syllabus](https://docs.google.com/document/d/16S7vifKo6PL1Ajkxx3VvibLcjKSJSReANrvo1WyqX1M/edit?usp=sharing)
-* [Resources](https://docs.google.com/document/d/16S7vifKo6PL1Ajkxx3VvibLcjKSJSReANrvo1WyqX1M/edit#bookmark=id.e9tcnp84v0k7)
+* [Syllabus]()
+* [Resources]()
 * [Empty Example for p5.js + ml5.js](https://glitch.com/edit/#!/empty-example-ml5)
 
 ## Course Information
