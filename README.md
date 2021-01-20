@@ -10,8 +10,7 @@ Interactive Media Arts (IMA) at NYU Shanghai
 ## Course Information
 * Instructor: [J.H. Moon](jh.moon@nyu.edu)
   * Office: Room 939
-  * Virtual Hours: Thursdays, 2pm – 5pm. Zoom. ([By appointment](jh.moon@nyu.edu))
-  * Virtual Office Hours: Anytime (via Slack direct message or email)
+  * Virtual Office Hours: ([by appointment](jh.moon@nyu.edu)) via Slack direct message or email.
 * Class meeting days and times: Monday, 7pm to 10pm 
 * [Course Schedule Overview]()
 * [Course Policies]()
