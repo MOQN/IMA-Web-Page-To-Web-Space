@@ -3,14 +3,14 @@ Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Links
 * [Course Notes | Spring 2021]()
-* [Syllabus]()
-* [Resources]()
+* [Syllabus](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit?usp=sharing)
+* [Resources](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.7hn1xbffa92p)
 * [Empty Example for p5.js + ml5.js](https://glitch.com/edit/#!/empty-example-ml5)
 
 ## Course Information
 * Instructor: [J.H. Moon](jh.moon@nyu.edu)
   * Office: Room 939
-  * Virtual Office Hours: ([by appointment](jh.moon@nyu.edu)) via Slack direct message or email.
+  * Virtual Office Hours: ([by appointment](jh.moon@nyu.edu)) via Slack or email.
 * Class meeting days and times: Monday, 7pm to 10pm 
 * [Course Schedule Overview]()
 * [Course Policies]()
