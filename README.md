@@ -1,8 +1,8 @@
 # Web Page to Web Space | Spring 2021
 Interactive Media Arts (IMA) at NYU Shanghai
 
-## Links
-* [Course Notes | Spring 2021]()
+## Class Materials
+* [Course Notes | Spring 2021](https://docs.google.com/document/d/1mAqIojIBLyn1ed2fJGiWs4Quk06dHAdGjWT2MsrFqJY/edit?usp=sharing)
 * [Empty Example on Glitch](https://glitch.com/edit/#!/empty-example-ml5)
 
 ## Course Information
