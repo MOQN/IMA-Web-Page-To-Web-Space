@@ -3,17 +3,17 @@ Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Links
 * [Course Notes | Spring 2021]()
-* [Syllabus](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit?usp=sharing)
-* [Resources](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.7hn1xbffa92p)
-* [Empty Example for p5.js + ml5.js](https://glitch.com/edit/#!/empty-example-ml5)
+* [Empty Example on Glitch](https://glitch.com/edit/#!/empty-example-ml5)
 
 ## Course Information
 * Instructor: [J.H. Moon](jh.moon@nyu.edu)
   * Office: Room 939
   * Virtual Office Hours: ([by appointment](jh.moon@nyu.edu)) via Slack or email.
 * Class meeting days and times: Monday, 7pm to 10pm 
-* [Course Schedule Overview]()
-* [Course Policies]()
+* [Syllabus](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit?usp=sharing)
+* [Resources](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.7hn1xbffa92p)
+* [Course Schedule Overview](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.y6mbbsoi6t21)
+* [Course Policies](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.azhyd49tdw8p)
 
 ### Description
 The Internet and mobile devices have evolved rapidly over the last half century. Computing systems used to take up the whole room or building. Today, even the latest mobile phones hold powerful hardware comparable to laptop computers. The push towards developing Virtual or Augmented Reality (VR/AR) platforms may soon allow us to communicate virtually through mobile devices, without the need for complex hardware or our current tethered approach. Due to recent adjustments and development of technology and social media, people are more inclined to communicate virtually rather than face-to-face. In the near future, VR/AR platforms and the three dimensional (3D) contents may eventually overpower 2D images and textual content. Web pages will become Web Spaces. 
