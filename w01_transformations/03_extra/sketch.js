@@ -3,10 +3,6 @@
 // MOQN
 // Sep 7 2017
 
-
-// user-defined function!
-
-
 function setup() {
   createCanvas(600, 600);
   noStroke();
@@ -16,14 +12,15 @@ function setup() {
 function draw() {
   background(0);
 
-  fill(255,100,100);
+  fill(255, 100, 100);
   star(200, 200, 2.0);
-  
-  fill(100,255,100);
+
+  fill(100, 255, 100);
   star(400, 400, 0.8);
 }
 
-function star(x,y,s) {
+// Organize your code with a user-defined function!
+function star(x, y, s) {
   push();
   translate(x, y);
   scale(s);
