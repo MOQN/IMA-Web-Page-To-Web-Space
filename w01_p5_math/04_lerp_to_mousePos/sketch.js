@@ -9,7 +9,6 @@ function setup() {
 function draw() {
   background(100);
   
-  let targetX = width;
   let percentage = 0.05; // 5%
   x = lerp(x, mouseX, percentage);
   y = lerp(y, mouseY, percentage);
