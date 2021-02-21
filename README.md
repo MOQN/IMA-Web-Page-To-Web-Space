@@ -3,7 +3,7 @@ Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Class Materials
 * [Course Notes | Spring 2021](https://docs.google.com/document/d/1mAqIojIBLyn1ed2fJGiWs4Quk06dHAdGjWT2MsrFqJY/edit?usp=sharing)
-* [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-sketch-for-wp2ws)
+* [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-project-for-wp2ws)
 
 ## Course Information
 * Instructor: [J.H. Moon](jh.moon@nyu.edu)
