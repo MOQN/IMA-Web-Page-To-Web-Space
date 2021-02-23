@@ -1,5 +1,6 @@
 # folders
 other/
+.vscode
 
 # files
 .DS_Store
