@@ -7,3 +7,9 @@ body {
 canvas {
   display: block;
 }
+
+#container-p5 {
+  position: absolute;
+  bottom: 50px;
+  left: 50px;
+}

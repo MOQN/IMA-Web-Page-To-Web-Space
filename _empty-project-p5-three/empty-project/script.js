@@ -119,8 +119,6 @@ function animate() {
   render();
 }
 
-function updateTHREE() {}
-
 function render() {
   renderer.render(scene, camera);
 }
