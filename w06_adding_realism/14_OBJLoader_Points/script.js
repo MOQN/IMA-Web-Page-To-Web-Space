@@ -1,65 +1,87 @@
-let cube;
-let texture;
+let bear;
+let pointCloud;
 
 function setupTHREE() {
-  texture = new THREE.CanvasTexture(canvas.elt);
-  texture.minFilter = THREE.LinearFilter;
-  texture.magFilter = THREE.LinearFilter;
-  texture.format = THREE.RGBFormat;
-  cube = getBox();
-  scene.add(cube);
+  loadObject("assets/gummy.obj");
 }
 
 function updateTHREE() {
-  cube.rotation.x += 0.01;
-  cube.rotation.z += 0.01;
-
-  cube.scale.x = 10.0;
-  cube.scale.y = 10.0;
-  cube.scale.z = 10.0;
+  if (bear !== undefined) {
+    pointCloud.rotation.x += 0.01;
+    pointCloud.rotation.z += 0.01;
+  }
 }
 
-function getBox() {
-  let geometry = new THREE.BoxGeometry(1, 1, 1);
-  let material = new THREE.MeshBasicMaterial({
-    //wireframe: true
-    map: texture
-  });
-  let mesh = new THREE.Mesh(geometry, material);
+function loadObject(filepath) {
+  // load .obj file
+  const loader = new THREE.OBJLoader(); // NOT! THREE.ObjectLoader();
 
-  return mesh;
+  loader.load(
+    // resource URL
+    filepath,
+    // onLoad callback
+
+    // Here the loaded data is assumed to be an object
+    function(obj) {
+      // Add the loaded object to the scene
+      bear = obj;
+      for (let child of bear.children) {
+        //child.material = new THREE.MeshBasicMaterial();
+        child.material = new THREE.MeshBasicMaterial({
+          color: 0x00FF00,
+          wireframe: true
+        });
+      }
+      //scene.add(bear);
+
+      console.log(bear.children[0].geometry.attributes.position.array);
+      pointCloud = getPoints(bear.children[0].geometry.attributes.position.array);
+      scene.add(pointCloud);
+    },
+
+    // onProgress callback
+    function(xhr) {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+
+    // onError callback
+    function(err) {
+      console.error('An error happened');
+    }
+  );
+}
+
+function getPoints(posArray) {
+  const vertices = [];
+
+  let scaleAdj = 100.0;
+  for (let i = 0; i < posArray.length; i += 3) {
+    let x = posArray[i + 0] * scaleAdj;
+    let y = posArray[i + 1] * scaleAdj;
+    let z = posArray[i + 2] * scaleAdj;
+    vertices.push(x, y, z);
+  }
+
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  const material = new THREE.PointsMaterial({ color: 0xFFFFFF });
+  const points = new THREE.Points(geometry, material);
+  return points;
 }
 
 ///// p5.js /////
-let canvas;
-let cam;
 
 function setup() {
-  canvas = createCanvas(640, 480);
+  let canvas = createCanvas(640, 480);
   canvas.parent("container-p5");
-  //canvas.hide();
-  cam = createCapture(VIDEO);
-  cam.parent("container-p5");
-  cam.hide();
-
-  background(100);
+  canvas.hide();
+  background(50);
 
   initTHREE();
 }
 
 function draw() {
-  //image(cam, 0, 0);
-  noStroke();
-  for (let i = 0; i < 5; i++) {
-    let x = floor(random(width));
-    let y = floor(random(height));
-    let dia = random(30, 50);
-    let c = cam.get(x, y);
-    fill(c);
-    circle(x, y, dia);
-  }
-
-  texture.needsUpdate = true; // ***
+  noLoop();
 }
 
 ///// three.js /////
