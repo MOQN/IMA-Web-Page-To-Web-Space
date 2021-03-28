@@ -85,7 +85,7 @@ function draw() {
     }
   }
   img.updatePixels();
-  //image(img, 0, 0); // uncomment this line and see the img in the canvas
+  image(img, 0, 0); // uncomment this line and see the img in the canvas
 
   texture.needsUpdate = true; // ***
 }

@@ -1,7 +1,10 @@
+let bear;
+let light;
 let sphere;
 let textureCube;
 
 function setupTHREE() {
+  // SPHERE
   const loader = new THREE.CubeTextureLoader();
   loader.setPath('assets/DeepSpace/');
   textureCube = loader.load([
@@ -10,25 +13,88 @@ function setupTHREE() {
     'pz.png', 'nz.png'
   ]);
 
+  // OBJ + Refraction
+  textureCube.mapping = THREE.CubeRefractionMapping;
+  const cubeMaterial = new THREE.MeshPhongMaterial({
+    color: 0xccddFF,
+    envMap: textureCube,
+    refractionRatio: 0.98,
+    reflectivity: 0.95
+  });
+  loadObject("assets/gummy.obj", cubeMaterial);
+
+  // ENV - either way between #1 and #2
+  // #1
+  //scene.background = textureCube;
+  // #2
   sphere = getSphere();
-  sphere.scale.set(30.0, 30.0, 30.0);
+  sphere.material.envMap = textureCube;
+  sphere.material.side = THREE.DoubleSide;
+  sphere.scale.set(300.0, 300.0, 300.0);
   scene.add(sphere);
+
+  // light
+  light = getLight();
+  scene.add(light);
 }
 
 function updateTHREE() {
-  //sphere.rotation.x += 0.01;
-  //sphere.rotation.z += 0.01;
+  if (bear !== undefined) {
+    bear.rotation.x += 0.01;
+    bear.rotation.z += 0.01;
+
+    bear.scale.x = 10.0;
+    bear.scale.y = 10.0;
+    bear.scale.z = 10.0;
+  }
+
+  light.position.x = cos(frame * 0.01) * 50;
+  light.position.y = sin(frame * 0.005) * 50;
+  light.position.z = sin(frame * 0.01) * 50;
 }
 
 function getSphere() {
   const geometry = new THREE.SphereGeometry(1, 32, 32);
   const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    envMap: textureCube,
-    side: THREE.DoubleSide
+    color: 0xffffff
   });
   const mesh = new THREE.Mesh(geometry, material);
   return mesh;
+}
+
+function getLight() {
+  const light = new THREE.PointLight(0xFFFFFF, 1, 100);
+  let sphere = getSphere();
+  light.add(sphere);
+  return light;
+}
+
+function loadObject(filepath, material) {
+  // load .obj file
+  const loader = new THREE.OBJLoader(); // NOT! THREE.ObjectLoader();
+
+  loader.load(
+    // resource URL
+    filepath,
+    // onLoad callback - Here the loaded data is assumed to be an object
+    function(obj) {
+      // Add the loaded object to the scene
+      bear = obj;
+      for (let child of bear.children) {
+        child.material = material;
+        //child.material = new THREE.MeshBasicMaterial({ color: 0x00FF00, wireframe: true });
+      }
+      scene.add(bear);
+    },
+    // onProgress callback
+    function(xhr) {
+      console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+    },
+    // onError callback
+    function(err) {
+      console.error('An error happened');
+    }
+  );
 }
 
 ///// p5.js /////
