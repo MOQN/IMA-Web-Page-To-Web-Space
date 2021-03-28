@@ -69,15 +69,20 @@ function updateTHREE() {
 }
 
 function getPoints(objects) {
+  //const vertices = new Float32Array(objects.length * 3);
+  //const colors = new Float32Array(objects.length * 3);
   const vertices = [];
+  const colors = [];
+
   for (let obj of objects) {
     vertices.push(obj.pos.x, obj.pos.y, obj.pos.z);
+    colors.push(1.0, 1.0, 1.0);
   }
   // geometry
   const geometry = new THREE.BufferGeometry();
   // attributes
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
-  geometry.setAttribute('color', new THREE.Float32BufferAttribute(vertices, 3));
+  geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
   // draw range
   const drawCount = objects.length; // draw the whole objects
   geometry.setDrawRange(0, drawCount);
