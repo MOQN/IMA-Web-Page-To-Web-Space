@@ -25,14 +25,14 @@ function setupDB() {
   // Your web app's Firebase configuration
   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
-    apiKey: "AIzaSyApGy3KwAdxFwjJMNEgtQ481VcAHakxJBs",
-    authDomain: "wp2ws-demo.firebaseapp.com",
-    databaseURL: "https://wp2ws-demo-default-rtdb.firebaseio.com",
-    projectId: "wp2ws-demo",
-    storageBucket: "wp2ws-demo.appspot.com",
-    messagingSenderId: "477823658599",
-    appId: "1:477823658599:web:40703a3fb7803deb51c2c2",
-    measurementId: "G-Z1DWENKPGS"
+    apiKey: "---",
+    authDomain: "---",
+    databaseURL: "---",
+    projectId: "---",
+    storageBucket: "---",
+    messagingSenderId: "---",
+    appId: "---",
+    measurementId: "---"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
