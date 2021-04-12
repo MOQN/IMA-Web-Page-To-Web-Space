@@ -1,5 +1,7 @@
 const WORLD_HALF = 200;
+
 let plane;
+let objects = [];
 
 function setupTHREE() {
   // plane
@@ -28,16 +30,13 @@ function setupTHREE() {
     box.material.transparent = true;
     box.material.opacity = random(0.4, 0.7);
 
+    objects.push(box);
     scene.add(box);
   }
 }
 
 function updateTHREE() {
-  const delta = clock.getDelta();
-  controls.update(delta);
-  camera.position.y = 0;
-  //console.log(delta);
-  //console.log(camera.position);
+  //
 }
 
 function getBox() {
@@ -92,7 +91,6 @@ function draw() {
 
 let container, stats, gui, params;
 let scene, camera, renderer;
-let controls, clock;
 let time = 0;
 let frame = 0;
 
@@ -107,7 +105,7 @@ function initTHREE() {
     0.5,
     5000
   );
-  camera.position.z = 100;
+  camera.position.z = 300;
 
   // renderer
   renderer = new THREE.WebGLRenderer();
@@ -120,14 +118,18 @@ function initTHREE() {
   container.appendChild(renderer.domElement);
 
   // controls
-  clock = new THREE.Clock();
-  controls = new THREE.FlyControls(camera, renderer.domElement);
-  controls.movementSpeed = 100; // default: 1
-  controls.rollSpeed = 0.25; // default: 0.005
-  controls.autoForward = false;
-  controls.dragToLook = false;
+  const controlsOrbit = new THREE.OrbitControls(camera, renderer.domElement);
+  const controlsDrag = new THREE.DragControls(objects, camera, renderer.domElement);
+  // add event listener to highlight dragged objects
+  controlsDrag.addEventListener('dragstart', function(event) {
+    event.object.material.color.set(0xFF0000);
+    controlsOrbit.enabled = false; // ***
+  });
 
-  // *** check the updateTHREE() function ***
+  controlsDrag.addEventListener('dragend', function(event) {
+    event.object.material.color.set(0xFFFFFF);
+    controlsOrbit.enabled = true; // ***
+  });
 
   // gui
   // https://davidwalsh.name/dat-gui
