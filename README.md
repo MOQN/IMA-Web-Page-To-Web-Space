@@ -1,15 +1,15 @@
-# Web Page to Web Space | Spring 2021
+# Web Page to Web Space | Fall 2022
 Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Class Materials
-* [Course Notes | Spring 2021](https://docs.google.com/document/d/1mAqIojIBLyn1ed2fJGiWs4Quk06dHAdGjWT2MsrFqJY/edit?usp=sharing)
+* [Course Notes | Fall 2022](https://docs.google.com/document/d/1mAqIojIBLyn1ed2fJGiWs4Quk06dHAdGjWT2MsrFqJY/edit?usp=sharing)
 * [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-project-for-wp2ws)
 
 ## Course Information
 * Instructor: [J.H. Moon](jh.moon@nyu.edu)
   * Office: Room 939
   * Virtual Office Hours: by appointment via Slack or email.
-* Class meeting days and times: Monday, 7pm to 10pm 
+* Class meeting days and times: Tuesday, 4:45pm to 7:45pm 
 * [Syllabus](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit?usp=sharing)
 * [Resources](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.7hn1xbffa92p)
 * [Course Schedule Overview](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.y6mbbsoi6t21)
