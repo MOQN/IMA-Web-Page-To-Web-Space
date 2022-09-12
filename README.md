@@ -6,12 +6,11 @@ Interactive Media Arts (IMA) at NYU Shanghai
 * [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-project-for-wp2ws)
 
 ## Course Information
-* Instructor: [J.H. Moon](jh.moon@nyu.edu)
+* Instructor: J.H. Moon
   * Office: Room 939
-  * Virtual Office Hours: by appointment via Slack or email.
+  * Virtual Office Hours: by appointment via [Slack](https://join.slack.com/t/imaallclasses/shared_invite/zt-1fiqifwus-94pWbcL9qfkoYCOqGGRslw) or email.
 * Class meeting days and times: Tuesday, 4:45pm to 7:45pm 
 * [Syllabus](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit?usp=sharing)
-* [Projects](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.gj9iiinsf0h8)
 * [Resources](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.7hn1xbffa92p)
 * [Course Schedule Overview](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.y6mbbsoi6t21)
 * [Course Policies](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.azhyd49tdw8p)
