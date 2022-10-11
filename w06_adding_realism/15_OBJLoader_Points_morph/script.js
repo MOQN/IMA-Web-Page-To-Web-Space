@@ -192,10 +192,6 @@ function animate() {
 
   updateTHREE();
 
-  render();
-}
-
-function render() {
   renderer.render(scene, camera);
 }
 

@@ -33,6 +33,7 @@ function getBox() {
     color: 0x000000
   });
   let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
   return mesh;
 }
 
@@ -40,11 +41,13 @@ function getSphere() {
   const geometry = new THREE.SphereGeometry(0.2, 32, 32);
   const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
   let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
   return mesh;
 }
 
 function getLight() {
   let light = new THREE.PointLight(0xffffff, 10, 0); //( color, intensity, range(0 = infinite) )
+  scene.add(light);
   return light;
 }
 
@@ -67,7 +70,6 @@ class Cube {
     this.rotAcc = createVector();
     //
     this.mesh = getBox();
-    scene.add(this.mesh);
   }
   move() {
     this.vel.add(this.acc);
@@ -101,8 +103,6 @@ class Light {
 
     this.mesh = getSphere();
     this.light = getLight();
-    scene.add(this.mesh);
-    scene.add(this.light);
 
     this.update();
   }
@@ -190,10 +190,6 @@ function animate() {
 
   updateTHREE();
 
-  render();
-}
-
-function render() {
   renderer.render(scene, camera);
 }
 

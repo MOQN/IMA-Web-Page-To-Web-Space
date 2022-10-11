@@ -156,9 +156,7 @@ class Light {
     this.rotVel = createVector(x, y, z);
     return this;
   }
-  setScale(w, h, d) {
-    h = (h === undefined) ? w : h;
-    d = (d === undefined) ? w : d;
+   setScale(w, h = w, d = w) {
     const minScale = 0.01;
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
@@ -191,7 +189,6 @@ class Cube {
     this.rotVel = createVector();
     this.rotAcc = createVector();
     this.mesh = getBox();
-    scene.add(this.mesh);
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);
@@ -213,9 +210,7 @@ class Cube {
     this.rotVel = createVector(x, y, z);
     return this;
   }
-  setScale(w, h, d) {
-    h = (h === undefined) ? w : h;
-    d = (d === undefined) ? w : d;
+   setScale(w, h = w, d = w) {
     const minScale = 0.01;
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
@@ -328,10 +323,6 @@ function animate() {
 
   updateTHREE();
 
-  render();
-}
-
-function render() {
   renderer.render(scene, camera);
 }
 

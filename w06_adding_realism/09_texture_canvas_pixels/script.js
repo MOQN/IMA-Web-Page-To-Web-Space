@@ -27,7 +27,7 @@ function getBox() {
     map: texture
   });
   let mesh = new THREE.Mesh(geometry, material);
-
+  scene.add(mesh);
   return mesh;
 }
 
@@ -133,10 +133,6 @@ function animate() {
 
   updateTHREE();
 
-  render();
-}
-
-function render() {
   renderer.render(scene, camera);
 }
 
