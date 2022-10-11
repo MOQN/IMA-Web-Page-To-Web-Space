@@ -1,19 +1,19 @@
-# Web Page to Web Space | Spring 2021
+# Web Page to Web Space | Fall 2022
 Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Class Materials
-* [Course Notes | Spring 2021](https://docs.google.com/document/d/1mAqIojIBLyn1ed2fJGiWs4Quk06dHAdGjWT2MsrFqJY/edit?usp=sharing)
+* [Course Notes | Fall 2022](https://docs.google.com/document/d/1_KAc3IYll3QHzGT2VizRUSOwpKSDmDN88llLNoY5vVU/edit?usp=sharing)
 * [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-project-for-wp2ws)
 
 ## Course Information
-* Instructor: [J.H. Moon](jh.moon@nyu.edu)
+* Instructor: J.H. Moon
   * Office: Room 939
-  * Virtual Office Hours: by appointment via Slack or email.
-* Class meeting days and times: Monday, 7pm to 10pm 
-* [Syllabus](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit?usp=sharing)
-* [Resources](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.7hn1xbffa92p)
-* [Course Schedule Overview](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.y6mbbsoi6t21)
-* [Course Policies](https://docs.google.com/document/d/1aO1bNgq0Xg5SQiOmUah2sFjVNthPElr26UNB4JbkXr4/edit#bookmark=id.azhyd49tdw8p)
+  * Virtual Office Hours: by appointment via [Slack](https://join.slack.com/t/imaallclasses/shared_invite/zt-1fiqifwus-94pWbcL9qfkoYCOqGGRslw) or email.
+* Class meeting days and times: Tuesday, 4:45pm to 7:45pm 
+* [Syllabus](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit?usp=sharing)
+* [Resources](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.7hn1xbffa92p)
+* [Course Schedule Overview](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.y6mbbsoi6t21)
+* [Course Policies](https://docs.google.com/document/d/14vZ0bdSUIb3AAjqV1bl6_tYKCzKU81rlszq5GFeNxlY/edit#bookmark=id.azhyd49tdw8p)
 
 ### Description
 The Internet and mobile devices have evolved rapidly over the last half century. Computing systems used to take up the whole room or building. Today, even the latest mobile phones hold powerful hardware comparable to laptop computers. The push towards developing Virtual or Augmented Reality (VR/AR) platforms may soon allow us to communicate virtually through mobile devices, without the need for complex hardware or our current tethered approach. Due to recent adjustments and development of technology and social media, people are more inclined to communicate virtually rather than face-to-face. In the near future, VR/AR platforms and the three dimensional (3D) contents may eventually overpower 2D images and textual content. Web pages will become Web Spaces. 
