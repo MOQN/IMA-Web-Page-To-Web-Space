@@ -27,8 +27,6 @@ function setupTHREE() {
 
     box.material.transparent = true;
     box.material.opacity = random(0.4, 0.7);
-
-    scene.add(box);
   }
 
   // gui
@@ -71,6 +69,7 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
+  scene.add(mesh);
   return mesh;
 }
 

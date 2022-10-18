@@ -57,6 +57,7 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
+  scene.add(mesh);
   return mesh;
 }
 
@@ -76,7 +77,6 @@ class Character {
     //
     this.mesh = getBox();
     this.mesh.scale.set(10, 20, 2);
-    scene.add(this.mesh);
     //
     this.keys = {
       forward: false,

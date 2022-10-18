@@ -14,7 +14,6 @@ function setupTHREE() {
   plane = getPlane();
   plane.position.y = -WORLD_HALF / 2;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // Character
   user = new Character();
@@ -67,6 +66,7 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
+  scene.add(mesh);
   return mesh;
 }
 
@@ -119,7 +119,6 @@ class Character {
     //
     this.mesh = getBox();
     this.mesh.scale.set(10, 20, 2);
-    scene.add(this.mesh);
     //
     this.keys = {
       forward: false,

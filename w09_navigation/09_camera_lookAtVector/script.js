@@ -8,7 +8,6 @@ function setupTHREE() {
   plane = getPlane();
   plane.position.y = -WORLD_HALF / 2;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // boxes
   for (let i = 0; i < 100; i++) {
@@ -29,8 +28,6 @@ function setupTHREE() {
 
     box.material.transparent = true;
     box.material.opacity = random(0.4, 0.7);
-
-    scene.add(box);
   }
 
   // cube
@@ -39,7 +36,6 @@ function setupTHREE() {
   cube.material.color.r = 1.0;
   cube.material.color.g = 0.0;
   cube.material.color.b = 1.0;
-  scene.add(cube);
 
   // gui
   gui.add(camera.position, "z", 10, 500).step(1);
@@ -89,6 +85,7 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
+  scene.add(mesh);
   return mesh;
 }
 

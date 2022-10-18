@@ -8,7 +8,6 @@ function setupTHREE() {
   plane = getPlane();
   plane.position.y = -WORLD_HALF / 2;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // boxes
   for (let i = 0; i < 100; i++) {
@@ -31,7 +30,6 @@ function setupTHREE() {
     box.material.opacity = random(0.4, 0.7);
 
     objects.push(box);
-    scene.add(box);
   }
 }
 
@@ -69,7 +67,8 @@ function getPlane() {
 
     posArray[i + 2] = noiseValue; // update the z value.
   }
-
+  
+  scene.add(mesh);
   return mesh;
 }
 
