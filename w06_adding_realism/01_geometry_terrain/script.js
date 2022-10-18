@@ -3,7 +3,6 @@ let plane;
 
 function setupTHREE() {
   plane = getPlane();
-  scene.add(plane);
 }
 
 function updateTHREE() {

@@ -8,7 +8,6 @@ function setupTHREE() {
   texture.format = THREE.RGBFormat;
 
   cube = getBox();
-  scene.add(cube);
 }
 
 function updateTHREE() {

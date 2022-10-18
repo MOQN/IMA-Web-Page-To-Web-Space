@@ -11,7 +11,6 @@ function setupTHREE() {
   //texture.mapping = THREE.UVMapping
 
   plane = getPlane();
-  scene.add(plane);
 }
 
 function updateTHREE() {
@@ -40,6 +39,7 @@ function getPlane() {
     map: texture
   });
   let mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
   return mesh;
 }
 

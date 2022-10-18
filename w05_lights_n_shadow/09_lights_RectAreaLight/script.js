@@ -79,7 +79,8 @@ function getBox() {
     color: 0xFF00FF
   });
   const mesh = new THREE.Mesh(geometry, material);
-
+  scene.add(mesh);
+  
   return mesh;
 }
 

@@ -12,7 +12,6 @@ function setupTHREE() {
 
   sphere = getSphere();
   sphere.scale.set(30.0, 30.0, 30.0);
-  scene.add(sphere);
 }
 
 function updateTHREE() {
@@ -28,6 +27,7 @@ function getSphere() {
     side: THREE.DoubleSide
   });
   const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
   return mesh;
 }
 

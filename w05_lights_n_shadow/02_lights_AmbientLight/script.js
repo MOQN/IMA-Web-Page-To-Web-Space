@@ -63,7 +63,8 @@ function getBox() {
     //wireframe: true
   });
   const mesh = new THREE.Mesh(geometry, material);
-
+  scene.add(mesh);
+  
   return mesh;
 }
 

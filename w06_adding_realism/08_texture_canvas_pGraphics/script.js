@@ -7,7 +7,6 @@ function setupTHREE() {
   texture.magFilter = THREE.LinearFilter;
   texture.format = THREE.RGBFormat;
   cube = getBox();
-  scene.add(cube);
 }
 
 function updateTHREE() {

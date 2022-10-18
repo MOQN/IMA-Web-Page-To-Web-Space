@@ -31,11 +31,9 @@ function setupTHREE() {
   sphere.material.envMap = textureCube;
   sphere.material.side = THREE.DoubleSide;
   sphere.scale.set(300.0, 300.0, 300.0);
-  scene.add(sphere);
 
   // light
   light = getLight();
-  scene.add(light);
 }
 
 function updateTHREE() {
@@ -59,13 +57,13 @@ function getSphere() {
     color: 0xffffff
   });
   const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
   return mesh;
 }
 
 function getLight() {
   const light = new THREE.PointLight(0xFFFFFF, 1, 100);
   let sphere = getSphere();
-  light.add(sphere);
   return light;
 }
 
