@@ -5,7 +5,6 @@ function setupTHREE() {
 
   const light = getLight();
   light.position.set(10, 40, 80);
-  scene.add(light);
 
   let folder = gui.addFolder("LIGHT");
   folder
@@ -83,6 +82,7 @@ function constructObjects(obj) {
 
 function getLight() {
   const light = new THREE.PointLight(0xffffff, 1, 300);
+  scene.add(light);
   return light;
 }
 

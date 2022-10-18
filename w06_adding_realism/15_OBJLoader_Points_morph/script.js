@@ -55,7 +55,6 @@ function loadObject(filepath) {
 
       console.log(bear.children[0].geometry.attributes.position.array);
       pointCloud = getPoints(bear.children[0].geometry.attributes.position.array);
-      scene.add(pointCloud);
     },
 
     // onProgress callback
@@ -106,6 +105,7 @@ function getPoints(posArray) {
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
   const material = new THREE.PointsMaterial({ color: 0xFFFFFF });
   const points = new THREE.Points(geometry, material);
+  scene.add(points);
   return points;
 }
 

@@ -63,7 +63,8 @@ function getSphere() {
 
 function getLight() {
   const light = new THREE.PointLight(0xFFFFFF, 1, 100);
-  let sphere = getSphere();
+  //let sphere = getSphere();
+  scene.add(light);
   return light;
 }
 
