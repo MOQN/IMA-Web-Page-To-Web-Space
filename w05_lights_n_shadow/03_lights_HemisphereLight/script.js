@@ -10,7 +10,6 @@ function setupTHREE() {
   plane = getPlane();
   plane.position.y = FLOOR_POSITION;
   plane.rotation.x = PI / 2;
-  scene.add(plane);
 
   // cubes
   const distance = 10;
@@ -67,7 +66,7 @@ function getPlane() {
     side: THREE.DoubleSide
   });
   const mesh = new THREE.Mesh(geometry, material);
-
+  scene.add(mesh);
   return mesh;
 }
 
