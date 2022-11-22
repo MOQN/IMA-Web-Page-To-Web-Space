@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>WP2WS</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- Require the peer dependencies of pose-detection. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+  <!-- You must explicitly require a TF.js backend if you're not using the TF.js union bundle. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+  <!-- Import the model -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-segmentation"></script>
+  
+  <!-- Libraries -->
+  <script src="../libs/stats.min.js"></script>
+  <script src="../libs/dat.gui.min.js"></script>
+  <script src="../libs/p5.js"></script>
+  <script src="../libs/three.js"></script>
+  <script src="../libs/OrbitControls.js"></script>
+
+  <!-- Scripts -->
+  <script defer src="js/Particle.js"></script>
+  <script defer src="js/script-p5.js"></script>
+  <script defer src="js/script-three.js"></script>
+  <script defer src="js/script-main.js"></script>
+
+</head>
+
+<body>
+  <div id="container-three"></div>
+  <div id="container-p5"></div>
+</body>
+
+</html>

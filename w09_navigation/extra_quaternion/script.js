@@ -126,9 +126,7 @@ function initTHREE() {
   //let controls = new THREE.OrbitControls(camera, renderer.domElement);
 
   // gui
-  // https://davidwalsh.name/dat-gui
   gui = new dat.gui.GUI();
-  params = {};
 
   // stats
   stats = new Stats();

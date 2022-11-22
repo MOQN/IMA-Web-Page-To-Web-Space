@@ -129,9 +129,7 @@ function initTHREE() {
   // *** check the updateTHREE() function ***
 
   // gui
-  // https://davidwalsh.name/dat-gui
   gui = new dat.gui.GUI();
-  params = {};
 
   // stats
   stats = new Stats();

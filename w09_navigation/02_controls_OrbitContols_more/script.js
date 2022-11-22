@@ -118,21 +118,31 @@ function initTHREE() {
   controls = new THREE.OrbitControls(camera, renderer.domElement);
   controls.minDistance = 50;
   controls.maxDistance = 500;
+  controls.minPolarAngle = 0.10;
   controls.maxPolarAngle = Math.PI / 2;
-  controls.listenToKeyEvents(window); // optional
-  controls.keys = {
-    LEFT: 65, // KeyA
-    UP: 87, // KeyW
-    RIGHT: 68, // KeyD
-    BOTTOM: 83 // KeyS
-  }
   controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
   controls.dampingFactor = 0.05;
-
+  controls.rotateSpeed = 0.5;
+  controls.panSpeed = 0.5;
+  controls.zoomSpeed = 0.07; //0.15;
+  controls.listenToKeyEvents(window); // optional
+  /*
+  controls.keys = {
+    LEFT: 'ArrowLeft', //left arrow
+    UP: 'ArrowUp', // up arrow
+    RIGHT: 'ArrowRight', // right arrow
+    BOTTOM: 'ArrowDown' // down arrow
+  }
+  */
+  controls.keys = {
+    LEFT: "KeyA",
+    UP: "KeyW",
+    RIGHT: "KeyD",
+    BOTTOM: "KeyS"
+  }
+  
   // gui
-  // https://davidwalsh.name/dat-gui
   gui = new dat.gui.GUI();
-  params = {};
 
   // stats
   stats = new Stats();

@@ -123,9 +123,7 @@ function initTHREE() {
   controls.dampingFactor = 0.05;
 
   // gui
-  // https://davidwalsh.name/dat-gui
   gui = new dat.gui.GUI();
-  params = {};
 
   // stats
   stats = new Stats();
