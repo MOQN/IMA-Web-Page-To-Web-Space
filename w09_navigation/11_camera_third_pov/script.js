@@ -19,7 +19,7 @@ function setupTHREE() {
   user = new Character();
 
   // 3rd person camera
-  thirdPovCam = new ThirdPersonCamera(camera, params);
+  thirdPovCam = new ThirdPersonCamera(camera);
 
   // gui
   gui.add(thirdPovCam.idealOffset, "x", -100, 100).step(1);
@@ -77,6 +77,7 @@ class ThirdPersonCamera {
     this.lookAtVector = new THREE.Vector3();
     this.idealOffset = new THREE.Vector3(30, 20, 60);
     this.idealLookAt = new THREE.Vector3(0, 0, -100);
+    this.lerpAmount = 0.05;
   }
   calculateOffset(target) {
     const offset = new THREE.Vector3().copy(this.idealOffset);
@@ -94,9 +95,8 @@ class ThirdPersonCamera {
     const offset = this.calculateOffset(target);
     const lookAt = this.calculateLookAt(target);
 
-    const amt = 0.05;
-    this.position.lerp(offset, amt);
-    this.lookAtVector.lerp(lookAt, amt);
+    this.position.lerp(offset, this.lerpAmount);
+    this.lookAtVector.lerp(lookAt, this.lerpAmount);
 
     this.camera.position.copy(this.position);
     this.camera.lookAt(this.lookAtVector);

@@ -30,9 +30,9 @@ function setupTHREE() {
     box.material.opacity = random(0.4, 0.7);
   }
 
-  // cube
+  // pink cube
   cube = getBox();
-  cube.scale.set(20, 20, 20);
+  cube.scale.set(100, 20, 20);
   cube.material.color.r = 1.0;
   cube.material.color.g = 0.0;
   cube.material.color.b = 1.0;
