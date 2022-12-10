@@ -47,6 +47,13 @@ function updateTHREE() {
 
   let lookAtVector = new THREE.Vector3(0, 0, -1);
   lookAtVector.applyQuaternion(camera.quaternion);
+
+  // or
+  /*
+  let lookAtVector = new THREE.Vector3(); 
+  camera.getWorldDirection(lookAtVector);
+  */
+
   lookAtVector.multiplyScalar(300.0); // distance from the camera
   let targetPos = new THREE.Vector3().addVectors(camera.position, lookAtVector);
   cube.position.copy(targetPos);
@@ -112,6 +119,7 @@ let time = 0;
 let frame = 0;
 
 function initTHREE() {
+  console.log(THREE.REVISION);
   // scene
   scene = new THREE.Scene();
 

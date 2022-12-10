@@ -98,6 +98,7 @@ let time = 0;
 let frame = 0;
 
 function initTHREE() {
+  console.log(THREE.REVISION);
   // scene
   scene = new THREE.Scene();
 
