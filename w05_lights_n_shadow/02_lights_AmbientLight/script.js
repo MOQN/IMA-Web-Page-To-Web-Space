@@ -167,6 +167,7 @@ function initTHREE() {
   guiFog.add(params, "far", 1, 500).step(1);
 
   console.log(THREE.REVISION);
+  
   // scene
   scene = new THREE.Scene();
 

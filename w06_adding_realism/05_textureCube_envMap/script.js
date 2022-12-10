@@ -60,6 +60,7 @@ function cameraUpdate() {
 
 function initTHREE() {
   console.log(THREE.REVISION);
+  
   // scene
   scene = new THREE.Scene();
 
