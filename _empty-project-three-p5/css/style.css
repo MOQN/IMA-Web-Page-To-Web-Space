@@ -13,6 +13,11 @@ canvas {
 
 #container-p5 {
   position: absolute;
-  left: 100px;
-  top: 100px;
+  left: 30px;
+  top: 30px;
+}
+
+#container-three {
+  display: block;
+  /* add your style */
 }
