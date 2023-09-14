@@ -1,16 +1,26 @@
 console.log("three.js Version: " + THREE.REVISION);
 
-let scene, camera, renderer;
+let scene, camera, renderer, container;
+let controls;
 let time, frame = 0;
 
 function initThree() {
   scene = new THREE.Scene();
-  camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+  const fov = 75;
+  const aspectRatio = window.innerWidth / window.innerHeight;
+  const near = 0.1;
+  const far = 10000;
+  camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
+  camera.position.z = 1000;
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
-  let container = document.getElementById("container-three");
+
+  container = document.getElementById("container-three");
   container.appendChild(renderer.domElement);
+
+  controls = new OrbitControls(camera, renderer.domElement);
 
   setupThree(); // *** 
 

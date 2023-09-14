@@ -1,7 +1,7 @@
 function setup() {
   let canvas = createCanvas(640, 480);
   canvas.parent("container-p5");
-  // canvas.hide();
+  canvas.hide();
 
   initThree(); // ***
 }
