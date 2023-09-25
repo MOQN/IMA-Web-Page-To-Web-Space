@@ -1,4 +1,3 @@
-let gui;
 let params = {
   color: "#FFF"
 };
@@ -13,7 +12,6 @@ function setupThree() {
   cube.scale.z = 100;
 
   // setup gui
-  gui = new dat.GUI();
   gui.add(cube.scale, "x").min(1).max(200).step(0.1);
   gui.add(cube.scale, "y").min(1).max(200).step(0.1);
   gui.add(cube.scale, "z").min(1).max(200).step(0.1);
