@@ -43,7 +43,7 @@ function updateThree() {
 function getIcosahedron() {
   const hdr = new RGBELoader().load(
     "assets/test_2k.hdr",
-    () => {
+    function () {
       hdr.mapping = THREE.EquirectangularReflectionMapping;
     }
   );
