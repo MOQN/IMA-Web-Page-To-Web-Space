@@ -6,6 +6,8 @@ let cube;
 
 function setupThree() {
   cube = getBox();
+  scene.add(cube);
+
   cube.position.set(1, 0, 0); //(x, y, z);
   cube.scale.x = 100;
   cube.scale.y = 100;
@@ -29,8 +31,6 @@ function getBox() {
   const material = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
-  mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }
