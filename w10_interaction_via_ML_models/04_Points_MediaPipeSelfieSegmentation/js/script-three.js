@@ -41,7 +41,7 @@ function initTHREE() {
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
   container.appendChild(stats.dom);
 
-  setupTHREE();
+  setupThree();
 
   // let's draw!
   animate();
@@ -53,7 +53,7 @@ function animate() {
   time = performance.now();
   frame++;
 
-  updateTHREE();
+  updateThree();
 
   renderer.render(scene, camera);
 }

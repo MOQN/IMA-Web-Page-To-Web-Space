@@ -2,7 +2,7 @@
 // https://threejs.org/examples/?q=bloom#webgl_postprocessing_unreal_bloom
 // https://threejs.org/examples/?q=bloom#webgl_postprocessing_unreal_bloom_selective
 
-function setupTHREE() {
+function setupThree() {
   let light = new THREE.DirectionalLight(0xffffff, 0.75);
   light.position.setScalar(100);
   scene.add(light);
@@ -15,7 +15,7 @@ function setupTHREE() {
   boxGlow.position.z = -2.25;
 }
 
-function updateTHREE() {
+function updateThree() {
   renderer.autoClear = false;
   renderer.clear();
 
@@ -146,7 +146,7 @@ function initTHREE() {
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
   container.appendChild(stats.dom);
 
-  setupTHREE();
+  setupThree();
 
   // let's draw!
   animate();
@@ -158,7 +158,7 @@ function animate() {
   time = performance.now();
   frame++;
 
-  updateTHREE();
+  updateThree();
 
   renderer.render(scene, camera);
 }

@@ -9,7 +9,7 @@ const CAM_WIDTH = 640;
 
 let lines = [];
 
-function setupTHREE() {
+function setupThree() {
   // floor
   const floor = getPlane();
   floor.position.y = -WORLD_HALF / 2;
@@ -45,7 +45,7 @@ function setupTHREE() {
   lines.push( new Line3D(pose.rightKnee, pose.rightAnkle) );
 }
 
-function updateTHREE() {
+function updateThree() {
   for (const line of lines) {
     line.update();
   }

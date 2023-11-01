@@ -9,7 +9,7 @@ const MAX_PARTICLE_NUMBER = 5000;
 let pointCloud;
 let particles = [];
 
-function setupTHREE() {
+function setupThree() {
   // gui
   gui.add(ui, "drawCount").min(0).max(MAX_PARTICLE_NUMBER).step(1).listen();
 
@@ -22,7 +22,7 @@ function setupTHREE() {
   pointCloud = getPoints(MAX_PARTICLE_NUMBER);
 }
 
-function updateTHREE() {
+function updateThree() {
   // update the particles first
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
