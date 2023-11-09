@@ -34,7 +34,7 @@ function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshNormalMaterial();
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+
   return mesh;
 }
 
@@ -61,7 +61,6 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
-  scene.add(mesh);
   return mesh;
 }
 
@@ -80,6 +79,7 @@ class Character {
     this.isJumped = false;
     //
     this.mesh = getBox();
+    scene.add(this.mesh);
     this.mesh.scale.set(100, 200, 20);
     //
     this.keys = {
