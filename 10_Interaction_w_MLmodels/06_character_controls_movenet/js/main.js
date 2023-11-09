@@ -1,5 +1,6 @@
 let params = {
-  color: "#FFF"
+  angle: 0,
+  distance: 0,
 };
 
 const WORLD_HALF = 1000;
@@ -21,9 +22,12 @@ function setupThree() {
 
   // gui
   gui.add(camera.position, "z", 10, 1000).step(1);
+  gui.add(params, "angle", -PI, PI).step(0.01).listen();
+  gui.add(params, "distance", 0, 1000).step(1).listen();
 }
 
 function updateThree() {
+  user.moveByPose(pose);
   user.update();
 
   camera.position.copy(user.position);
@@ -170,6 +174,59 @@ class Character {
     if (this.keys.rotateRight) {
       let axis = new THREE.Vector3(0, 1, 0);
       let quaternion = new THREE.Quaternion().setFromAxisAngle(axis, -this.rotateVel); // negative
+      this.direction.multiply(quaternion);
+    }
+  }
+  moveByPose(pose) {
+    const leftPart = pose.left_shoulder;
+    const rightPart = pose.right_shoulder;
+    const confidenceThreshold = 0.1;
+
+    if (leftPart < confidenceThreshold ||
+      rightPart < confidenceThreshold)
+      return;
+
+    let leftPos = createVector(leftPart.x, leftPart.y);
+    let rightPos = createVector(rightPart.x, rightPart.y);
+
+    let vector = p5.Vector.sub(rightPos, leftPos);
+    let angle = degrees(vector.heading());
+    let distance = vector.mag();
+
+    params.angle = angle;
+    params.distance = distance;
+
+    // forward or backward
+    const forwardThreshold = 300;
+    const backwardThreshold = 250;
+    if (distance > forwardThreshold) {
+      const adjustment = map(distance, forwardThreshold, forwardThreshold + 100, 0, 1, true);
+      const vector = new THREE.Vector3(0, 0, 1); // ***
+      vector.applyQuaternion(this.direction);
+      vector.normalize();
+      vector.multiplyScalar(-this.moveVel * adjustment); // negative
+      this.position.add(vector);
+    }
+    else if (distance < backwardThreshold) {
+      const adjustment = map(distance, backwardThreshold, forwardThreshold - 100, 0, 1, true);
+      const vector = new THREE.Vector3(0, 0, 1); // ***
+      vector.applyQuaternion(this.direction);
+      vector.normalize();
+      vector.multiplyScalar(this.moveVel * adjustment); // positive
+      this.position.add(vector);
+    }
+
+    // rotate
+    const angleThreshold = 12;
+    const angleAdjustment = map(abs(angle), angleThreshold, 30, 0, 1);
+    if (angle < -angleThreshold) {
+      let axis = new THREE.Vector3(0, 1, 0);
+      let quaternion = new THREE.Quaternion().setFromAxisAngle(axis, this.rotateVel * angleAdjustment); // positive
+      this.direction.multiply(quaternion);
+    }
+    else if (angle > angleThreshold) {
+      let axis = new THREE.Vector3(0, 1, 0);
+      let quaternion = new THREE.Quaternion().setFromAxisAngle(axis, -this.rotateVel * angleAdjustment); // negative
       this.direction.multiply(quaternion);
     }
   }

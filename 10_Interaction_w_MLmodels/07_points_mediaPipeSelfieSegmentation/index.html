@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project | three.js + p5.js</title>
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <!-- TENSORFLOW -->
+  <!-- Require the peer dependencies of pose-detection. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter"></script>
+  <!-- You must explicitly require a TF.js backend if you're not using the TF.js union bundle. -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl"></script>
+  <!-- Import the model -->
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-segmentation"></script>
+
+  <!-- import the supplementary libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stats.js/16/Stats.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
+
+  <!-- import the p5.js library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.js"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/addons/p5.sound.min.js"></script> -->
+
+  <!-- import the three.js library -->
+  <script async src="https://unpkg.com/es-module-shims@1.8.0/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.156.1/examples/jsm/"
+      }
+    }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    window.THREE = THREE;
+    window.OrbitControls = OrbitControls;
+  </script>
+
+  <!-- import your scripts here! -->
+  <script defer src="js/script-three.js"></script>
+  <script defer src="js/script-p5.js"></script>
+  <script defer src="js/Particle.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+
+<body>
+  <div id="container-three"></div>
+  <div id="container-p5"></div>
+</body>
+
+</html>
