@@ -21,7 +21,7 @@ function initThree() {
   container = document.getElementById("container-three");
   container.appendChild(renderer.domElement);
 
-  controls = new OrbitControls(camera, renderer.domElement);
+  //controls = new OrbitControls(camera, renderer.domElement);
 
   gui = new dat.GUI();
 
@@ -32,10 +32,11 @@ function initThree() {
   setupThree(); // *** 
 
   animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
+  //requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;
