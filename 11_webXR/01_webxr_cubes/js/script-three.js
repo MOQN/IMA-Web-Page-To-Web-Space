@@ -1,3 +1,4 @@
+console.log("___Test1___");
 console.log("three.js Version: " + THREE.REVISION);
 
 let container, gui, stats;
