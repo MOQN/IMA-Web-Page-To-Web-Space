@@ -2,7 +2,6 @@ let params = {
   // (add)
 };
 
-
 let room;
 
 let raycaster;
