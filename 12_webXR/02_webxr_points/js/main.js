@@ -28,7 +28,7 @@ function updateThree() {
     const x = cos(frame * 0.01) * 1.5;
     const y = sin(frame * 0.01) * 1.5 + 1;
     let tParticle = new Particle()
-      .setPosition(x, y, -1)
+      .setPosition(x, y, -3)
       .setVelocity(random(-0.003, 0.003), random(-0.003, 0.003), random(-0.003, 0.003))
     particles.push(tParticle);
   }
