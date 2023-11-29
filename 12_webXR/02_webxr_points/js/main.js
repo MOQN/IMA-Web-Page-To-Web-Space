@@ -24,18 +24,20 @@ function setupThree() {
 function updateThree() {
   // generate more particles
   if (particles.length < MAX_PARTICLE_NUMBER) {
+
+    const x = cos(frame * 0.01) * 2;
+    const z = sin(frame * 0.01) * 2;
     let tParticle = new Particle()
-      .setPosition(random(-2, 2), 0, 0)
-      .setVelocity(random(-0.02, 0.02), random(-0.02, 0.02), random(-0.02, 0.02))
+      .setPosition(x, 3, z)
+      .setVelocity(random(-0.003, 0.003), random(-0.003, 0.003), random(-0.003, 0.003))
     particles.push(tParticle);
   }
 
   // update the particles first
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
-
     //p.attractedTo(0, 0, 0);
-    p.flow();
+    p.flow(0.00005);
     p.move();
     p.adjustVelocity(-0.005);
     p.rotate();
@@ -201,14 +203,14 @@ class Particle {
     }
     this.applyForce(force);
   }
-  flow() {
+  flow(magnitude = 0.01) {
     let xFreq = this.pos.x * 0.05 + frame * 0.005;
     let yFreq = this.pos.y * 0.05 + frame * 0.005;
     let zFreq = this.pos.z * 0.05 + frame * 0.005;
     let noiseValue = map(noise(xFreq, yFreq, zFreq), 0.0, 1.0, -1.0, 1.0);
     let force = new p5.Vector(cos(frame * 0.005), sin(frame * 0.005), sin(frame * 0.002));
     force.normalize();
-    force.mult(noiseValue * 0.01);
+    force.mult(noiseValue * magnitude);
     this.applyForce(force);
   }
 }
