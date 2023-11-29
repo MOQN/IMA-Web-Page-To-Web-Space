@@ -28,8 +28,19 @@ function setupThree() {
 }
 
 function updateThree() {
+  // generate cubes by controller
+  if (controller.userData.isSelecting === true) {
+    let tCube = new Cube()
+      .setPosition(controller.position.x, controller.position.y, controller.position.z)
+      .setVelocity(random(-0.05, 0.05), random(0.01, 0.05), random(-0.05, 0.05))
+      .setRotationVelocity(random(-0.05, 0.05), random(-0.05, 0.05), random(-0.05, 0.05))
+      .setScale(random(0.3, 0.6));
+    cubes.push(tCube);
+    //cube.userData.velocity.applyQuaternion(controller.quaternion);
+  }
+
   // generate cubes in real time
-  let numOfCubes = floor(random(1, 5));
+  let numOfCubes = floor(random(1, 2));
   for (let i = 0; i < numOfCubes; i++) {
     let tCube = new Cube()
       .setPosition(0, 6, 0)
