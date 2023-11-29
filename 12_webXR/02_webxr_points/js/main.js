@@ -13,7 +13,8 @@ function setupThree() {
   setupWebXR();
 
   // room
-  room = getRoom();
+  // room = getRoom();
+  room = getSphere();
   scene.add(room);
 
   // Points
@@ -25,10 +26,10 @@ function updateThree() {
   // generate more particles
   if (particles.length < MAX_PARTICLE_NUMBER) {
 
-    const x = cos(frame * 0.01) * 2;
-    const z = sin(frame * 0.01) * 2;
+    const x = cos(frame * 0.01) * 1.5;
+    const z = sin(frame * 0.01) * 1.5;
     let tParticle = new Particle()
-      .setPosition(x, 3, z)
+      .setPosition(x, 1, z)
       .setVelocity(random(-0.003, 0.003), random(-0.003, 0.003), random(-0.003, 0.003))
     particles.push(tParticle);
   }
@@ -83,6 +84,16 @@ function getRoom() {
     opacity: 0.5,
   });
   const mesh = new THREE.LineSegments(geometry, materials);
+  return mesh;
+}
+
+function getSphere() {
+  const geometry = new THREE.SphereGeometry(6, 32, 32);
+  const material = new THREE.MeshBasicMaterial({
+    color: 0x220011,
+    side: THREE.DoubleSide
+  });
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }
 
