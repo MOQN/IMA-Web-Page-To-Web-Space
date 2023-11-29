@@ -30,9 +30,15 @@ function setupThree() {
 function updateThree() {
   // generate cubes by controller
   if (controller.userData.isSelecting === true) {
+    // controller's position and direction
+    const position = controller.position;
+    const direction = new THREE.Vector3();
+    direction.applyQuaternion(controller.quaternion);
+
+    // generate a cube using the position and direction      
     let tCube = new Cube()
-      .setPosition(controller.position.x, controller.position.y, controller.position.z)
-      .setVelocity(random(-0.05, 0.05), random(0.01, 0.05), random(-0.05, 0.05))
+      .setPosition(position.x, position.y, position.z)
+      .setVelocity(direction.x, direction.y, direction.z)
       .setRotationVelocity(random(-0.05, 0.05), random(-0.05, 0.05), random(-0.05, 0.05))
       .setScale(random(0.3, 0.6));
     cubes.push(tCube);
