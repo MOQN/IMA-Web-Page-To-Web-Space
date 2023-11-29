@@ -1,3 +1,4 @@
+console.log("___Test1___");
 console.log("three.js Version: " + THREE.REVISION);
 
 let container, gui, stats;
@@ -11,9 +12,9 @@ function initThree() {
   const fov = 75;
   const aspectRatio = window.innerWidth / window.innerHeight;
   const near = 0.1;
-  const far = 1000;
+  const far = 10000;
   camera = new THREE.PerspectiveCamera(fov, aspectRatio, near, far);
-  camera.position.z = 10;
+  camera.position.z = 1000;
 
   renderer = new THREE.WebGLRenderer();
   renderer.setSize(window.innerWidth, window.innerHeight);
@@ -21,7 +22,7 @@ function initThree() {
   container = document.getElementById("container-three");
   container.appendChild(renderer.domElement);
 
-  controls = new OrbitControls(camera, renderer.domElement);
+  //controls = new OrbitControls(camera, renderer.domElement);
 
   gui = new dat.GUI();
 
@@ -29,17 +30,19 @@ function initThree() {
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild(stats.domElement);
 
-  setupThree();
+  setupThree(); // *** 
 
-  renderer.setAnimationLoop(animate); // Necessary for WebXR!!!
+  animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
+  //requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;
 
-  updateThree();
+  updateThree(); // ***
 
   renderer.render(scene, camera);
 }
