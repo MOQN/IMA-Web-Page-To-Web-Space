@@ -25,11 +25,10 @@ function setupThree() {
 function updateThree() {
   // generate more particles
   if (particles.length < MAX_PARTICLE_NUMBER) {
-
     const x = cos(frame * 0.01) * 1.5;
-    const z = sin(frame * 0.01) * 1.5;
+    const y = sin(frame * 0.01) * 1.5 + 1;
     let tParticle = new Particle()
-      .setPosition(x, 1, z)
+      .setPosition(x, y, -1)
       .setVelocity(random(-0.003, 0.003), random(-0.003, 0.003), random(-0.003, 0.003))
     particles.push(tParticle);
   }
