@@ -28,18 +28,19 @@
     </script>
   <script type="module">
     import * as THREE from "three";
-    // import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { OrbitControls } from "three/addons/controls/OrbitControls.js";
     import { BoxLineGeometry } from "three/addons/geometries/BoxLineGeometry.js";
     import { XRButton } from "three/addons/webxr/XRButton.js";
     import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFactory.js";
     window.THREE = THREE;
-    // window.OrbitControls = OrbitControls;
+    window.OrbitControls = OrbitControls;
     window.BoxLineGeometry = BoxLineGeometry;
     window.XRButton = XRButton;
     window.XRControllerModelFactory = XRControllerModelFactory;
   </script>
 
   <!-- import your scripts here! -->
+  <script defer src="js/script-webxr.js"></script>
   <script defer src="js/script-three.js"></script>
   <script defer src="js/script-p5.js"></script>
   <script defer src="js/main.js"></script>
