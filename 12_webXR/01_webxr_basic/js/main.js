@@ -6,13 +6,11 @@ let room;
 let cube;
 
 function setupThree() {
-  setupWebXR(); // ***
-
-  // scene
-  scene.background = new THREE.Color(0xFF0000);
+  // WebXR
+  setupWebXR();
 
   // controls
-  // controls = new OrbitControls(camera, renderer.domElement);     // ensure you comment this out when using WebXR.
+  // controls = new OrbitControls(camera, renderer.domElement);  // ensure you comment this out when using WebXR.
 
   // room
   room = getRoom();
@@ -28,10 +26,10 @@ function setupThree() {
 
   // cube
   cube = getBox();
-  cube.position.set(0, 5, 0); //(x, y, z);
-  cube.scale.x = 1;
-  cube.scale.y = 1;
-  cube.scale.z = 1;
+  cube.position.set(0, 4, 0);
+  cube.scale.x = 1.5;
+  cube.scale.y = 1.5;
+  cube.scale.z = 1.5;
   scene.add(cube);
 }
 

@@ -1,4 +1,3 @@
-console.log("___Test1___");
 console.log("three.js Version: " + THREE.REVISION);
 
 let container, gui, stats;
@@ -22,8 +21,6 @@ function initThree() {
   container = document.getElementById("container-three");
   container.appendChild(renderer.domElement);
 
-  //controls = new OrbitControls(camera, renderer.domElement);
-
   gui = new dat.GUI();
 
   stats = new Stats();
@@ -33,11 +30,11 @@ function initThree() {
   setupThree(); // *** 
 
   animate();
-  renderer.setAnimationLoop(animate);
+  //renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  //requestAnimationFrame(animate);
+  requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;
