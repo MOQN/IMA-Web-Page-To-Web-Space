@@ -10,7 +10,7 @@ function setupThree() {
   setupWebXR();
 
   // controls
-  // controls = new OrbitControls(camera, renderer.domElement);  // ensure you comment this out when using WebXR.
+  controls = new OrbitControls(camera, renderer.domElement);  // ensure you comment this out when using WebXR.
 
   // room
   room = getRoom();

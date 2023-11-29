@@ -27,19 +27,18 @@ function initThree() {
   stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
   document.body.appendChild(stats.domElement);
 
-  setupThree(); // *** 
+  setupThree();
 
   animate();
-  //renderer.setAnimationLoop(animate);
+  renderer.setAnimationLoop(animate); // Necessary for WebXR!
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;
 
-  updateThree(); // ***
+  updateThree();
 
   renderer.render(scene, camera);
 }
