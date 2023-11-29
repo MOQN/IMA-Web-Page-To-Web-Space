@@ -9,9 +9,6 @@ let raycaster;
 const tempMatrix = new THREE.Matrix4();
 let INTERSECTED;
 
-
-
-
 let cubes = [];
 
 function setupThree() {
