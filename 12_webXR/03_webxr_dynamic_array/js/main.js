@@ -41,7 +41,7 @@ function updateThree() {
 
   // update the cubes
   for (let c of cubes) {
-    let gravity = createVector(0, -0.0001, 0);
+    let gravity = createVector(0, -0.00005, 0);
     c.applyForce(gravity);
     c.move();
     c.rotate();

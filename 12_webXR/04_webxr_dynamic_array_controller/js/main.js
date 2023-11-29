@@ -40,9 +40,8 @@ function updateThree() {
       .setPosition(position.x, position.y, position.z)
       .setVelocity(direction.x, direction.y, direction.z)
       .setRotationVelocity(random(-0.05, 0.05), random(-0.05, 0.05), random(-0.05, 0.05))
-      .setScale(random(0.3, 0.6));
+      .setScale(random(0.5, 1.0));
     cubes.push(tCube);
-    //cube.userData.velocity.applyQuaternion(controller.quaternion);
   }
 
   // generate cubes in real time
