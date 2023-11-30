@@ -7,6 +7,9 @@ let room;
 let cubes = [];
 
 function setupThree() {
+  // renderer additional setup
+  renderer.shadowMap.enabled = true;
+
   // WebXR
   setupWebXR();
 
@@ -14,13 +17,66 @@ function setupThree() {
   room = getRoom();
   scene.add(room);
 
+  // floor
+  const floorGeometry = new THREE.PlaneGeometry(6, 6);
+  const floorMaterial = new THREE.ShadowMaterial({ opacity: 0.25, blending: THREE.CustomBlending, transparent: false });
+  const floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.rotation.x = - Math.PI / 2;
+  floor.receiveShadow = true;
+  scene.add(floor);
+
   // lights
   const hemiLight = new THREE.HemisphereLight(0xa5a5a5, 0x898989, 3);
   scene.add(hemiLight);
 
-  const direcLight = new THREE.DirectionalLight(0xffffff, 3);
-  direcLight.position.set(1, 1, 1).normalize();
-  scene.add(direcLight);
+  const light = new THREE.DirectionalLight(0xffffff, 3);
+  light.position.set(0, 6, 0);
+  light.castShadow = true;
+  light.shadow.camera.top = 3;
+  light.shadow.camera.bottom = - 3;
+  light.shadow.camera.right = 3;
+  light.shadow.camera.left = - 3;
+  light.shadow.mapSize.set(4096, 4096);
+  scene.add(light);
+
+  group = new THREE.Group();
+  scene.add(group);
+
+  const geometries = [
+    new THREE.BoxGeometry(0.2, 0.2, 0.2),
+    new THREE.ConeGeometry(0.2, 0.2, 64),
+    new THREE.CylinderGeometry(0.2, 0.2, 0.2, 64),
+    new THREE.IcosahedronGeometry(0.2, 8),
+    new THREE.TorusGeometry(0.2, 0.04, 64, 32)
+  ];
+
+  for (let i = 0; i < 50; i++) {
+
+    const geometry = geometries[Math.floor(Math.random() * geometries.length)];
+    const material = new THREE.MeshStandardMaterial({
+      color: Math.random() * 0xffffff,
+      roughness: 0.7,
+      metalness: 0.0
+    });
+
+    const object = new THREE.Mesh(geometry, material);
+
+    object.position.x = Math.random() * 4 - 2;
+    object.position.y = Math.random() * 2;
+    object.position.z = Math.random() * 4 - 2;
+
+    object.rotation.x = Math.random() * 2 * Math.PI;
+    object.rotation.y = Math.random() * 2 * Math.PI;
+    object.rotation.z = Math.random() * 2 * Math.PI;
+
+    object.scale.setScalar(Math.random() + 0.5);
+
+    object.castShadow = true;
+    object.receiveShadow = true;
+
+    group.add(object);
+
+  }
 
   // gui
   gui.add(params, "cubes", 0, 5000).step(1).listen();
@@ -28,6 +84,12 @@ function setupThree() {
 }
 
 function updateThree() {
+  cleanIntersected();
+
+  intersectObjects(controller1);
+  intersectObjects(controller2);
+
+  /*
   // generate cubes in real time
   let numOfCubes = floor(random(1, 5));
   for (let i = 0; i < numOfCubes; i++) {
@@ -62,6 +124,7 @@ function updateThree() {
   // update the GUI
   params.cubes = cubes.length;
   params.scene_children = scene.children.length;
+  */
 }
 
 
@@ -171,4 +234,64 @@ class Cube {
     let newScale = p5.Vector.mult(this.scl, this.lifespan);
     this.mesh.scale.set(newScale.x, newScale.y, newScale.z);
   }
+}
+
+let raycaster;
+
+const intersected = [];
+const tempMatrix = new THREE.Matrix4();
+
+function getIntersections(controller) {
+
+  controller.updateMatrixWorld();
+
+  tempMatrix.identity().extractRotation(controller.matrixWorld);
+
+  raycaster.ray.origin.setFromMatrixPosition(controller.matrixWorld);
+  raycaster.ray.direction.set(0, 0, - 1).applyMatrix4(tempMatrix);
+
+  return raycaster.intersectObjects(group.children, false);
+
+}
+
+function intersectObjects(controller) {
+
+  // Do not highlight in mobile-ar
+
+  if (controller.userData.targetRayMode === 'screen') return;
+
+  // Do not highlight when already selected
+
+  if (controller.userData.selected !== undefined) return;
+
+  const line = controller.getObjectByName('line');
+  const intersections = getIntersections(controller);
+
+  if (intersections.length > 0) {
+
+    const intersection = intersections[0];
+
+    const object = intersection.object;
+    object.material.emissive.r = 1;
+    intersected.push(object);
+
+    line.scale.z = intersection.distance;
+
+  } else {
+
+    line.scale.z = 5;
+
+  }
+
+}
+
+function cleanIntersected() {
+
+  while (intersected.length) {
+
+    const object = intersected.pop();
+    object.material.emissive.r = 0;
+
+  }
+
 }
