@@ -13,8 +13,8 @@ function setupThree() {
   setupWebXR();
 
   // room
-  // room = getRoom();
-  room = getSphere();
+  room = getRoom();
+  // room = getSphere();
   scene.add(room);
 
   // Points
