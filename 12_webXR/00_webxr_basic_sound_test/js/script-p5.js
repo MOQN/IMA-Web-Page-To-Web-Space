@@ -22,6 +22,14 @@ function setup() {
     .then(devices => {
       audioSources = devices.filter(device => device.kind === 'audioinput');
       console.log(audioSources);
+      // gui
+      for (let i = 0; i < audioSources.length; i++) {
+        let audioSource = audioSources[i].label;
+        let key = "a" + i;
+        params[key] = audioSource;
+        gui.add(params, key, audioSource);
+        console.log("test");
+      }
 
       // Assuming the first device in the list is the desired one
       const selectedDevice = audioSources[0];
