@@ -34,10 +34,12 @@ function updateThree() {
   cube.rotation.x += 0.01;
   cube.rotation.z += 0.005;
 
-  let size = map(volume, 0, 1, 0.3, 2);
-  cube.scale.set(size, size, size);
-}
+  if (volume) {
+    let size = map(volume, 0, 1, 0.3, 2);
+    cube.scale.set(size, size, size);
+  }
 
+}
 
 ///// UTILS /////
 

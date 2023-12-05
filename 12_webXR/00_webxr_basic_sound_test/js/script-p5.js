@@ -18,6 +18,7 @@ function setup() {
 
 
   // Get a list of available audio input devices
+
   navigator.mediaDevices.enumerateDevices()
     .then(devices => {
       audioSources = devices.filter(device => device.kind === 'audioinput');
@@ -28,7 +29,6 @@ function setup() {
         let key = "a" + i;
         params[key] = audioSource;
         gui.add(params, key, audioSource);
-        console.log("test");
       }
 
       // Assuming the first device in the list is the desired one
@@ -51,8 +51,24 @@ function setup() {
       console.error('Error accessing audio device:', error);
     });
 
+  getLocalStream();
+
   //mic = new p5.AudioIn()
   //mic.start();
+}
+
+function getLocalStream() {
+  navigator.mediaDevices
+    .getUserMedia({ video: false, audio: true })
+    .then((stream) => {
+      console.log(stream);
+      window.localStream = stream; // A
+      //window.localAudio.srcObject = stream; // B
+      //window.localAudio.autoplay = true; // C
+    })
+    .catch((err) => {
+      console.error(`you got an error: ${err}`);
+    });
 }
 
 function draw() {
