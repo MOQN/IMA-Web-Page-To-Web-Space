@@ -1,7 +1,7 @@
 let beat, song;
 let mic;
 let volume;
-let audioSources = [];
+//let audioSources = [];
 
 function preload() {
   beat = loadSound("assets/beat.mp3");
@@ -15,8 +15,7 @@ function setup() {
 
   initThree(); // ***
 
-
-
+  /*
   // Get a list of available audio input devices
   navigator.mediaDevices.enumerateDevices()
     .then(devices => {
@@ -36,19 +35,17 @@ function setup() {
     .then(stream => {
       // Create a p5.AudioIn object using the selected device's stream
       mic = new p5.AudioIn();
-      // mic.setStream(stream);
+      mic.setStream(stream);
       mic.start();
     })
     .catch(error => {
       console.error('Error accessing audio device:', error);
     });
-
-  //mic = new p5.AudioIn()
-  //mic.start();
+    */
 }
 
 function draw() {
-  volume = mic ? mic.getLevel() : 0;
+  //volume = mic ? mic.getLevel() : 0;
 }
 
 function keyPressed() {
