@@ -3,6 +3,7 @@ Interactive Media Arts (IMA) at NYU Shanghai
 
 ## Class Materials
 * [Course Notes](https://docs.google.com/document/d/1_KAc3IYll3QHzGT2VizRUSOwpKSDmDN88llLNoY5vVU/edit?usp=sharing)
+* [Example Codes on Web Editor](https://docs.google.com/document/d/1SwlymiC-GtLWn3lierr-RxoAMVOi-Rd8rHhorRjIm38/edit?usp=sharing)
 * [Empty Sketch on Glitch](https://glitch.com/edit/#!/empty-project-three-p5)
 
 ## Course Information
