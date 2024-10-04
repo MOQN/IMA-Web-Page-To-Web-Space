@@ -97,7 +97,7 @@ let frame = 0;
 
 function initTHREE() {
   console.log(THREE.REVISION);
-  
+
   // scene
   scene = new THREE.Scene();
 
@@ -124,12 +124,12 @@ function initTHREE() {
   const controlsOrbit = new THREE.OrbitControls(camera, renderer.domElement);
   const controlsDrag = new THREE.DragControls(objects, camera, renderer.domElement);
   // add event listener to highlight dragged objects
-  controlsDrag.addEventListener('dragstart', function(event) {
+  controlsDrag.addEventListener('dragstart', function (event) {
     event.object.material.color.set(0xFF0000);
     controlsOrbit.enabled = false; // ***
   });
 
-  controlsDrag.addEventListener('dragend', function(event) {
+  controlsDrag.addEventListener('dragend', function (event) {
     event.object.material.color.set(0xFFFFFF);
     controlsOrbit.enabled = true; // ***
   });
@@ -145,11 +145,10 @@ function initTHREE() {
   setupThree();
 
   // let's draw!
-  animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;

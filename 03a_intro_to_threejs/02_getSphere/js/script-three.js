@@ -24,11 +24,10 @@ function initThree() {
 
   setupThree(); // *** 
 
-  animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   time = performance.now();
   frame++;
 

@@ -30,12 +30,10 @@ function initThree() {
   document.body.appendChild(stats.domElement);
 
   setupThree(); // *** 
-
-  animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;

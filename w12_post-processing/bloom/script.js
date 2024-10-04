@@ -149,11 +149,10 @@ function initTHREE() {
   setupThree();
 
   // let's draw!
-  animate();
+  renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  requestAnimationFrame(animate);
   stats.update();
   time = performance.now();
   frame++;
