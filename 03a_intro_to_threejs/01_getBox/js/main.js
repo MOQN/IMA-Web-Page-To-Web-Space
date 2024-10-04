@@ -4,11 +4,11 @@ let cube;
 
 function setupThree() {
   cube = getBox();
+  scene.add(cube);
   cube.position.set(1, 0, 0); //(x, y, z);
   cube.scale.x = 100;
   cube.scale.y = 100;
   cube.scale.z = 100;
-  scene.add(cube);
 }
 
 function updateThree() {

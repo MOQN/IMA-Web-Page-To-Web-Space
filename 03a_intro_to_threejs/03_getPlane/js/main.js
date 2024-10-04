@@ -4,9 +4,9 @@ let plane;
 
 function setupThree() {
   plane = getPlane();
+  scene.add(plane);
   plane.scale.x = 500;
   plane.scale.y = 500;
-  scene.add(plane);
 }
 
 function updateThree() {

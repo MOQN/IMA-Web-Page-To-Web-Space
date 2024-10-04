@@ -11,9 +11,9 @@ function setupThree() {
   cube2.scale.set(100, 100, 100);
 
   group = new THREE.Group();
+  scene.add(group);
   group.add(cube1);
   group.add(cube2);
-  scene.add(group);
 }
 
 function updateThree() {

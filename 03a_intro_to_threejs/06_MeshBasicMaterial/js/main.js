@@ -2,14 +2,14 @@ let cube1, cube2;
 
 function setupThree() {
   cube1 = getBox();
+  scene.add(cube1);
   cube1.position.x = -30;
   cube1.scale.set(100, 100, 100);
-  scene.add(cube1);
 
   cube2 = getBox();
+  scene.add(cube2);
   cube2.position.x = 30;
   cube2.scale.set(100, 100, 100);
-  scene.add(cube2);
 }
 
 function updateThree() {

@@ -4,10 +4,10 @@ let ball;
 
 function setupThree() {
   ball = getSphere();
+  scene.add(ball);
   ball.scale.x = 100;
   ball.scale.y = 100;
   ball.scale.z = 100;
-  scene.add(ball);
 }
 
 function updateThree() {

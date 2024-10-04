@@ -20,8 +20,8 @@ function setupThree() {
 
   // add a small sphere for the light
   lightMesh = getBasicSphere();
-  lightMesh.scale.set(10, 10, 10);
   light.add(lightMesh);
+  lightMesh.scale.set(10, 10, 10);
 
   // add meshes
   const cube1 = getPhongBox();

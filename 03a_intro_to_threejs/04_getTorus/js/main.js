@@ -4,10 +4,10 @@ let torus;
 
 function setupThree() {
   torus = getTorus();
+  scene.add(torus);
   torus.scale.x = 100;
   torus.scale.y = 100;
   torus.scale.z = 30;
-  scene.add(torus);
 }
 
 function updateThree() {

@@ -18,13 +18,13 @@ function setupThree() {
 
   // add a small sphere for the light
   lightMesh = getBasicSphere();
-  lightMesh.scale.set(10, 10, 10);
   light.add(lightMesh); // add the lightMesh to the light object so that it moves with the light
+  lightMesh.scale.set(10, 10, 10);
 
   // add a sphere
   ball = getPhongSphere();
-  ball.scale.set(200, 200, 200);
   scene.add(ball);
+  ball.scale.set(200, 200, 200);
 }
 
 function updateThree() {
