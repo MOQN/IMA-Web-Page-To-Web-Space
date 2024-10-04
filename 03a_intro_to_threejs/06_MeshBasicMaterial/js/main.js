@@ -22,6 +22,8 @@ function updateThree() {
 
 function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
+  // you can manipulate the material properties of MeshBasicMaterial
+  // but it won't be affected by lights.
   const material = new THREE.MeshBasicMaterial({
     color: 0x0099ff,
     transparent: true,

@@ -8,11 +8,6 @@ function setupThree() {
   // It is not recommended to explore materials and lights this week!
   // This is just to show you how to add a light and a material to a sphere.
 
-  // add a sphere
-  ball = getPhongSphere();
-  ball.scale.set(200, 200, 200);
-  scene.add(ball);
-
   // add ambient light
   ambiLight = new THREE.AmbientLight(0x111111);
   scene.add(ambiLight);
@@ -24,7 +19,12 @@ function setupThree() {
   // add a small sphere for the light
   lightMesh = getBasicSphere();
   lightMesh.scale.set(10, 10, 10);
-  scene.add(lightMesh);
+  light.add(lightMesh); // add the lightMesh to the light object so that it moves with the light
+
+  // add a sphere
+  ball = getPhongSphere();
+  ball.scale.set(200, 200, 200);
+  scene.add(ball);
 }
 
 function updateThree() {
@@ -34,11 +34,12 @@ function updateThree() {
   let y = sin(frame * 0.01) * 100;
   let z = sin(angle) * radDist;
   light.position.set(x, y, z);
-  lightMesh.position.set(x, y, z);
 }
 
 function getPhongSphere() {
   const geometry = new THREE.SphereGeometry(1, 32, 32);
+  // let's use MeshPhongMaterial instead of MeshBasicMaterial.
+  // Please focus on exploring diverse geometries rather than materials and lights this week.
   const material = new THREE.MeshPhongMaterial({
     color: 0xffffff,
     shininess: 100
