@@ -7,6 +7,7 @@ function setupThree() {
   ball.scale.x = 100;
   ball.scale.y = 100;
   ball.scale.z = 100;
+  scene.add(ball);
 }
 
 function updateThree() {
@@ -19,7 +20,5 @@ function getSphere() {
     wireframe: true,
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
   return mesh;
 }

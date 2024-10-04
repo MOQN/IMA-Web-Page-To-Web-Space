@@ -63,7 +63,7 @@ function getBox() {
   });
   material.color = new THREE.Color(random(1), random(1), random(1));
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 

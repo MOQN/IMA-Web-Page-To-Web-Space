@@ -8,6 +8,7 @@ function setupThree() {
   cube.scale.x = 100;
   cube.scale.y = 100;
   cube.scale.z = 100;
+  scene.add(cube);
 }
 
 function updateThree() {
@@ -20,7 +21,5 @@ function getBox() {
     //
   });
   mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
   return mesh;
 }

@@ -4,10 +4,12 @@ function setupThree() {
   cube1 = getBox();
   cube1.position.x = -30;
   cube1.scale.set(100, 100, 100);
+  scene.add(cube1);
 
   cube2 = getBox();
   cube2.position.x = 30;
   cube2.scale.set(100, 100, 100);
+  scene.add(cube2);
 }
 
 function updateThree() {
@@ -27,7 +29,5 @@ function getBox() {
     //wireframe: true
   });
   mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
   return mesh;
 }

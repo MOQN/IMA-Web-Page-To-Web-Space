@@ -33,7 +33,7 @@ function getDarkBox() {
     wireframe: false
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -45,7 +45,7 @@ function getGlowBox() {
   });
   let mesh = new THREE.Mesh(geometry, material);
   mesh.layers.enable(1); // ***
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 

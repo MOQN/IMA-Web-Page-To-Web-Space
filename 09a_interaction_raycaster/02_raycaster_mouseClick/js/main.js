@@ -48,7 +48,7 @@ function getBox() {
     wireframe: true
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -81,7 +81,7 @@ class Cube {
     this.rotVel = createVector(x, y, z);
     return this;
   }
-   setScale(w, h = w, d = w) {
+  setScale(w, h = w, d = w) {
     const minScale = 0.01;
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;

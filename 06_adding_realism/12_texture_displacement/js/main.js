@@ -56,6 +56,6 @@ function getSphere() {
     displacementScale: 0.05
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

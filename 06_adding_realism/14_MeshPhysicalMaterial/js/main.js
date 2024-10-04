@@ -49,7 +49,7 @@ function getIcosahedron() {
     thickness: 0.5, // Add refraction!
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -59,7 +59,7 @@ function getPlane() {
   const geometry = new THREE.PlaneGeometry(5, 5);
   const material = new THREE.MeshBasicMaterial({ map: texture });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 

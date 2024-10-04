@@ -6,6 +6,7 @@ function setupThree() {
   plane = getPlane();
   plane.scale.x = 500;
   plane.scale.y = 500;
+  scene.add(plane);
 }
 
 function updateThree() {
@@ -18,7 +19,5 @@ function getPlane() {
     side: THREE.DoubleSide
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
   return mesh;
 }

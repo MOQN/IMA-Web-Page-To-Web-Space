@@ -58,7 +58,7 @@ function getBox() {
     color: 0xffffff,
   });
   mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
 
   return mesh;
 }

@@ -10,7 +10,7 @@ function setupThree() {
   texture.minFilter = THREE.LinearFilter;
   texture.magFilter = THREE.LinearFilter;
   texture.colorSpace = THREE.SRGBColorSpace;
-  
+
   cube = getBox();
 }
 
@@ -30,6 +30,6 @@ function getBox() {
     map: texture
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

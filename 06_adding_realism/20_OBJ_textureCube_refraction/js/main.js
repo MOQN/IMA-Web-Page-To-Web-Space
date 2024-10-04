@@ -73,7 +73,7 @@ function getSphere() {
     color: 0xffffff
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -91,7 +91,7 @@ function loadOBJ(filepath, material) {
     // resource URL
     filepath,
     // onLoad callback - Here the loaded data is assumed to be an object
-    function(obj) {
+    function (obj) {
       // Add the loaded object to the scene
       bear = obj;
       for (let child of bear.children) {
@@ -101,11 +101,11 @@ function loadOBJ(filepath, material) {
       scene.add(bear);
     },
     // onProgress callback
-    function(xhr) {
+    function (xhr) {
       console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     },
     // onError callback
-    function(err) {
+    function (err) {
       console.error('An error happened');
     }
   );

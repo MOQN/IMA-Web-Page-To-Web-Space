@@ -76,7 +76,7 @@ function getBox() {
     //wireframe: true
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  scene.add(mesh); // *** reorganize ***
 
   return mesh;
 }

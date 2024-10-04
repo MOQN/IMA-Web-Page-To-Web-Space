@@ -7,6 +7,7 @@ function setupThree() {
   torus.scale.x = 100;
   torus.scale.y = 100;
   torus.scale.z = 30;
+  scene.add(torus);
 }
 
 function updateThree() {
@@ -20,7 +21,5 @@ function getTorus() {
     //
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
-
   return mesh;
 }
