@@ -20,7 +20,6 @@ function updateThree() {
       .setRotationVelocity(random(-0.05, 0.05), random(-0.05, 0.05), random(-0.05, 0.05))
       .setScale(random(3, 20));
     cubes.push(tCube);
-    scene.add(tCube); // don't forget to add to scene
   }
 
   // update the cubes
@@ -75,6 +74,7 @@ class Cube {
     this.isDone = false;
     //
     this.mesh = getBox();
+    scene.add(this.mesh); // don't forget to add to scene
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);

@@ -12,7 +12,6 @@ function setupThree() {
       .setRotationVelocity(random(-0.01, 0.01), random(-0.01, 0.01), random(-0.01, 0.01))
       .setScale(random(3, 30), random(3, 30), random(1, 15));
     cubes.push(tCube);
-    scene.add(tCube); // don't forget to add to scene
   }
 }
 
@@ -44,6 +43,7 @@ class Cube {
     this.rotVel = createVector();
     this.rotAcc = createVector();
     this.mesh = getBox();
+    scene.add(this.mesh); // don't forget to add to scene
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);
