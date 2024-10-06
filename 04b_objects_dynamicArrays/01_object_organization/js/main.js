@@ -12,6 +12,7 @@ function setupThree() {
       .setRotationVelocity(random(-0.01, 0.01), random(-0.01, 0.01), random(-0.01, 0.01))
       .setScale(random(3, 30), random(3, 30), random(1, 15));
     cubes.push(tCube);
+    scene.add(tCube); // don't forget to add to scene
   }
 }
 
@@ -29,7 +30,6 @@ function getBox() {
     //wireframe: true
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
