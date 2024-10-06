@@ -13,6 +13,7 @@ let cube;
 
 function setupThree() {
   cube = getBox();
+  scene.add(cube); // don't forget to add to scene
   cube.position.set(1, 0, 0); //(x, y, z);
   cube.scale.x = 100;
   cube.scale.y = 100;
@@ -54,7 +55,5 @@ function getBox() {
     color: 0xffffff,
   });
   mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
-
   return mesh;
 }

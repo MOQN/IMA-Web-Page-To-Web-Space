@@ -102,7 +102,6 @@ function getBox() {
     //wireframe: true
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -124,6 +123,7 @@ class Cube {
     this.isDone = false;
     //
     this.mesh = getBox();
+    scene.add(this.mesh); // don't forget to add to scene
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);
