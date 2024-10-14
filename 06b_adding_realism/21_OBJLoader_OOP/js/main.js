@@ -29,12 +29,12 @@ function setupThree() {
     .min(-2000)
     .max(2000)
     .step(1);
-    folderLight
+  folderLight
     .add(light.position, "y")
     .min(-2000)
     .max(2000)
     .step(1);
-    folderLight
+  folderLight
     .add(light.position, "z")
     .min(-2000)
     .max(2000)
@@ -66,7 +66,7 @@ function loadOBJ(filepath) {
     // onLoad callback
 
     // Here the loaded data is assumed to be an object
-    function(obj) {
+    function (obj) {
       // Add the loaded object to the scene
       //scene.add(obj); 
       //return obj;
@@ -74,12 +74,12 @@ function loadOBJ(filepath) {
     },
 
     // onProgress callback
-    function(xhr) {
+    function (xhr) {
       console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     },
 
     // onError callback
-    function(err) {
+    function (err) {
       console.error('An error happened');
     }
   );
@@ -109,7 +109,7 @@ class Bear {
     this.vel = createVector();
     this.acc = createVector();
     this.scl = createVector(1, 1, 1);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    this.mass = this.setMass();
     this.rot = createVector();
     this.rotVel = createVector();
     this.rotAcc = createVector();
@@ -140,13 +140,20 @@ class Bear {
     this.rotVel = createVector(x, y, z);
     return this;
   }
-   setScale(w, h = w, d = w) {
+  setScale(w, h = w, d = w) {
     const minScale = 0.01;
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
     this.scl = createVector(w, h, d);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    return this;
+  }
+  setMass(mass) {
+    if (mass) {
+      this.mass = mass;
+    } else {
+      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+    }
     return this;
   }
   move() {

@@ -140,7 +140,7 @@ class Light {
     this.vel = createVector();
     this.acc = createVector();
     this.scl = createVector(1, 1, 1);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    this.mass = this.setMass();
     this.rot = createVector();
     this.rotVel = createVector();
     this.rotAcc = createVector();
@@ -177,7 +177,14 @@ class Light {
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
     this.scl = createVector(w, h, d);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    return this;
+  }
+  setMass(mass) {
+    if (mass) {
+      this.mass = mass;
+    } else {
+      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+    }
     return this;
   }
   move() {
@@ -199,7 +206,7 @@ class Cube {
     this.vel = createVector();
     this.acc = createVector();
     this.scl = createVector(1, 1, 1);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    this.mass = this.setMass();
     this.rot = createVector();
     this.rotVel = createVector();
     this.rotAcc = createVector();
@@ -232,7 +239,14 @@ class Cube {
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
     this.scl = createVector(w, h, d);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    return this;
+  }
+  setMass(mass) {
+    if (mass) {
+      this.mass = mass;
+    } else {
+      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+    }
     return this;
   }
   move() {

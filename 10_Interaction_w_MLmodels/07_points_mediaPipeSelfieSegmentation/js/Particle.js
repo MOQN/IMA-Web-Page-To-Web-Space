@@ -5,9 +5,9 @@ class Particle {
     this.acc = createVector();
 
     this.scl = createVector(1, 1, 1);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    this.mass = this.setMass();
 
-    this.color = {r: 1.0, g:1.0, b:1.0};
+    this.color = { r: 1.0, g: 1.0, b: 1.0 };
 
     this.lifespan = 1.0;
     this.lifeReduction = random(0.01, 0.05);
@@ -27,7 +27,14 @@ class Particle {
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
     this.scl = createVector(w, h, d);
-    this.mass = this.scl.x * this.scl.y * this.scl.z;
+    return this;
+  }
+  setMass(mass) {
+    if (mass) {
+      this.mass = mass;
+    } else {
+      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+    }
     return this;
   }
   setColor(r, g, b) {
