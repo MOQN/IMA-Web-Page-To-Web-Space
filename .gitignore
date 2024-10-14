@@ -5,3 +5,4 @@ other/
 
 # files
 .DS_Store
+*.zip
