@@ -49,6 +49,10 @@ class Cube {
     this.pos = createVector(x, y, z);
     return this;
   }
+  setTranslation(x, y, z) {
+    this.mesh.geometry.translate(x, y, z);
+    return this;
+  }
   setVelocity(x, y, z) {
     this.vel = createVector(x, y, z);
     return this;
