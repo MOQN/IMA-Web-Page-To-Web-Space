@@ -81,8 +81,6 @@ function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshNormalMaterial();
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
-
   return mesh;
 }
 
@@ -93,7 +91,6 @@ function getPlane(w, h) {
   });
   const mesh = new THREE.Mesh(geometry, material);
   mesh.receiveShadow = true; //default is false
-
   return mesh;
 }
 
@@ -104,6 +101,5 @@ function getRectAreaLight(w, h, intensity) {
   // "RectAreaLightHelper" should be imported. View index.html
   const rectAreaLightHelper = new RectAreaLightHelper(light);
   light.add(rectAreaLightHelper);
-
   return light;
 }

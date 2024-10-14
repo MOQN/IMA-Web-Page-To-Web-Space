@@ -110,8 +110,6 @@ function getBox() {
   const mesh = new THREE.Mesh(geometry, material);
   mesh.castShadow = true; //default is false
   mesh.receiveShadow = true; //default is false
-  scene.add(mesh); // *** reorganize ***
-
   return mesh;
 }
 
@@ -206,6 +204,7 @@ class Cube {
     this.rotVel = createVector();
     this.rotAcc = createVector();
     this.mesh = getBox();
+    scene.add(this.mesh); // don't forget to add the mesh to the scene
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);
