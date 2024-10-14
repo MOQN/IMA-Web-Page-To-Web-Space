@@ -58,6 +58,6 @@ function getBox() {
   const material = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
-  mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }

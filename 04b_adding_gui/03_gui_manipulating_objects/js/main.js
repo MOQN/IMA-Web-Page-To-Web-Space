@@ -47,7 +47,6 @@ function setupThree() {
 
 function updateThree() {
   // generate cubes in real time
-  let numOfCubes = floor(random(1, 5));
   for (let i = 0; i < params.newCubes; i++) {
     let tCube = new Cube()
       .setPosition(params.initX, params.initY, params.initZ)
@@ -59,7 +58,7 @@ function updateThree() {
 
   // update the cubes
   for (let c of cubes) {
-    // access each object's mesh and chcange the property
+    // access each object's mesh and update the properties
     c.mesh.material.wireframe = params.wireframe;
     c.mesh.material.color.set(params.color);
     c.mesh.material.transparent = params.transparent;
@@ -84,7 +83,7 @@ function updateThree() {
   for (let i = 0; i < cubes.length; i++) {
     let c = cubes[i];
     if (c.isDone) {
-      scene.remove(c.mesh);
+      scene.remove(c.mesh); // don't forget to remove from scene
       cubes.splice(i, 1);
       i--;
     }
@@ -97,11 +96,11 @@ function updateThree() {
 
 
 function getBox() {
-  let geometry = new THREE.BoxGeometry(1, 1, 1);
-  let material = new THREE.MeshBasicMaterial({
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
+  const material = new THREE.MeshBasicMaterial({
     //wireframe: true
   });
-  let mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }
 

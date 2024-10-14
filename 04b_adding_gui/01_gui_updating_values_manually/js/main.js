@@ -26,9 +26,9 @@ function setupThree() {
   gui.add(params, "mode").listen();
   gui.add(params, "frame").listen();
   gui.add(params, "time").listen();
-  gui.add(params, "x", -200, 200, 0.1);
+  gui.add(params, "x").min(-200).max(200).step(0.1);
   gui.add(params, "y").min(-200).max(200).step(0.1);
-  gui.add(params, "z").min(-200).max(200).step(0.1);
+  gui.add(params, "z", -200, 200, 0.1);
   gui.add(params, "wireframe");
   gui.addColor(params, "color");
 
@@ -54,6 +54,6 @@ function getBox() {
   const material = new THREE.MeshBasicMaterial({
     color: 0xffffff,
   });
-  mesh = new THREE.Mesh(geometry, material);
+  const mesh = new THREE.Mesh(geometry, material);
   return mesh;
 }
