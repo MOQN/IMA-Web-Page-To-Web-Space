@@ -253,7 +253,9 @@ class Cube {
   }
   applyForce(f) {
     let force = f.copy();
-    force.div(this.mass);
+    if (this.mass > 0) {
+      force.div(this.mass);
+    }
     this.acc.add(force);
   }
   update() {
