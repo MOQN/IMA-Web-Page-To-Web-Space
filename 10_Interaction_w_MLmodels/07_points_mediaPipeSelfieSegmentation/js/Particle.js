@@ -5,7 +5,8 @@ class Particle {
     this.acc = createVector();
 
     this.scl = createVector(1, 1, 1);
-    this.mass = this.setMass();
+    this.mass = 1;
+    //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
 
     this.color = { r: 1.0, g: 1.0, b: 1.0 };
 

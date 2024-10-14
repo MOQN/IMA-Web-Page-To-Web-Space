@@ -109,7 +109,8 @@ class Bear {
     this.vel = createVector();
     this.acc = createVector();
     this.scl = createVector(1, 1, 1);
-    this.mass = this.setMass();
+    this.mass = 1;
+    //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
     this.rot = createVector();
     this.rotVel = createVector();
     this.rotAcc = createVector();
