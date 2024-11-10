@@ -2,6 +2,8 @@
 other/
 .vscode/
 node_modules/
+wip*/
+test*/
 
 # files
 .DS_Store
