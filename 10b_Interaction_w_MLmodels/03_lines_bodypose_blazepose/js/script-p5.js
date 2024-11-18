@@ -42,7 +42,7 @@ let bodypose;
 let poses = [];
 
 function preload() {
-  bodypose = ml5.bodypose("BlazePose"); // ***
+  bodypose = ml5.bodyPose("BlazePose"); // ***
 }
 
 function setup() {
@@ -68,7 +68,7 @@ function draw() {
     for (let j = 0; j < pose.keypoints.length; j++) {
       let keypoint = pose.keypoints[j];
       // Only draw a circle if the keypoint's confidence is greater than 0.1
-      if (keypoint.score > 0.1) {
+      if (keypoint.confidence > 0.1) {
         fill(0, 255, 0);
         noStroke();
         circle(keypoint.x, keypoint.y, 10);
@@ -88,20 +88,20 @@ function gotPoses(results) {
 
   // update newPose with lerp()
   if (results.length > 0) {
-    newPose = results[0].keypoints;
+    newPose = results[0].keypoints3D;
     const amount = 0.25;
     let index = 0;
     for (let point in pose) {
       pose[point].x = lerp(pose[point].x, newPose[index].x, amount);
       pose[point].y = lerp(pose[point].y, newPose[index].y, amount);
       pose[point].z = lerp(pose[point].z, newPose[index].z, amount);
-      pose[point].score = newPose[index].score;
+      pose[point].confidence = newPose[index].confidence;
       index++;
     }
   }
 }
 
-function drawMirroredCam(x, y, w) {
+function drawMirroredCam(x = 0, y = 0, w) {
   if (w == undefined) w = video.width;
 
   push();

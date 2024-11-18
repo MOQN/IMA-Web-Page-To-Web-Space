@@ -72,11 +72,9 @@ function updateThree() {
 }
 
 function updateWithBodypose(mesh, keypoint, confidenceThreshold = 0.1) {
-  if (keypoint.score > confidenceThreshold) {
+  if (keypoint.confidence > confidenceThreshold) {
     mesh.visible = true;
-    mesh.position.x = map(keypoint.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
-    mesh.position.y = map(keypoint.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped! 
-    mesh.position.z = keypoint.z * params.poseScale * -0.5; // z: is also flipped.
+    mesh.position = getScaledVector(keypoint);
   } else {
     mesh.visible = false;
   }
@@ -97,22 +95,15 @@ class Bar {
   }
   update() {
     const confidenceThreshold = 0.1;
-    if (this.start.score < confidenceThreshold || this.end.score < confidenceThreshold) {
+    if (this.start.confidence < confidenceThreshold || this.end.confidence < confidenceThreshold) {
       this.mesh.visible = false;
       return;
     } else {
       this.mesh.visible = true;
     }
 
-    let startVector = new THREE.Vector3();
-    startVector.x = map(this.start.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale;
-    startVector.y = map(this.start.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // flipped!
-    startVector.z = this.start.z * params.poseScale * -0.5; // flipped.
-
-    let endVector = new THREE.Vector3();
-    endVector.x = map(this.end.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale;
-    endVector.y = map(this.end.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // flipped!
-    endVector.z = this.end.z * params.poseScale * -0.5; // flipped.
+    let startVector = getScaledVector(this.start);
+    let endVector = getScaledVector(this.end);
 
     let direction = new THREE.Vector3().subVectors(endVector, startVector); // target - origin
     let distance = direction.length();
@@ -123,6 +114,14 @@ class Bar {
     this.mesh.rotation.setFromQuaternion(quaternion);
     this.mesh.scale.x = distance;
   }
+}
+
+function getScaledVector(keypoint) {
+  return new THREE.Vector3(
+    keypoint.x * params.poseScale,
+    keypoint.y * params.poseScale * -1, // flipped!
+    keypoint.z * params.poseScale * -0.5 // flipped. 0.5 is an arbitrary value.
+  );
 }
 
 function getLine() {

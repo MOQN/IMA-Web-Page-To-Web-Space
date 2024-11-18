@@ -80,10 +80,10 @@ function updateThree() {
 }
 
 function updateWithBodypose(mesh, keypoint, confidenceThreshold = 0.1) {
-  if (keypoint.score > confidenceThreshold) {
+  if (keypoint.confidence > confidenceThreshold) {
     mesh.visible = true;
-    mesh.position.x = map(keypoint.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
-    mesh.position.y = map(keypoint.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped! 
+    mesh.position.x = keypoint.x * params.poseScale; // x
+    mesh.position.y = keypoint.y * params.poseScale * -1; // y: should be flipped! 
     mesh.position.z = keypoint.z * params.poseScale * -0.5; // z: is also flipped.
   } else {
     mesh.visible = false;
@@ -99,7 +99,7 @@ class Line3D {
   }
   update() {
     const confidenceThreshold = 0.1;
-    if (this.start.score < confidenceThreshold || this.end.score < confidenceThreshold) {
+    if (this.start.confidence < confidenceThreshold || this.end.confidence < confidenceThreshold) {
       this.mesh.visible = false;
       return;
     } else {
@@ -108,12 +108,12 @@ class Line3D {
 
     const position = this.mesh.geometry.attributes.position;
     // start
-    position.array[0] = map(this.start.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
-    position.array[1] = map(this.start.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped!
+    position.array[0] = this.start.x * params.poseScale; // x
+    position.array[1] = this.start.y * params.poseScale * -1; // y: should be flipped!
     position.array[2] = this.start.z * params.poseScale * -0.5; // z: is also flipped.
     // end
-    position.array[3] = map(this.end.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
-    position.array[4] = map(this.end.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped!
+    position.array[3] = this.end.x * params.poseScale; // x
+    position.array[4] = this.end.y * params.poseScale * -1; // y: should be flipped!
     position.array[5] = this.end.z * params.poseScale * -0.5; // z: is also flipped.
     // update
     position.needsUpdate = true;

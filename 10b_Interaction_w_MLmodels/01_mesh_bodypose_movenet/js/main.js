@@ -26,7 +26,7 @@ function setupThree() {
 
 function updateThree() {
   // update cube based on nose position and confidence
-  if (pose.nose.score > 0.1) {
+  if (pose.nose.confidence > 0.1) {
     cube.visible = true;
     cube.position.x = map(pose.nose.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
     cube.position.y = map(pose.nose.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped! 

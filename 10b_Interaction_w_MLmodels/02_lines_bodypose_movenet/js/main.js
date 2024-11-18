@@ -60,7 +60,7 @@ function updateThree() {
 }
 
 function updateWithBodypose(mesh, keypoint, confidenceThreshold = 0.1) {
-  if (keypoint.score > confidenceThreshold) {
+  if (keypoint.confidence > confidenceThreshold) {
     mesh.visible = true;
     mesh.position.x = map(keypoint.x, 0, VIDEO_WIDTH, -1.0, 1.0) * params.poseScale; // x
     mesh.position.y = map(keypoint.y, 0, VIDEO_WIDTH, 1.0, -1.0) * params.poseScale; // y: should be flipped! 
@@ -79,7 +79,7 @@ class Line3D {
   }
   update() {
     const confidenceThreshold = 0.1;
-    if (this.start.score < confidenceThreshold || this.end.score < confidenceThreshold) {
+    if (this.start.confidence < confidenceThreshold || this.end.confidence < confidenceThreshold) {
       this.mesh.visible = false;
       return;
     } else {
