@@ -2,61 +2,61 @@ let params = {
   color: "#FFF"
 };
 
-const WORLD_SIZE = 1000;
-
 const raycaster = new THREE.Raycaster();
-const mouse = new THREE.Vector2();
+const mouse = new THREE.Vector2(); // check the event listener at the bottom of this file.
 
 let cubes = [];
+let arrowHelper;
 
 function setupThree() {
-  //
-}
-
-function updateThree() {
-  // generate cubes in real time
-  let numOfCubes = floor(random(1, 5));
-  for (let i = 0; i < numOfCubes; i++) {
+  for (let i = 0; i < 100; i++) {
     let tCube = new Cube()
-      .setVelocity(random(-5, 5), random(-5, 5), random(-5, 5))
+      .setPosition(random(-500, 500), random(-500, 500), random(-500, 500))
+      .setVelocity(random(-0.1, 0.1), random(-0.1, 0.1), random(-0.1, 0.1))
       .setRotationVelocity(random(-0.01, 0.01), random(-0.01, 0.01), random(-0.01, 0.01))
-      .setScale(random(5, 20), random(5, 20), random(5, 20));
+      .setScale(random(10, 30), random(10, 30), random(10, 30));
     cubes.push(tCube);
   }
 
-  // update the ray and calculate intersected objects
+  // Create an ArrowHelper to visualize the ray
+  arrowHelper = new THREE.ArrowHelper(
+    raycaster.ray.direction, // Direction of the ray
+    raycaster.ray.origin,    // Origin of the ray
+    10,                      // Length of the arrow
+    0xff0000                 // Color of the arrow
+  );
+  scene.add(arrowHelper);
+}
+
+function updateThree() {
+  // update the picking ray with the camera and mouse position
   raycaster.setFromCamera(mouse, camera);
+  // calculate objects intersecting the picking ray
   const intersections = raycaster.intersectObjects(scene.children);
 
-  // update the cubes
+  /*
+  for (let i = 0; i < intersections.length; i++) {
+    let obj = intersections[i].object;
+    obj.material.color.set(0x00ff00);
+  }
+  */
+
   for (let c of cubes) {
+    c.intersect(intersections);
     c.move();
     c.rotate();
-    c.intersect(intersections);
-    c.age();
     c.update();
   }
 
-  // if some of them is "done", remove the mesh from the scene, then the Cube object.
-  // this time I don't use the flipped for loop. Instead "i--;" is used 
-  for (let i = 0; i < cubes.length; i++) {
-    let c = cubes[i];
-    if (c.isDone) {
-      scene.remove(c.mesh);
-      cubes.splice(i, 1);
-      i--;
-    }
-  }
-
-  // update the GUI
-  params.cubes = cubes.length;
-  params.scene_children = scene.children.length;
+  // visualize the raycaster: update the line's position based on mouse position
+  arrowHelper.position.copy(raycaster.ray.origin);
+  arrowHelper.setDirection(raycaster.ray.direction);
 }
 
 function getBox() {
   let geometry = new THREE.BoxGeometry(1, 1, 1);
   let material = new THREE.MeshBasicMaterial({
-    //wireframe: true
+    wireframe: true
   });
   let mesh = new THREE.Mesh(geometry, material);
   return mesh;
@@ -67,19 +67,13 @@ class Cube {
     this.pos = createVector();
     this.vel = createVector();
     this.acc = createVector();
-
     this.scl = createVector(1, 1, 1);
     this.mass = 1;
     //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
-
     this.rot = createVector();
     this.rotVel = createVector();
     this.rotAcc = createVector();
-
-    this.lifespan = 1.0;
-    this.lifeReduction = random(0.005, 0.010);
-    this.isDone = false;
-    //
+    this.isSelected = false;
     this.mesh = getBox();
     scene.add(this.mesh);
   }
@@ -132,72 +126,41 @@ class Cube {
     }
     this.acc.add(force);
   }
-  reappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
-      this.pos.z = -WORLD_SIZE / 2;
-    }
-  }
-  disappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
-      this.isDone = true;
-    }
-  }
-  age() {
-    this.lifespan -= this.lifeReduction;
-    if (this.lifespan <= 0) {
-      this.lifespan = 0;
-      this.isDone = true;
-    }
-  }
   intersect(intersections) {
     let isIntersected = false;
-    /*
     // if you only want to select the first (closest) one.
+    /*
     if (intersections.length > 0) {
-      if (this.mesh  === intersections[0].object ) {
+      if (this.mesh === intersections[0].object) {
         isIntersected = true;
       }
     }
     */
+
     // if you want to select the whole objects on the ray.
     for (let i of intersections) {
       if (this.mesh === i.object) {
         isIntersected = true;
       }
     }
+
     if (isIntersected) {
-      this.mesh.material.color.r = random(1.0);
-      this.mesh.material.color.g = random(1.0);
-      this.mesh.material.color.b = random(1.0);
-
-      this.vel.mult(0.8);
-      this.setScale(random(30, 80), random(30, 80), random(30, 80));
-
-      // this object can be also removed!
-      //this.isDone = true; 
+      this.mesh.material.wireframe = false;
+      this.mesh.material.color.set(0x00ff00);
     } else {
-      //
+      this.mesh.material.wireframe = true;
+      this.mesh.material.color.set(0xffffff);
     }
   }
   update() {
     this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
     this.mesh.rotation.set(this.rot.x, this.rot.y, this.rot.z);
-
-    let newScale = p5.Vector.mult(this.scl, this.lifespan);
-    this.mesh.scale.set(newScale.x, newScale.y, newScale.z);
+    this.mesh.scale.set(this.scl.x, this.scl.y, this.scl.z);
   }
 }
 
-// event listeners
-window.addEventListener("resize", onWindowResize);
-window.addEventListener('mousemove', onMouseMove);
-
-function onWindowResize() {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
+// event listener
+window.addEventListener("mousemove", onMouseMove, false);
 function onMouseMove(event) {
   // calculate mouse position in normalized device coordinates
   // (-1 to +1) for both components

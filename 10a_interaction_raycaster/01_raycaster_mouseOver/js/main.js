@@ -118,14 +118,14 @@ class Cube {
     let isIntersected = false;
     // if you only want to select the first (closest) one.
     if (intersections.length > 0) {
-      if (this.mesh.uuid === intersections[0].object.uuid) {
+      if (this.mesh === intersections[0].object) {
         isIntersected = true;
       }
     }
     /*
     // if you want to select the whole objects on the ray.
     for (let i of intersections) {
-      if (this.mesh.uuid === i.object.uuid) {
+      if (this.mesh  === i.object ) {
         isIntersected = true;
       }
     }
