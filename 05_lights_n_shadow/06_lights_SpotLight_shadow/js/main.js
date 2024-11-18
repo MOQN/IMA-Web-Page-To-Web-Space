@@ -150,7 +150,7 @@ class Light {
     this.light = getLight();
     this.mesh.scale.set(20, 20, 20);
 
-    this.group = new THREE.Group();
+    this.group = new THREE.Group(); // Perhaps reorganize the group structure?
     this.group.add(this.mesh);
     this.group.add(this.light);
 

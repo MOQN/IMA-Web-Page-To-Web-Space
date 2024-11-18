@@ -28,9 +28,9 @@ function setupThree() {
   scene.add(light);
 
   bgPlane = getPlane();
+  scene.add(bgPlane);
   bgPlane.position.set(0, 0, -300);
   bgPlane.scale.set(300, 300);
-  scene.add(bgPlane);
 
   gui.add(obj.material, "metalness", 0, 1);
   gui.add(obj.material, "roughness", 0, 1);

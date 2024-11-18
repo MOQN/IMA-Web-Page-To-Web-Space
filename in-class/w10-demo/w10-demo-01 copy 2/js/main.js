@@ -25,9 +25,9 @@ function setupThree() {
 
   // plane
   plane = getPlane();
+  scene.add(plane);
   plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // boxes
   for (let i = 0; i < 100; i++) {
