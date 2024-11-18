@@ -10,9 +10,11 @@ function setupThree() {
 
   let boxDark = getDarkBox();
   boxDark.position.z = 0.25;
+  scene.add(boxDark);
 
   let boxGlow = getGlowBox();
   boxGlow.position.z = -2.25;
+  scene.add(boxGlow);
 }
 
 function updateThree() {
@@ -33,7 +35,6 @@ function getDarkBox() {
     wireframe: false
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -45,7 +46,6 @@ function getGlowBox() {
   });
   let mesh = new THREE.Mesh(geometry, material);
   mesh.layers.enable(1); // ***
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 

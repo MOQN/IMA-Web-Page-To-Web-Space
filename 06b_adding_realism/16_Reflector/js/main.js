@@ -9,21 +9,21 @@ function setupThree() {
   renderer.setClearColor("#222222");
 
   cube = getBox();
+  scene.add(cube);
   cube.position.set(0, 300, 0); //(x, y, z);
   cube.scale.x = 150;
   cube.scale.y = 150;
   cube.scale.z = 150;
-  scene.add(cube);
 
   groundMirror = getCircleMirror();
+  scene.add(groundMirror);
   groundMirror.position.y = -100;
   groundMirror.rotateX(-Math.PI / 2);
-  scene.add(groundMirror);
 
   verticalMirror = getPlaneMirror();
+  scene.add(verticalMirror);
   verticalMirror.position.y = 500;
   verticalMirror.position.z = -500;
-  scene.add(verticalMirror);
 }
 
 function updateThree() {

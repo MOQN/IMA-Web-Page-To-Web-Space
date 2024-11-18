@@ -12,9 +12,9 @@ let user;
 function setupThree() {
   // plane
   plane = getPlane();
+  scene.add(plane);
   plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // Character
   user = new Character();
@@ -26,8 +26,8 @@ function setupThree() {
 function updateThree() {
   user.update();
 
-  //camera.position.copy(user.position);
-  //camera.quaternion.copy(user.direction);
+  camera.position.copy(user.position);
+  camera.quaternion.copy(user.direction);
 }
 
 function getBox() {

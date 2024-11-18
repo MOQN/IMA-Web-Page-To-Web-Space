@@ -18,14 +18,17 @@ let bgPlane;
 function setupThree() {
   obj = getIcosahedron();
   obj.scale.set(300, 300, 300);
+  scene.add(obj);
 
   const ambiLight = new THREE.AmbientLight(0x111111);
   scene.add(ambiLight);
 
   light = getLight();
   light.position.set(0, 300, 600);
+  scene.add(light);
 
   bgPlane = getPlane();
+  scene.add(bgPlane);
   bgPlane.position.set(0, 0, -300);
   bgPlane.scale.set(300, 300);
 
@@ -49,7 +52,6 @@ function getIcosahedron() {
     thickness: 0.5, // Add refraction!
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -59,12 +61,10 @@ function getPlane() {
   const geometry = new THREE.PlaneGeometry(5, 5);
   const material = new THREE.MeshBasicMaterial({ map: texture });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
 function getLight() {
   const light = new THREE.DirectionalLight(0xfff0dd, 1);
-  scene.add(light);
   return light;
 }

@@ -12,9 +12,11 @@ function setupThree() {
   texture.colorSpace = THREE.SRGBColorSpace;
 
   sphere = getSphere();
+  scene.add(sphere);
   sphere.scale.set(300.0, 300.0, 300.0);
 
   const light = getLight();
+  scene.add(light);
   light.position.set(100, 400, 800);
 
   gui
@@ -41,7 +43,6 @@ function updateThree() {
 
 function getLight() {
   const light = new THREE.PointLight(0xffffff, 1, 3000, 0.01);
-  scene.add(light);
   return light;
 }
 
@@ -55,6 +56,5 @@ function getSphere() {
     displacementScale: 0.3
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

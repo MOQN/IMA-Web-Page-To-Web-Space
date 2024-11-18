@@ -47,10 +47,10 @@ function setupSocket() {
 
 function createCubeForClient(clientId) {
   const cube = getBox();
+  scene.add(cube);
   cube.position.set(Math.random() * 5, Math.random() * 5, 0);
   cube.scale.set(100, 100, 100);
   cubes[clientId] = cube;
-  scene.add(cube);
 
   // Add GUI controls only for the local client cube
   if (clientId === socket.id) {

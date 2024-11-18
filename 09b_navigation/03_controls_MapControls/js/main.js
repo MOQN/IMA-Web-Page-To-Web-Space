@@ -13,15 +13,25 @@ function setupThree() {
   controls.maxPolarAngle = Math.PI / 2;
   controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
   controls.dampingFactor = 0.05;
+  //
+  controls.listenToKeyEvents(window); // optional
+  controls.keys = {
+    LEFT: "KeyA",
+    UP: "KeyW",
+    RIGHT: "KeyD",
+    BOTTOM: "KeyS"
+  }
 
   // plane
   plane = getPlane();
+  scene.add(plane);
   plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
 
   // boxes
   for (let i = 0; i < 100; i++) {
     let box = getBox();
+    scene.add(box);
 
     box.position.x = random(-WORLD_HALF, WORLD_HALF);
     box.position.y = random(-WORLD_HALF / 2, WORLD_HALF);
@@ -49,7 +59,6 @@ function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial();
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -76,6 +85,5 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

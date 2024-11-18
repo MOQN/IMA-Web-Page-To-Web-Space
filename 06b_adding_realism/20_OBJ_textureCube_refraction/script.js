@@ -28,12 +28,14 @@ function setupThree() {
   //scene.background = textureCube;
   // #2
   sphere = getSphere();
+  scene.add(sphere);
   sphere.material.envMap = textureCube;
   sphere.material.side = THREE.DoubleSide;
   sphere.scale.set(300.0, 300.0, 300.0);
 
   // light
   light = getLight();
+  scene.add(light);
 }
 
 function updateThree() {
@@ -57,14 +59,11 @@ function getSphere() {
     color: 0xffffff
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
 function getLight() {
   const light = new THREE.PointLight(0xFFFFFF, 1, 100);
-  //let sphere = getSphere();
-  scene.add(light);
   return light;
 }
 

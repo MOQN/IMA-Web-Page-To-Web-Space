@@ -13,6 +13,7 @@ function setupThree() {
 
   const light = getLight();
   light.position.set(100, 400, 800);
+  scene.add(light);
 
   let folderFog = gui.addFolder("FOG");
   folderFog.open();
@@ -98,7 +99,6 @@ function constructObjects(obj) {
 
 function getLight() {
   const light = new THREE.PointLight(0xffffff, 1, 3000, 0.01);
-  scene.add(light);
   return light;
 }
 

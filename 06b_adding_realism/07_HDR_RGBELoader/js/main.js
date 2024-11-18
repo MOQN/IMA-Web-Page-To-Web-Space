@@ -13,8 +13,8 @@ function setupThree() {
   scene.background = hdrTexture;
 
   sphere = getSphere();
-  sphere.scale.set(300, 300, 300);
   scene.add(sphere);
+  sphere.scale.set(300, 300, 300);
 }
 
 function updateThree() {

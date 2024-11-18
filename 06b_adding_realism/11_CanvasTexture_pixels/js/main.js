@@ -12,6 +12,7 @@ function setupThree() {
   texture.colorSpace = THREE.SRGBColorSpace;
 
   cube = getBox();
+  scene.add(cube);
 }
 
 function updateThree() {
@@ -30,6 +31,5 @@ function getBox() {
     map: texture
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

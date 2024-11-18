@@ -15,12 +15,15 @@ let cube;
 function setupThree() {
   // plane
   plane = getPlane();
+  scene.add(plane);
   plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
+
 
   // boxes
   for (let i = 0; i < 100; i++) {
     let box = getBox();
+    scene.add(box);
 
     box.position.x = random(-WORLD_HALF, WORLD_HALF);
     box.position.y = random(-WORLD_HALF / 2, WORLD_HALF);
@@ -41,6 +44,7 @@ function setupThree() {
 
   // pink cube
   cube = getBox();
+  scene.add(cube);
   cube.scale.set(100, 20, 20);
   cube.material.color.r = 1.0;
   cube.material.color.g = 0.0;
@@ -72,7 +76,6 @@ function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial();
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -99,6 +102,5 @@ function getPlane() {
     posArray[i + 2] = noiseValue; // update the z value.
   }
 
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

@@ -47,7 +47,6 @@ function getBox() {
     wireframe: true
   });
   let mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -64,6 +63,7 @@ class Cube {
     this.rotAcc = createVector();
     this.isSelected = false;
     this.mesh = getBox();
+    scene.add(this.mesh);
   }
   setPosition(x, y, z) {
     this.pos = createVector(x, y, z);

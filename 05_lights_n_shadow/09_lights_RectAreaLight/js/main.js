@@ -24,8 +24,8 @@ function setupThree() {
 
   // targetBox
   targetBox = getBox();
-  targetBox.scale.set(10, 10, 10);
   scene.add(targetBox);
+  targetBox.scale.set(10, 10, 10);
 
   // lights
   const ambiLight = new THREE.AmbientLight(0x333333); // soft light

@@ -50,8 +50,8 @@ function setupThree() {
 
   // add a mesh for the light source
   //let sphere = getSphere();
-  //sphere.scale.set(20, 20, 20);
   //spotLight.add(sphere); /// add the sphere to the light!!
+  //sphere.scale.set(20, 20, 20);
 
   // add the helper!
   //spotLightHelper = new THREE.SpotLightHelper(spotLight);

@@ -18,16 +18,19 @@ let bgPlane;
 function setupThree() {
   obj = getIcosahedron();
   obj.scale.set(300, 300, 300);
+  scene.add(obj);
 
   const ambiLight = new THREE.AmbientLight(0x111111);
   scene.add(ambiLight);
 
   light = getLight();
   light.position.set(0, 5, 10);
+  scene.add(light);
 
   bgPlane = getPlane();
   bgPlane.position.set(0, 0, -300);
   bgPlane.scale.set(300, 300);
+  scene.add(bgPlane);
 
   gui.add(obj.material, "metalness", 0, 1);
   gui.add(obj.material, "roughness", 0, 1);
@@ -57,7 +60,6 @@ function getIcosahedron() {
     envMap: hdr
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
@@ -67,12 +69,10 @@ function getPlane() {
   const geometry = new THREE.PlaneGeometry(5, 5);
   const material = new THREE.MeshBasicMaterial({ map: texture });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 
 function getLight() {
   const light = new THREE.DirectionalLight(0xfff0dd, 1);
-  scene.add(light);
   return light;
 }

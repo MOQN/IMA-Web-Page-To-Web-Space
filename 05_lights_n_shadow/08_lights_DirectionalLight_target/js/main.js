@@ -40,9 +40,9 @@ function setupThree() {
 
   // let's add a box flying based on sin() and cos().
   targetBox = getBox();
+  scene.add(targetBox);
   targetBox.material.color.set(0xFF00FF);
   targetBox.scale.set(10, 10, 10);
-  scene.add(targetBox);
 
   // lights
   const ambiLight = new THREE.AmbientLight(0x333333); // soft light

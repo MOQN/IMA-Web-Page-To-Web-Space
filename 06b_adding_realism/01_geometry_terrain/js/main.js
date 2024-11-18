@@ -7,6 +7,7 @@ let plane;
 
 function setupThree() {
   plane = getPlane();
+  scene.add(plane);
 }
 
 function updateThree() {
@@ -36,7 +37,5 @@ function getPlane() {
 
     posArray[i + 2] = noiseValue; // update the z value.
   }
-
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

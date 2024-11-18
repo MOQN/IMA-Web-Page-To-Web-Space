@@ -6,13 +6,14 @@ let objects = [];
 function setupThree() {
   // plane
   plane = getPlane();
+  scene.add(plane);
   plane.position.y = -WORLD_HALF / 2;
   plane.rotation.x = -PI / 2;
-  scene.add(plane);
 
   // boxes
   for (let i = 0; i < 100; i++) {
     let box = getBox();
+    scene.add(box);
 
     box.position.x = random(-WORLD_HALF, WORLD_HALF);
     box.position.y = random(-WORLD_HALF / 2, WORLD_HALF);
@@ -43,7 +44,6 @@ function getBox() {
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial();
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }
 

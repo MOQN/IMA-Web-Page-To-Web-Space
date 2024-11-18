@@ -11,9 +11,11 @@ function setupThree() {
   texture.colorSpace = THREE.SRGBColorSpace;
 
   sprite = getSprite();
+  scene.add(sprite);
   sprite.scale.set(1100, 1100, 1);
 
   sphere = getSphere();
+  scene.add(sphere);
   sphere.scale.set(300.0, 300.0, 300.0);
 }
 
@@ -32,7 +34,6 @@ function getSprite() {
     blending: THREE.AdditiveBlending,
   });
   const sprite = new THREE.Sprite(material);
-  scene.add(sprite);
   return sprite;
 }
 
@@ -44,6 +45,5 @@ function getSphere() {
     side: THREE.DoubleSide
   });
   const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh); // *** reorganize ***
   return mesh;
 }

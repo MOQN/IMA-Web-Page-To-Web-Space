@@ -42,8 +42,8 @@ function setupSocket() {
 
 function createCubeForClient(clientId) {
   const cube = getBox();
-  cube.scale.set(30, 30, 30);
   scene.add(cube);
+  cube.scale.set(30, 30, 30);
 
   userData[clientId] = cube;
   console.log("Cube added - ID: " + clientId);
