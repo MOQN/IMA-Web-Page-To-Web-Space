@@ -103,7 +103,7 @@ function getPlane() {
   const mesh = new THREE.Mesh(geometry, material);
 
   //console.log(geometry.attributes.position.array);
-  let posArray = geometry.attributes.position.array;
+  let posArray = geometry.attributes.position.array; // REORGANIZE
   for (let i = 0; i < posArray.length; i += 3) {
     let x = posArray[i + 0];
     let y = posArray[i + 1];
