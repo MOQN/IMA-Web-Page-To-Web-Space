@@ -3,7 +3,9 @@ console.log("three.js Version: " + THREE.REVISION);
 let container, gui;
 let scene, camera, renderer;
 let controls;
+
 let time, frame = 0;
+const fps = { value: 0 };
 
 function initThree() {
   scene = new THREE.Scene();
@@ -24,17 +26,43 @@ function initThree() {
   controls = new OrbitControls(camera, renderer.domElement);
 
   pane = new Pane();
+  pane.addBinding(params, 'fps', {
+    label: 'FPS',
+    readonly: true,
+  });
+  pane.addBinding(params, 'fps', {
+    label: 'FPS Graph',
+    readonly: true,
+    view: 'graph',
+    min: 0,
+    max: 120,
+  });
+  pane.addBlade({ view: 'separator' });
 
   setupThree(); // *** 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  time = performance.now();
+  // update the frame count of three.js
   frame++;
 
+  // update the time in milliseconds of three.js
+  time = performance.now();
+
+  // calculate the frames per second based on the time
+  fps.value = 1000 / (time - (fps.last || time));
+  fps.last = time;
+  // update the fps value in the params object
+  params.fps = fps.value.toFixed(2);
+
+  // update the three.js scene
   updateThree(); // ***
 
+  // update the values in the Tweakpane GUI
+  pane.refresh();
+
+  // render the three.js scene
   renderer.render(scene, camera);
 }
 
