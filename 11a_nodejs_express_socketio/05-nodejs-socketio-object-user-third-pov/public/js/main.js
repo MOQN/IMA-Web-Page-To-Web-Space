@@ -70,7 +70,9 @@ function updateThree() {
   if (!user) return;
   user.update();
   thirdPovCam.update(user);
+
   // send the user's data to the server
+  // this can be optimized to only send the data when the user's data has changed.
   sendUserUpdate();
 }
 
@@ -153,8 +155,7 @@ function updateUserFromSocket(data) {
 }
 
 // send the user's data to the server
-// this function is called whenever the user's position, rotation, or scale is changed
-// also, see the User class in public/js/User.js for the toData() method
+// see the User class in public/js/User.js for the toData() method
 function sendUserUpdate() {
   const user = userData[socket.id];
   if (!user) return;
