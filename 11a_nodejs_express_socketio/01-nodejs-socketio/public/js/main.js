@@ -1,5 +1,5 @@
-let WORLD_SIZE = 1000;
-let WORLD_HALF_SIZE = 500;
+const WORLD_SIZE = 1000;
+const WORLD_HALF_SIZE = 500;
 
 let userData = {};
 
@@ -10,6 +10,8 @@ function setupThree() {
 function updateThree() {
   for (const clientId in userData) {
     const cube = userData[clientId];
+
+    // try to add some animation here!
     //cube.rotation.x += 0.01;
     //cube.rotation.y += 0.01;
   }
