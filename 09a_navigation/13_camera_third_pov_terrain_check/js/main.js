@@ -46,35 +46,40 @@ function setupThree() {
 }
 
 function updateThree() {
+  rayToBottom.updateOrigin(user.position);
+  let floorHeight = rayToBottom.getIntersection([plane]); // we send an array of objects to check for intersection.
+
   user.update();
   thirdPovCam.update(user);
-
-  rayToBottom.updateOrigin(user.position);
-  rayToBottom.checkIntersection([plane]); // we send an array of objects to check for intersection.
 }
 
 class Ray {
   constructor() {
     this.raycaster = new THREE.Raycaster();
-    this.raycaster.ray.origin = new THREE.Vector3(0, 0, 0); // this will be updated later by the user's position.
-    this.raycaster.ray.direction = new THREE.Vector3(0, -1, 0); // to bottom
+    let origin = new THREE.Vector3(0, 0, 0); // this will be updated later by the user's position.
+    let direction = new THREE.Vector3(0, -1, 0); // to bottom
+    this.raycaster.set(origin, direction);
 
     // optional
     this.intersectionMarker = this.getMarkerMesh();
     this.intersectionMarker.scale.set(10, 10, 10);
-    this.intersectionMarker.material.color.set(0xff0000);
     scene.add(this.intersectionMarker);
   }
   updateOrigin(position) {
     this.raycaster.ray.origin.copy(position);
   }
+  updateDirection(direction) {
+    this.raycaster.ray.direction.copy(direction);
+  }
   getMarkerMesh() {
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshBasicMaterial();
+    const material = new THREE.MeshBasicMaterial({
+      color: 0xff0000,
+    });
     const mesh = new THREE.Mesh(geometry, material);
     return mesh;
   }
-  checkIntersection(objects) {
+  getIntersection(objects) {
     const intersects = this.raycaster.intersectObjects(objects);
 
     if (intersects.length > 0) {
@@ -86,10 +91,27 @@ class Ray {
 
       // optional
       this.intersectionMarker.position.copy(intersectionPosition);
+
+      return intersectionPosition;
     } else {
       console.log('Nothing below.');
+      return null;
     }
   }
+}
+
+// alternatively this function can be used
+const raycaster = new THREE.Raycaster();
+function getHeightAt(position, targetObject) {
+  const origin = new THREE.Vector3(position.x, 100000, position.z); // 100000 is just an arbitrary large number.
+  const direction = new THREE.Vector3(0, -1, 0); // to bottom
+  raycaster.set(origin, direction);
+
+  const intersects = raycaster.intersectObject(targetObject);
+  if (intersects.length > 0) {
+    return intersects[0].point.y;
+  }
+  return null;
 }
 
 function getBox() {
@@ -160,7 +182,12 @@ class ThirdPersonCamera {
 
 class Character {
   constructor() {
-    this.position = new THREE.Vector3();
+    this.mesh = getBox();
+    scene.add(this.mesh);
+    this.mesh.geometry.translate(0, 0.5, 0); // translate the origin to the bottom of the box
+    this.mesh.scale.set(100, 200, 20);
+    //
+    this.position = this.mesh.position;
     this.position.y = FLOOR_HEIGHT;
     this.direction = new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI * 0);
     this.moveVel = 0.0;
@@ -171,10 +198,6 @@ class Character {
     this.walkAcc = 2.5;
     this.jumpAcc = 10;
     this.isJumped = false;
-    //
-    this.mesh = getBox();
-    scene.add(this.mesh);
-    this.mesh.scale.set(100, 200, 20);
     //
     this.keys = {
       forward: false,
@@ -194,26 +217,25 @@ class Character {
     this.move();
     this.jump();
     //
-    this.mesh.position.x = this.position.x;
-    this.mesh.position.y = this.position.y;
-    this.mesh.position.z = this.position.z;
-    //
     this.mesh.setRotationFromQuaternion(this.direction);
   }
   jump() {
+    let floorHeight = getHeightAt(this.position, plane); // using global function with global plane.
+    if (floorHeight === null) {
+      floorHeight = FLOOR_HEIGHT;
+    }
     if (this.keys.space) {
       if (!this.isJumped) {
         this.isJumped = true;
         this.jumpVel += this.jumpAcc;
-
       }
     }
     // fall
     this.position.y += this.jumpVel;
-    if (this.position.y > FLOOR_HEIGHT) {
+    if (this.position.y > floorHeight) {
       this.jumpVel -= C_GRAVITY;
     } else {
-      this.position.y = FLOOR_HEIGHT;
+      this.position.y = floorHeight;
       this.isJumped = false;
       this.jumpVel = 0.0;
     }
@@ -300,28 +322,6 @@ class Character {
         this.keys.shift = true;
         break;
     }
-    /*
-    switch (event.keyCode) {
-      case 87: // w
-        this.keys.forward = true;
-        break;
-      case 65: // a
-        this.keys.left = true;
-        break;
-      case 83: // s
-        this.keys.backward = true;
-        break;
-      case 68: // d
-        this.keys.right = true;
-        break;
-      case 32: // SPACE
-        this.keys.space = true;
-        break;
-      case 16: // SHIFT
-        this.keys.shift = true;
-        break;
-    }
-    */
   };
 
   onKeyUp(event) {
@@ -355,27 +355,5 @@ class Character {
         this.keys.shift = false;
         break;
     }
-    /*
-    switch (event.keyCode) {
-      case 87: // w
-        this.keys.forward = false;
-        break;
-      case 65: // a
-        this.keys.left = false;
-        break;
-      case 83: // s
-        this.keys.backward = false;
-        break;
-      case 68: // d
-        this.keys.right = false;
-        break;
-      case 32: // SPACE
-        this.keys.space = false;
-        break;
-      case 16: // SHIFT
-        this.keys.shift = false;
-        break;
-    }
-    */
   }
 };
