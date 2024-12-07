@@ -5,6 +5,7 @@ let params = {
 const WORLD_HALF = 1000;
 
 let plane;
+let objects = [];
 
 // for controls movements
 let moveForward = false;
@@ -22,6 +23,15 @@ function setupThree() {
   controls = new PointerLockControls(camera, renderer.domElement);
   //controls.lock();
   scene.add(controls.object);
+
+  const controlsDrag = new DragControls(objects, camera, renderer.domElement);
+  // add event listener to highlight dragged objects
+  controlsDrag.addEventListener('dragstart', function (event) {
+    event.object.material.color.set(0xFF0000);
+  });
+  controlsDrag.addEventListener('dragend', function (event) {
+    event.object.material.color.set(0xFFFFFF);
+  });
 
   // plane
   plane = getPlane();
@@ -49,6 +59,8 @@ function setupThree() {
 
     box.material.transparent = true;
     box.material.opacity = random(0.4, 0.7);
+
+    objects.push(box);
   }
 }
 
