@@ -102,6 +102,7 @@ class Ray {
 
 // alternatively this function can be used
 const raycaster = new THREE.Raycaster();
+
 function getHeightAt(position, targetObject) {
   const origin = new THREE.Vector3(position.x, 100000, position.z); // 100000 is just an arbitrary large number.
   const direction = new THREE.Vector3(0, -1, 0); // to bottom
