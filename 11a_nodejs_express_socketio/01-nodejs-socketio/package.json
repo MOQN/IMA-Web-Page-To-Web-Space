@@ -12,5 +12,8 @@
   "dependencies": {
     "express": "^4.21.1",
     "socket.io": "^4.8.1"
+  },
+  "overrides": {
+    "engine.io": "6.6.7"
   }
 }
