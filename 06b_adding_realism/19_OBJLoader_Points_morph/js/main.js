@@ -20,15 +20,18 @@ function updateThree() {
   }
 
   // then update the points
-  let positionArray = pointCloud.geometry.attributes.position.array;
-  for (let i = 0; i < particles.length; i++) {
-    let p = particles[i];
-    let ptIndex = i * 3;
-    positionArray[ptIndex + 0] = p.pos.x;
-    positionArray[ptIndex + 1] = p.pos.y;
-    positionArray[ptIndex + 2] = p.pos.z;
+  if (pointCloud) {
+    let positionArray = pointCloud.geometry.attributes.position.array;
+    for (let i = 0; i < particles.length; i++) {
+      let p = particles[i];
+      let ptIndex = i * 3;
+      positionArray[ptIndex + 0] = p.pos.x;
+      positionArray[ptIndex + 1] = p.pos.y;
+      positionArray[ptIndex + 2] = p.pos.z;
+    }
+    pointCloud.geometry.attributes.position.needsUpdate = true;
   }
-  pointCloud.geometry.attributes.position.needsUpdate = true;
+
 }
 
 function loadOBJ(filepath) {

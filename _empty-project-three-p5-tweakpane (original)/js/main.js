@@ -5,35 +5,14 @@ let params = {
 };
 
 let cube;
-let ball;
-
-function getSphere() {
-  const geometry = new THREE.SphereGeometry(1, 32, 16);
-  const material = new THREE.MeshBasicMaterial({ color: 0xffff00 });
-  const mesh = new THREE.Mesh(geometry, material);
-  return mesh;
-}
 
 function setupThree() {
-  ball = getSphere();
-  scene.add(ball);
-
-  // position, rotation, scale
-  //ball.position.x = 500;
-  ball.scale.set(100, 500, 100);
-
-  //
   cube = getBox();
   scene.add(cube);
 
   cube.scale.x = 100;
   cube.scale.y = 100;
   cube.scale.z = 100;
-
-
-
-
-
 
   // GUI with Tweakpane
   // https://tweakpane.github.io/docs/getting-started/
@@ -64,9 +43,6 @@ function setupThree() {
 }
 
 function updateThree() {
-
-  ball.position.x += 5;
-
   cube.material.color.set(params.color);
   cube.material.wireframe = params.wireframe;
 
