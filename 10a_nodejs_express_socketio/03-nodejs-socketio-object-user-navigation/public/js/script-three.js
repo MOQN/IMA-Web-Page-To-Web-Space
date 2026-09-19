@@ -44,18 +44,18 @@ function initThree() {
 }
 
 function animate() {
-time = performance.now();
+  time = performance.now();
   frame++;
-  fps.value = 1000 / (time - (fps.last || time));
+  fps.value = 1000 / (time - fps.last);
   fps.last = time;
   params.fps = fps.value.toFixed(2);
 
 
   updateThree(); // ***
 
-  
 
-  pane.refresh();renderer.render(scene, camera);
+
+  pane.refresh(); renderer.render(scene, camera);
 }
 
 window.addEventListener("resize", function () {

@@ -1,5 +1,5 @@
 let params = {
-  // (add)
+  fps: 0,
 };
 
 let bear;
@@ -29,7 +29,7 @@ function loadOBJ(filepath) {
     // onLoad callback
 
     // Here the loaded data is assumed to be an object
-    function(obj) {
+    function (obj) {
       // Add the loaded object to the scene
       bear = obj;
       for (let child of bear.children) {
@@ -43,12 +43,12 @@ function loadOBJ(filepath) {
     },
 
     // onProgress callback
-    function(xhr) {
+    function (xhr) {
       console.log((xhr.loaded / xhr.total * 100) + '% loaded');
     },
 
     // onError callback
-    function(err) {
+    function (err) {
       console.error('An error happened');
     }
   );

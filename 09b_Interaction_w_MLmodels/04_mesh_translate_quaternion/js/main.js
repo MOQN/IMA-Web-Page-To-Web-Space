@@ -1,7 +1,7 @@
 // https://threejs.org/docs/#api/en/math/Quaternion
 
 let params = {
-  // (add)
+  fps: 0,
 };
 
 let cube;

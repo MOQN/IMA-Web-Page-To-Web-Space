@@ -103,97 +103,230 @@ function getBox() {
 }
 
 class Cube {
+
   constructor() {
-    this.pos = new THREE.Vector3();
+
+    // mesh
+    this.mesh = getBox();
+    scene.add(this.mesh);
+
+    // position
+    this.pos = this.mesh.position;
     this.vel = new THREE.Vector3();
     this.acc = new THREE.Vector3();
 
-    this.scl = new THREE.Vector3(1, 1, 1);
-    this.mass = 1;
-    //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
-
-    this.rot = new THREE.Vector3();
+    // rotation
+    this.rot = this.mesh.rotation;
     this.rotVel = new THREE.Vector3();
     this.rotAcc = new THREE.Vector3();
 
-    this.lifespan = 1.0;
-    this.lifeReduction = random(0.005, 0.010);
+    // scale
+    this.scale = this.mesh.scale;
+    this.baseScale = new THREE.Vector3(1, 1, 1);
+
+    // mass
+    this.mass = 1;
+
+    // lifespan
+    this.lifespan = 1;
+    this.lifeReduction = random(0.001, 0.01);
     this.isDone = false;
-    //
-    this.mesh = getBox();
-    scene.add(this.mesh); // don't forget to add to scene
   }
+
+
   setPosition(x, y, z) {
-    this.pos = new THREE.Vector3(x, y, z);
+
+    this.pos.set(x, y, z);
+
     return this;
   }
+
+
+  setTranslation(x, y, z) {
+
+    this.mesh.geometry.translate(x, y, z);
+
+    return this;
+  }
+
+
   setVelocity(x, y, z) {
-    this.vel = new THREE.Vector3(x, y, z);
+
+    this.vel.set(x, y, z);
+
     return this;
   }
+
+
   setRotationAngle(x, y, z) {
-    this.rot = new THREE.Vector3(x, y, z);
+
+    this.rot.set(x, y, z);
+
     return this;
   }
+
+
   setRotationVelocity(x, y, z) {
-    this.rotVel = new THREE.Vector3(x, y, z);
+
+    this.rotVel.set(x, y, z);
+
     return this;
   }
+
+
   setScale(w, h = w, d = w) {
+
     const minScale = 0.01;
-    if (w < minScale) w = minScale;
-    if (h < minScale) h = minScale;
-    if (d < minScale) d = minScale;
-    this.scl = new THREE.Vector3(w, h, d);
+
+    w = Math.max(w, minScale);
+    h = Math.max(h, minScale);
+    d = Math.max(d, minScale);
+
+    this.baseScale.set(w, h, d);
+    this.scale.set(w, h, d);
+
     return this;
   }
+
+
   setMass(mass) {
-    if (mass) {
+
+    if (mass !== undefined) {
       this.mass = mass;
-    } else {
-      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
     }
+    else {
+      this.mass =
+        1 +
+        this.baseScale.x *
+        this.baseScale.y *
+        this.baseScale.z *
+        0.000001;
+    }
+
     return this;
   }
-  move() {
-    this.vel.add(this.acc);
-    this.pos.add(this.vel);
-    this.acc.set(0, 0, 0);
-  }
-  rotate() {
-    this.rotVel.add(this.rotAcc);
-    this.rot.add(this.rotVel);
-    this.rotAcc.set(0, 0, 0);
-  }
+
+
   applyForce(f) {
-    let force = f.clone();
-    if (this.mass > 0) {
-      force.divideScalar(this.mass);
-    }
+
+    if (this.mass <= 0) return;
+
+    const force = f.clone();
+
+    force.divideScalar(this.mass);
     this.acc.add(force);
   }
-  reappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
-      this.pos.z = -WORLD_SIZE / 2;
-    }
+
+
+  update() {
+
+    this.updatePosition();
+    this.updateRotation();
+    this.updateScale();
+    this.updateLifespan();
   }
-  disappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
-      this.isDone = true;
-    }
+
+
+  updatePosition() {
+
+    this.vel.add(this.acc);
+    this.pos.add(this.vel);
+
+    this.acc.set(0, 0, 0);
   }
-  age() {
+
+
+  updateRotation() {
+
+    this.rotVel.add(this.rotAcc);
+
+    this.rot.x += this.rotVel.x;
+    this.rot.y += this.rotVel.y;
+    this.rot.z += this.rotVel.z;
+
+    this.rotAcc.set(0, 0, 0);
+  }
+
+
+  updateScale() {
+
+    this.scale.set(
+      this.baseScale.x * this.lifespan,
+      this.baseScale.y * this.lifespan,
+      this.baseScale.z * this.lifespan
+    );
+  }
+
+
+  updateLifespan() {
+
     this.lifespan -= this.lifeReduction;
+
     if (this.lifespan <= 0) {
       this.lifespan = 0;
       this.isDone = true;
     }
   }
-  update() {
-    this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
-    this.mesh.rotation.set(this.rot.x, this.rot.y, this.rot.z);
 
-    let newScale = this.scl.clone().multiplyScalar(this.lifespan);
-    this.mesh.scale.set(newScale.x, newScale.y, newScale.z);
+
+  reappear() {
+
+    // x
+    if (this.pos.x > WORLD_HALF) {
+      this.pos.x = -WORLD_HALF;
+    }
+    else if (this.pos.x < -WORLD_HALF) {
+      this.pos.x = WORLD_HALF;
+    }
+
+    // y
+    if (this.pos.y > WORLD_HALF) {
+      this.pos.y = -WORLD_HALF;
+    }
+    else if (this.pos.y < -WORLD_HALF) {
+      this.pos.y = WORLD_HALF;
+    }
+
+    // z
+    if (this.pos.z > WORLD_HALF) {
+      this.pos.z = -WORLD_HALF;
+    }
+    else if (this.pos.z < -WORLD_HALF) {
+      this.pos.z = WORLD_HALF;
+    }
+  }
+
+
+  bounce() {
+
+    // x
+    if (this.pos.x > WORLD_HALF) {
+      this.pos.x = WORLD_HALF;
+      this.vel.x *= -1;
+    }
+    else if (this.pos.x < -WORLD_HALF) {
+      this.pos.x = -WORLD_HALF;
+      this.vel.x *= -1;
+    }
+
+    // y
+    if (this.pos.y > WORLD_HALF) {
+      this.pos.y = WORLD_HALF;
+      this.vel.y *= -1;
+    }
+    else if (this.pos.y < -WORLD_HALF) {
+      this.pos.y = -WORLD_HALF;
+      this.vel.y *= -1;
+    }
+
+    // z
+    if (this.pos.z > WORLD_HALF) {
+      this.pos.z = WORLD_HALF;
+      this.vel.z *= -1;
+    }
+    else if (this.pos.z < -WORLD_HALF) {
+      this.pos.z = -WORLD_HALF;
+      this.vel.z *= -1;
+    }
   }
 }

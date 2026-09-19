@@ -24,10 +24,6 @@ function initThree() {
   container.appendChild(renderer.domElement);
 
   controls = new OrbitControls(camera, renderer.domElement);
-  if (typeof params === "undefined") { window.params = {}; }
-  if (typeof params.fps === "undefined") { params.fps = 0; }
-
-
 
   pane = new Pane();
   pane.addBinding(params, 'fps', {
@@ -55,7 +51,7 @@ function animate() {
   time = performance.now();
 
   // calculate the frames per second based on the time
-  fps.value = 1000 / (time - (fps.last || time));
+  fps.value = 1000 / (time - fps.last);
   fps.last = time;
   // update the fps value in the params object
   params.fps = fps.value.toFixed(2);

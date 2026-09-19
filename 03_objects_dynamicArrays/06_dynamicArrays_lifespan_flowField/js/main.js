@@ -17,7 +17,7 @@ let cubes = [];
 function setupThree() {
   setupGUI();
 
-  // create lines in grid
+  // create arrows in grid
   for (let z = -WORLD_HALF; z <= WORLD_HALF; z += GRID_SIZE) {
     for (let y = -WORLD_HALF; y <= WORLD_HALF; y += GRID_SIZE) {
       for (let x = -WORLD_HALF; x <= WORLD_HALF; x += GRID_SIZE) {
@@ -43,26 +43,26 @@ function setupThree() {
 }
 
 function updateThree() {
-  // update forces
-  let forces = [];
+  // reset forces
+  forces = [];
 
-  // Calculate grid dimensions
-  const gridWidth = (WORLD_SIZE / GRID_SIZE) + 1;  // number of grid points along each axis
-  const gridHeight = (WORLD_SIZE / GRID_SIZE) + 1;
-  const gridDepth = (WORLD_SIZE / GRID_SIZE) + 1;
+  // calculate grid dimensions
+  const gridWidth = WORLD_SIZE / GRID_SIZE + 1; // number of grid points along each axis
+  const gridHeight = WORLD_SIZE / GRID_SIZE + 1;
+  const gridDepth = WORLD_SIZE / GRID_SIZE + 1;
 
   for (let z = -WORLD_HALF; z <= WORLD_HALF; z += GRID_SIZE) {
     for (let y = -WORLD_HALF; y <= WORLD_HALF; y += GRID_SIZE) {
       for (let x = -WORLD_HALF; x <= WORLD_HALF; x += GRID_SIZE) {
-        // Convert world coordinates to grid indices
+        // convert world coordinates to grid indices
         let gridX = (x + WORLD_HALF) / GRID_SIZE;
         let gridY = (y + WORLD_HALF) / GRID_SIZE;
         let gridZ = (z + WORLD_HALF) / GRID_SIZE;
 
-        // Calculate 1D index from 3D coordinates
+        // calculate 1D index from 3D coordinates
         let index = gridX + gridY * gridWidth + gridZ * gridWidth * gridHeight;
 
-        // get a vector from noise 3d
+        // get a vector from 3D noise
         let xFreq = x * params.noiseFreqPosition + frame * params.noiseFreqTime;
         let yFreq = y * params.noiseFreqPosition + frame * params.noiseFreqTime;
         let zFreq = z * params.noiseFreqPosition + frame * params.noiseFreqTime;
@@ -74,16 +74,19 @@ function updateThree() {
           sin(y * params.sineFreqPosition + frame * params.sineFreqTime),
           sin(z * params.sineFreqPosition + frame * params.sineFreqTime * 0.7)
         );
+
         force.normalize(); // direction
+
         // apply noise to direction
         force.multiplyScalar(noiseValue);
         let magnitude = force.length(); // get magnitude of the vector
-
-        forces[index] = new THREE.Vector3(force.x, force.y, force.z);
+        forces[index] = force.clone();
 
         // update arrow
         let arrow = arrows[index];
-        arrow.setDirection(force);
+        if (magnitude > 0) {
+          arrow.setDirection(force.clone().normalize());
+        }
         arrow.setLength(magnitude * GRID_SIZE / 2);
         arrow.position.set(x, y, z);
       }
@@ -92,7 +95,6 @@ function updateThree() {
 
   // update the cubes
   for (let c of cubes) {
-
     // apply forces based on the grid
     let gridX = floor((c.pos.x + WORLD_HALF) / GRID_SIZE);
     let gridY = floor((c.pos.y + WORLD_HALF) / GRID_SIZE);
@@ -100,20 +102,19 @@ function updateThree() {
     let index = gridX + gridY * gridWidth + gridZ * gridWidth * gridHeight;
 
     let force = forces[index].clone();
-    force.multiplyScalar(0.3); // scale the force arbitrary, play with this value to see the effect!
+    force.multiplyScalar(0.3); // scale the force arbitrarily; play with this value to see the effect!
     c.applyForce(force);
 
-    c.move();
-    c.vel.clampLength(0, 5); // limit the velocity; We don't have a steering behavior, so we limit the velocity to prevent it from going too fast. play with this value too!
-
-    c.rotate();
-    //c.age();
+    c.updatePosition();
+    c.vel.clampLength(0, 5); // limit the velocity; we don't have a steering behavior, so we limit the velocity to prevent it from going too fast
+    c.updateRotation();
+    // c.updateLifespan();
     c.reappear();
-    c.update();
+    // or, c.update(); // if you want to update all properties
   }
 
-  // if some of them is "done", remove the mesh from the scene, then the Cube object.
-  // this time I don't use the flipped for loop. Instead "i--;" is used 
+  // if some of them are "done", remove the mesh from the scene, then the Cube object
+  // this time, I don't use the reversed for loop. Instead, "i--;" is used
   for (let i = 0; i < cubes.length; i++) {
     let c = cubes[i];
     if (c.isDone) {
@@ -129,7 +130,6 @@ function getArrow() {
   const origin = new THREE.Vector3(0, 0, 0);
   const length = GRID_SIZE / 2;
   const hexColor = 0x00ff00;
-
   const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hexColor);
   return arrowHelper;
 }
@@ -144,39 +144,35 @@ function getBox() {
 }
 
 function setupGUI() {
-  pane.addBinding(params, 'noiseFreqPosition', {
-    label: 'Noise Freq Position',
+  pane.addBinding(params, "noiseFreqPosition", {
+    label: "Noise Freq Position",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBinding(params, 'noiseFreqTime', {
-    label: 'Noise Freq Time',
+
+  pane.addBinding(params, "noiseFreqTime", {
+    label: "Noise Freq Time",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBlade({ view: 'separator' });
-  pane.addBinding(params, 'sineFreqPosition', {
-    label: 'Sine Freq Position',
+
+  pane.addBlade({ view: "separator" });
+
+  pane.addBinding(params, "sineFreqPosition", {
+    label: "Sine Freq Position",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBinding(params, 'sineFreqTime', {
-    label: 'Sine Freq Time',
+
+  pane.addBinding(params, "sineFreqTime", {
+    label: "Sine Freq Time",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBlade({ view: 'separator' });
+
+  pane.addBlade({ view: "separator" });
 }
-
-
-
-
-
-
-
-
-

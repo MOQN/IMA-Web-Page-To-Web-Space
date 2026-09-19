@@ -9,6 +9,7 @@ function setupThree() {
   // controls
   controls = new OrbitControls(camera, renderer.domElement);
 
+
   // plane
   plane = getPlane();
   scene.add(plane);

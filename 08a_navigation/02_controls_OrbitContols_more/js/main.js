@@ -8,6 +8,7 @@ let plane;
 function setupThree() {
   // controls
   controls = new OrbitControls(camera, renderer.domElement);
+
   controls.minDistance = 50;
   controls.maxDistance = 1500;
   controls.minPolarAngle = 0.10;

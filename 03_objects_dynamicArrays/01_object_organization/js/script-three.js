@@ -23,10 +23,6 @@ function initThree() {
   container.appendChild(renderer.domElement);
 
   controls = new OrbitControls(camera, renderer.domElement);
-  if (typeof params === "undefined") { window.params = {}; }
-  if (typeof params.fps === "undefined") { params.fps = 0; }
-
-
 
   pane = new Pane();
   pane.addBinding(params, "fps", {
@@ -42,16 +38,15 @@ function initThree() {
   });
   pane.addBlade({ view: "separator" });
 
-
   setupThree(); // *** 
 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-time = performance.now();
+  time = performance.now();
   frame++;
-  fps.value = 1000 / (time - (fps.last || time));
+  fps.value = 1000 / (time - fps.last);
   fps.last = time;
   params.fps = fps.value.toFixed(2);
 

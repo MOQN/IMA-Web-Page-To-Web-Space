@@ -22,6 +22,7 @@ function initThree() {
 
   controls = new OrbitControls(camera, renderer.domElement);
 
+
   setupThree(); // *** 
 
   renderer.setAnimationLoop(animate);

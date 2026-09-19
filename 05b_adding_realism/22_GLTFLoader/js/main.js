@@ -3,7 +3,7 @@
 
 
 let params = {
-  // (add)
+  fps: 0,
 };
 
 let model;

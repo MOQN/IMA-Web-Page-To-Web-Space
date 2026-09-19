@@ -16,7 +16,7 @@ let forces = [];
 function setupThree() {
   setupGUI();
 
-  // create lines in grid
+  // create arrows in grid
   for (let z = -WORLD_HALF; z <= WORLD_HALF; z += GRID_SIZE) {
     for (let y = -WORLD_HALF; y <= WORLD_HALF; y += GRID_SIZE) {
       for (let x = -WORLD_HALF; x <= WORLD_HALF; x += GRID_SIZE) {
@@ -30,26 +30,26 @@ function setupThree() {
 }
 
 function updateThree() {
-  // update forces
-  let forces = [];
-  
-  // Calculate grid dimensions
-  const gridWidth = (WORLD_SIZE / GRID_SIZE) + 1;  // number of grid points along each axis
-  const gridHeight = (WORLD_SIZE / GRID_SIZE) + 1;
-  const gridDepth = (WORLD_SIZE / GRID_SIZE) + 1;
-  
+  // reset forces
+  forces = [];
+
+  // calculate grid dimensions
+  const gridWidth = WORLD_SIZE / GRID_SIZE + 1; // number of grid points along each axis
+  const gridHeight = WORLD_SIZE / GRID_SIZE + 1;
+  const gridDepth = WORLD_SIZE / GRID_SIZE + 1;
+
   for (let z = -WORLD_HALF; z <= WORLD_HALF; z += GRID_SIZE) {
     for (let y = -WORLD_HALF; y <= WORLD_HALF; y += GRID_SIZE) {
       for (let x = -WORLD_HALF; x <= WORLD_HALF; x += GRID_SIZE) {
-        // Convert world coordinates to grid indices
+        // convert world coordinates to grid indices
         let gridX = (x + WORLD_HALF) / GRID_SIZE;
         let gridY = (y + WORLD_HALF) / GRID_SIZE;
         let gridZ = (z + WORLD_HALF) / GRID_SIZE;
-        
-        // Calculate 1D index from 3D coordinates
+
+        // calculate 1D index from 3D coordinates
         let index = gridX + gridY * gridWidth + gridZ * gridWidth * gridHeight;
-        
-        // get a vector from noise 3d
+
+        // get a vector from 3D noise
         let xFreq = x * params.noiseFreqPosition + frame * params.noiseFreqTime;
         let yFreq = y * params.noiseFreqPosition + frame * params.noiseFreqTime;
         let zFreq = z * params.noiseFreqPosition + frame * params.noiseFreqTime;
@@ -61,16 +61,19 @@ function updateThree() {
           sin(y * params.sineFreqPosition + frame * params.sineFreqTime),
           sin(z * params.sineFreqPosition + frame * params.sineFreqTime * 0.7)
         );
+
         force.normalize(); // direction
+
         // apply noise to direction
         force.multiplyScalar(noiseValue);
         let magnitude = force.length(); // get magnitude of the vector
-
-        forces[index] = force;
+        forces[index] = force.clone();
 
         // update arrow
         let arrow = arrows[index];
-        arrow.setDirection(force);
+        if (magnitude > 0) {
+          arrow.setDirection(force.clone().normalize());
+        }
         arrow.setLength(magnitude * GRID_SIZE / 2);
         arrow.position.set(x, y, z);
       }
@@ -83,46 +86,40 @@ function getArrow() {
   const origin = new THREE.Vector3(0, 0, 0);
   const length = GRID_SIZE / 2;
   const hexColor = 0x00ff00;
-
   const arrowHelper = new THREE.ArrowHelper(dir, origin, length, hexColor);
   return arrowHelper;
 }
 
-function getBox() {
-  const geometry = new THREE.BoxGeometry(1, 1, 1);
-  const material = new THREE.MeshBasicMaterial({
-    color: 0xffffff,
-    wireframe: true,
-  });
-  const mesh = new THREE.Mesh(geometry, material);
-  return mesh;
-}
-
 function setupGUI() {
-  pane.addBinding(params, 'noiseFreqPosition', {
-    label: 'Noise Freq Position',
+  pane.addBinding(params, "noiseFreqPosition", {
+    label: "Noise Freq Position",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBinding(params, 'noiseFreqTime', {
-    label: 'Noise Freq Time',
+
+  pane.addBinding(params, "noiseFreqTime", {
+    label: "Noise Freq Time",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBlade({ view: 'separator' });
-  pane.addBinding(params, 'sineFreqPosition', {
-    label: 'Sine Freq Position',
+
+  pane.addBlade({ view: "separator" });
+
+  pane.addBinding(params, "sineFreqPosition", {
+    label: "Sine Freq Position",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBinding(params, 'sineFreqTime', {
-    label: 'Sine Freq Time',
+
+  pane.addBinding(params, "sineFreqTime", {
+    label: "Sine Freq Time",
     min: 0.0001,
     max: 0.01,
     step: 0.0001,
   });
-  pane.addBlade({ view: 'separator' });
+
+  pane.addBlade({ view: "separator" });
 }

@@ -1,4 +1,5 @@
 let params = {
+  fps: 0,
   near: 1,
   far: 2600,
 };

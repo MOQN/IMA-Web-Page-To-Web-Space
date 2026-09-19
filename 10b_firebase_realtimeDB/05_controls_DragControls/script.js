@@ -167,7 +167,7 @@ function initTHREE() {
 function animate() {
   time = performance.now();
   frame++;
-  fps.value = 1000 / (time - (fps.last || time));
+  fps.value = 1000 / (time - fps.last);
   fps.last = time;
   params.fps = fps.value.toFixed(2);
   params.frame = frame;
