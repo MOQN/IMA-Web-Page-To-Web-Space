@@ -39,7 +39,6 @@ function setupThree() {
 }
 
 function updateThree() {
-
   params.frame = frame; // take a look at the animate() function in script-three.js.
   params.time = Number(time.toFixed(2));
 
