@@ -1,9 +1,64 @@
 console.log("three.js Version: " + THREE.REVISION);
 
-let container, gui, stats;
+let container, pane, gui;
 let scene, camera, renderer;
 let controls;
 let time, frame = 0;
+const fps = { value: 0, last: 0 };
+
+
+function createGuiCompat(paneInstance) {
+  const makeControl = (target, key, opts = {}) => {
+    const control = paneInstance.addBinding(target, key, opts);
+    return {
+      min(v) { if (v !== undefined) opts.min = v; return this; },
+      max(v) { if (v !== undefined) opts.max = v; return this; },
+      step(v) { if (v !== undefined) opts.step = v; return this; },
+      listen() { return this; },
+      onChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
+      onFinishChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
+    };
+  };
+
+  const api = {
+    add(target, key, min, max, step) {
+      const opts = {};
+      if (typeof min === "number") opts.min = min;
+      if (typeof max === "number") opts.max = max;
+      if (typeof step === "number") opts.step = step;
+      return makeControl(target, key, opts);
+    },
+    addColor(target, key) {
+      const control = paneInstance.addBinding(target, key, { view: "color" });
+      return {
+        onChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
+        onFinishChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
+      };
+    },
+    addFolder(titleOrOptions) {
+      const title = typeof titleOrOptions === "string"
+        ? titleOrOptions
+        : (titleOrOptions && titleOrOptions.title) || "Folder";
+      const folderPane = paneInstance.addFolder({ title, expanded: true });
+      return createGuiCompat(folderPane);
+    },
+    open() {
+      if ("expanded" in paneInstance) {
+        paneInstance.expanded = true;
+      }
+      return api;
+    },
+    close() {
+      if ("expanded" in paneInstance) {
+        paneInstance.expanded = false;
+      }
+      return api;
+    },
+  };
+
+  return api;
+}
+
 
 function initThree() {
   scene = new THREE.Scene();
@@ -22,23 +77,42 @@ function initThree() {
   container.appendChild(renderer.domElement);
 
   controls = new OrbitControls(camera, renderer.domElement);
+  if (typeof params === "undefined") { window.params = {}; }
+  if (typeof params.fps === "undefined") { params.fps = 0; }
 
-  gui = new dat.GUI();
 
-  stats = new Stats();
-  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-  document.body.appendChild(stats.domElement);
+
+  pane = new Pane();
+  gui = createGuiCompat(pane);
+  pane.addBinding(params, "fps", {
+    label: "FPS",
+    readonly: true,
+  });
+  pane.addBinding(params, "fps", {
+    label: "FPS Graph",
+    readonly: true,
+    view: "graph",
+    min: 0,
+    max: 120,
+  });
+  pane.addBlade({ view: "separator" });
+
 
   setupThree(); // *** 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  stats.update();
-  time = performance.now();
+time = performance.now();
   frame++;
+  fps.value = 1000 / (time - (fps.last || time));
+  fps.last = time;
+  params.fps = fps.value.toFixed(2);
+
 
   updateThree(); // ***
+
+  pane.refresh();
 
   renderer.render(scene, camera);
 }

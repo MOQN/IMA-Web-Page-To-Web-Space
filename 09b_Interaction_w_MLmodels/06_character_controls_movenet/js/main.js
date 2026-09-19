@@ -186,8 +186,8 @@ class Character {
       rightPart < confidenceThreshold)
       return;
 
-    let leftPos = createVector(leftPart.x, leftPart.y);
-    let rightPos = createVector(rightPart.x, rightPart.y);
+    let leftPos = new THREE.Vector3(leftPart.x, leftPart.y);
+    let rightPos = new THREE.Vector3(rightPart.x, rightPart.y);
 
     let vector = p5.Vector.sub(rightPos, leftPos);
     let angle = degrees(vector.heading());

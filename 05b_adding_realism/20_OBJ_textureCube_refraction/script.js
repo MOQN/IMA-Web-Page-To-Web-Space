@@ -112,10 +112,11 @@ function draw() {
 
 ///// three.js /////
 
-let container, stats, gui, params;
+let container, pane, params;
 let scene, camera, renderer;
 let time = 0;
 let frame = 0;
+const fps = { value: 0, last: 0 };
 
 function cameraUpdate() {
   camera.updateProjectionMatrix();
@@ -150,27 +151,37 @@ function initThree() {
   // controls
   let controls = new THREE.OrbitControls(camera, renderer.domElement);
 
-  // gui
-  // https://davidwalsh.name/dat-gui
-  gui = new dat.gui.GUI();
   params = {
+    fps: 0,
+    frame: 0,
     value1: 0,
     value2: 0,
     value3: 0
   };
-  gui
-    .add(camera, "fov")
-    .min(1)
-    .max(179)
-    .step(1)
-    .onChange(cameraUpdate);
-  // .listen()
 
+  pane = new Pane();
+  pane.addBinding(params, "fps", {
+    label: "FPS",
+    readonly: true,
+  });
+  pane.addBinding(params, "fps", {
+    label: "FPS Graph",
+    readonly: true,
+    view: "graph",
+    min: 0,
+    max: 120,
+  });
+  pane.addBinding(params, "frame", {
+    readonly: true,
+    step: 1,
+  });
+  pane.addBlade({ view: "separator" });
 
-  // stats
-  stats = new Stats();
-  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-  container.appendChild(stats.dom);
+  pane.addBinding(camera, "fov", {
+    min: 1,
+    max: 179,
+    step: 1,
+  }).on("change", cameraUpdate);
 
   setupThree();
 
@@ -179,11 +190,16 @@ function initThree() {
 }
 
 function animate() {
-  stats.update();
   time = performance.now();
   frame++;
+  fps.value = 1000 / (time - (fps.last || time));
+  fps.last = time;
+  params.fps = fps.value.toFixed(2);
+  params.frame = frame;
 
   updateThree();
+
+  pane.refresh();
 
   renderer.render(scene, camera);
 }

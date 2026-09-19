@@ -22,18 +22,21 @@
       {
         "imports": {
           "three": "https://unpkg.com/three@0.156.1/build/three.module.js",
-          "three/addons/": "https://unpkg.com/three@0.156.1/examples/jsm/"
+          "three/addons/": "https://unpkg.com/three@0.156.1/examples/jsm/",
+          "tweakpane": "https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js"
         }
       }
     </script>
   <script type="module">
     import * as THREE from "three";
     import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+    import { Pane } from 'tweakpane';
     import { BoxLineGeometry } from "three/addons/geometries/BoxLineGeometry.js";
     import { XRButton } from "three/addons/webxr/XRButton.js";
     import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFactory.js";
     window.THREE = THREE;
     window.OrbitControls = OrbitControls;
+    window.Pane = Pane;
     window.BoxLineGeometry = BoxLineGeometry;
     window.XRButton = XRButton;
     window.XRControllerModelFactory = XRControllerModelFactory;

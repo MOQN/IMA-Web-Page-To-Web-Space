@@ -22,16 +22,19 @@
     {
       "imports": {
         "three": "https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/"
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.185.0/examples/jsm/",
+        "tweakpane": "https://cdn.jsdelivr.net/npm/tweakpane@4.0.5/dist/tweakpane.min.js"
       }
     }
   </script>
   <script type="module">
     import * as THREE from 'three';
     import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { Pane } from 'tweakpane';
     import { RectAreaLightHelper } from 'three/addons/helpers/RectAreaLightHelper.js';
     window.THREE = THREE;
     window.OrbitControls = OrbitControls;
+    window.Pane = Pane;
     window.RectAreaLightHelper = RectAreaLightHelper;
   </script>
 

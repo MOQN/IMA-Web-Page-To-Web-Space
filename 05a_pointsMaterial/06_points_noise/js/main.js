@@ -72,12 +72,12 @@ function getPoints(objects) {
 
 class Particle {
   constructor() {
-    this.originPos = createVector();
-    this.pos = createVector();
+    this.originPos = new THREE.Vector3();
+    this.pos = new THREE.Vector3();
   }
   setPosition(x, y, z) {
-    this.originPos = createVector(x, y, z);
-    this.pos = createVector(x, y, z);
+    this.originPos = new THREE.Vector3(x, y, z);
+    this.pos = new THREE.Vector3(x, y, z);
     return this;
   }
   fluctuate() {

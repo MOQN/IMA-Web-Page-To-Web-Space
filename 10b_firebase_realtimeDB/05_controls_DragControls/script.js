@@ -90,10 +90,11 @@ function draw() {
 
 ///// three.js /////
 
-let container, stats, gui, params;
+let container, pane, params;
 let scene, camera, renderer;
 let time = 0;
 let frame = 0;
+const fps = { value: 0, last: 0 };
 
 function initTHREE() {
   console.log(THREE.REVISION);
@@ -134,13 +135,28 @@ function initTHREE() {
     controlsOrbit.enabled = true; // ***
   });
 
-  // gui
-  gui = new dat.gui.GUI();
+  params = {
+    fps: 0,
+    frame: 0,
+  };
 
-  // stats
-  stats = new Stats();
-  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
-  container.appendChild(stats.dom);
+  pane = new Pane();
+  pane.addBinding(params, "fps", {
+    label: "FPS",
+    readonly: true,
+  });
+  pane.addBinding(params, "fps", {
+    label: "FPS Graph",
+    readonly: true,
+    view: "graph",
+    min: 0,
+    max: 120,
+  });
+  pane.addBinding(params, "frame", {
+    readonly: true,
+    step: 1,
+  });
+  pane.addBlade({ view: "separator" });
 
   setupThree();
 
@@ -149,11 +165,16 @@ function initTHREE() {
 }
 
 function animate() {
-  stats.update();
   time = performance.now();
   frame++;
+  fps.value = 1000 / (time - (fps.last || time));
+  fps.last = time;
+  params.fps = fps.value.toFixed(2);
+  params.frame = frame;
 
   updateThree();
+
+  pane.refresh();
 
   renderer.render(scene, camera);
 }

@@ -88,36 +88,36 @@ function getPoints(objects) {
 
 class Particle {
   constructor() {
-    this.pos = createVector();
-    this.vel = createVector();
-    this.acc = createVector();
+    this.pos = new THREE.Vector3();
+    this.vel = new THREE.Vector3();
+    this.acc = new THREE.Vector3();
 
-    this.scl = createVector(1, 1, 1);
+    this.scl = new THREE.Vector3(1, 1, 1);
     this.mass = 1;
     //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
 
-    this.rot = createVector();
-    this.rotVel = createVector();
-    this.rotAcc = createVector();
+    this.rot = new THREE.Vector3();
+    this.rotVel = new THREE.Vector3();
+    this.rotAcc = new THREE.Vector3();
 
     this.lifespan = 1.0;
     this.lifeReduction = random(0.001, 0.005);
     this.isDone = false;
   }
   setPosition(x, y, z) {
-    this.pos = createVector(x, y, z);
+    this.pos = new THREE.Vector3(x, y, z);
     return this;
   }
   setVelocity(x, y, z) {
-    this.vel = createVector(x, y, z);
+    this.vel = new THREE.Vector3(x, y, z);
     return this;
   }
   setRotationAngle(x, y, z) {
-    this.rot = createVector(x, y, z);
+    this.rot = new THREE.Vector3(x, y, z);
     return this;
   }
   setRotationVelocity(x, y, z) {
-    this.rotVel = createVector(x, y, z);
+    this.rotVel = new THREE.Vector3(x, y, z);
     return this;
   }
   setScale(w, h = w, d = w) {
@@ -125,7 +125,7 @@ class Particle {
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
-    this.scl = createVector(w, h, d);
+    this.scl = new THREE.Vector3(w, h, d);
     return this;
   }
   setMass(mass) {
@@ -139,20 +139,20 @@ class Particle {
   move() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
-    this.acc.mult(0);
+    this.acc.set(0, 0, 0);
   }
   adjustVelocity(amount) {
-    this.vel.mult(1 + amount);
+    this.vel.multiplyScalar(1 + amount);
   }
   rotate() {
     this.rotVel.add(this.rotAcc);
     this.rot.add(this.rotVel);
-    this.rotAcc.mult(0);
+    this.rotAcc.set(0, 0, 0);
   }
   applyForce(f) {
-    let force = f.copy();
+    let force = f.clone();
     if (this.mass > 0) {
-      force.div(this.mass);
+      force.divideScalar(this.mass);
     }
     this.acc.add(force);
   }
@@ -174,12 +174,12 @@ class Particle {
     }
   }
   attractedTo(x, y, z) {
-    let target = new p5.Vector(x, y, z);
-    let force = p5.Vector.sub(target, this.pos);
-    if (force.mag() < 100) {
-      force.mult(-0.002 * random(1, 5));
+    let target = new THREE.Vector3(x, y, z);
+    let force = target.clone().sub(this.pos);
+    if (force.length() < 100) {
+      force.multiplyScalar(-0.002 * random(1, 5));
     } else {
-      force.mult(0.0001);
+      force.multiplyScalar(0.0001);
     }
     this.applyForce(force);
   }
