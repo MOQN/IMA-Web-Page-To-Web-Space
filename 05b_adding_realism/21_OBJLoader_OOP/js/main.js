@@ -1,4 +1,5 @@
 params = {
+  fps: 0,
   near: 1,
   far: 1600,
   density: 0.001,

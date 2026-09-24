@@ -1,4 +1,5 @@
 let params = {
+  fps: 0,
   percent: 0,
 };
 
@@ -67,7 +68,7 @@ function loadOBJ(filepath) {
 
     // onError callback
     function (err) {
-      console.error('An error happened');
+      console.error("Failed to load OBJ:", err);
     }
   );
 }
@@ -78,7 +79,7 @@ function getPoints(posArray) {
   for (let i = 0; i < posArray.length; i += 3) {
     let vector = new THREE.Vector3(random(-1, 1), random(-1, 1), random(-1, 1));
     vector.normalize();
-    vector.mult(300);
+    vector.multiplyScalar(300);
     originPos.push(vector.x, vector.y, vector.z); // this will be the starting position
   }
 
@@ -116,9 +117,9 @@ class Particle {
   constructor(x1, y1, z1, x2, y2, z2) {
     this.originPos = new THREE.Vector3(x1, y1, z1);
     this.targetPos = new THREE.Vector3(x2, y2, z2);
-    this.pos = this.originPos.copy();
+    this.pos = this.originPos.clone();
   }
   updateLerp(pct) {
-    this.pos = p5.Vector.lerp(this.originPos, this.targetPos, pct);
+    this.pos.lerpVectors(this.originPos, this.targetPos, pct);
   }
 }

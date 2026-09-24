@@ -1,13 +1,16 @@
+let params = {
+  fps: 0,
+};
+
 let sphere;
 let textureCube;
 
 function setupThree() {
-  gui
-    .add(camera, "fov")
-    .min(1)
-    .max(179)
-    .step(1)
-    .onChange(updateCamera);
+  pane.addBinding(camera, "fov", {
+    min: 1,
+    max: 179,
+    step: 1,
+  }).on("change", updateCamera);
 
   const loader = new THREE.CubeTextureLoader();
   loader.setPath('assets/DeepSpace/');

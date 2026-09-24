@@ -1,5 +1,5 @@
 const params = {
-  // (add)
+  fps: 0,
 };
 
 const WORLD_HALF = 1000;

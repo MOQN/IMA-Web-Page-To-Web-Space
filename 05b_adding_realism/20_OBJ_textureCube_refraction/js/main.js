@@ -1,5 +1,6 @@
 let params = {
-  color: "#FFF"
+  fps: 0,
+  color: "#FFF",
 };
 
 let bear;
@@ -8,12 +9,11 @@ let sphere;
 let textureCube;
 
 function setupThree() {
-  gui
-    .add(camera, "fov")
-    .min(1)
-    .max(179)
-    .step(1)
-    .onChange(updateCamera);
+  pane.addBinding(camera, "fov", {
+    min: 1,
+    max: 179,
+    step: 1,
+  }).on("change", updateCamera);
   // .listen()
 
   // SPHERE

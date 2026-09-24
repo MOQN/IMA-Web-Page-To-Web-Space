@@ -1,5 +1,6 @@
 let params = {
-  drawCount: 0
+  fps: 0,
+  drawCount: 0,
 };
 
 const WORLD_SIZE = 1000;

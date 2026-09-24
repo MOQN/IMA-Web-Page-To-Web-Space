@@ -6,12 +6,11 @@ let sphere;
 let texture;
 
 function setupThree() {
-  gui
-    .add(camera, "fov")
-    .min(1)
-    .max(179)
-    .step(1)
-    .onChange(updateCamera);
+  pane.addBinding(camera, "fov", {
+    min: 1,
+    max: 179,
+    step: 1,
+  }).on("change", updateCamera);
 
   // texture = new THREE.TextureLoader().load('assets/earth.jpg');
   // texture = new THREE.TextureLoader().load('assets/moon.jpg');

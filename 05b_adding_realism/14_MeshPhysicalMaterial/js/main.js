@@ -8,7 +8,7 @@
 // https://polyhaven.com/hdris
 
 const params = {
-  // (add)
+  fps: 0,
 };
 
 let obj;

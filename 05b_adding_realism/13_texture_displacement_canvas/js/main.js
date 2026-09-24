@@ -19,21 +19,21 @@ function setupThree() {
   scene.add(light);
   light.position.set(100, 400, 800);
 
-  gui
-    .add(light.position, "x")
-    .min(-2000)
-    .max(2000)
-    .step(1);
-  gui
-    .add(light.position, "y")
-    .min(-2000)
-    .max(2000)
-    .step(1);
-  gui
-    .add(light.position, "z")
-    .min(-2000)
-    .max(2000)
-    .step(1);
+  pane.addBinding(light.position, "x", {
+    min: -2000,
+    max: 2000,
+    step: 1,
+  });
+  pane.addBinding(light.position, "y", {
+    min: -2000,
+    max: 2000,
+    step: 1,
+  });
+  pane.addBinding(light.position, "z", {
+    min: -2000,
+    max: 2000,
+    step: 1,
+  });
 }
 
 function updateThree() {
