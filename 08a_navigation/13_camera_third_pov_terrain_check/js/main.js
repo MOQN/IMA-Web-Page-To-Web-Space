@@ -31,18 +31,15 @@ function setupThree() {
   // raycaster
   rayToBottom = new Ray();
 
-  // gui
-  let folderOffset = gui.addFolder("OFFSET");
-  folderOffset.open();
-  folderOffset.add(thirdPovCam.idealOffset, "x", -1000, 1000).step(1);
-  folderOffset.add(thirdPovCam.idealOffset, "y", -1000, 1000).step(1);
-  folderOffset.add(thirdPovCam.idealOffset, "z", -1000, 1000).step(1);
+  const folderOffset = pane.addFolder({ title: "OFFSET", expanded: true });
+  folderOffset.addBinding(thirdPovCam.idealOffset, "x", { min: -1000, max: 1000, step: 1 });
+  folderOffset.addBinding(thirdPovCam.idealOffset, "y", { min: -1000, max: 1000, step: 1 });
+  folderOffset.addBinding(thirdPovCam.idealOffset, "z", { min: -1000, max: 1000, step: 1 });
 
-  let folderLookAt = gui.addFolder("LOOK AT");
-  folderLookAt.open();
-  folderLookAt.add(thirdPovCam.idealLookAt, "x", -1000, 1000).step(1);
-  folderLookAt.add(thirdPovCam.idealLookAt, "y", -1000, 1000).step(1);
-  folderLookAt.add(thirdPovCam.idealLookAt, "z", -1000, 1000).step(1);
+  const folderLookAt = pane.addFolder({ title: "LOOK AT", expanded: true });
+  folderLookAt.addBinding(thirdPovCam.idealLookAt, "x", { min: -1000, max: 1000, step: 1 });
+  folderLookAt.addBinding(thirdPovCam.idealLookAt, "y", { min: -1000, max: 1000, step: 1 });
+  folderLookAt.addBinding(thirdPovCam.idealLookAt, "z", { min: -1000, max: 1000, step: 1 });
 }
 
 function updateThree() {

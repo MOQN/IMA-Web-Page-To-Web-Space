@@ -25,10 +25,9 @@ function setupThree() {
   bar.scale.z = 30;
   bar.geometry.translate(0.5, 0, 0);
 
-  // setup gui
-  gui.add(cube.position, "x").min(-500).max(500);
-  gui.add(cube.position, "y").min(-500).max(500);
-  gui.add(cube.position, "z").min(-500).max(500);
+  pane.addBinding(cube.position, "x", { min: -500, max: 500 });
+  pane.addBinding(cube.position, "y", { min: -500, max: 500 });
+  pane.addBinding(cube.position, "z", { min: -500, max: 500 });
 }
 
 function updateThree() {

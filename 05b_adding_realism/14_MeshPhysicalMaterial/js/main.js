@@ -32,10 +32,10 @@ function setupThree() {
   bgPlane.position.set(0, 0, -300);
   bgPlane.scale.set(300, 300);
 
-  gui.add(obj.material, "metalness", 0, 1);
-  gui.add(obj.material, "roughness", 0, 1);
-  gui.add(obj.material, "transmission", 0, 1);
-  gui.add(obj.material, "thickness", 0, 1);
+  pane.addBinding(obj.material, "metalness", { min: 0, max: 1 });
+  pane.addBinding(obj.material, "roughness", { min: 0, max: 1 });
+  pane.addBinding(obj.material, "transmission", { min: 0, max: 1 });
+  pane.addBinding(obj.material, "thickness", { min: 0, max: 1 });
 }
 
 function updateThree() {

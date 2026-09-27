@@ -61,7 +61,6 @@ function updateThree() {
   pointCloud.geometry.setDrawRange(0, particles.length); // ***
   pointCloud.geometry.attributes.position.needsUpdate = true;
 
-  // update GUI
   params.drawCount = particles.length;
 }
 

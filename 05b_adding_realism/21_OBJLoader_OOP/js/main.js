@@ -16,31 +16,17 @@ function setupThree() {
   light.position.set(100, 400, 800);
   scene.add(light);
 
-  let folderFog = gui.addFolder("FOG");
-  folderFog.open();
-  folderFog.add(params, "near", 1, 3000).step(1);
-  folderFog.add(params, "far", 1, 3000).step(1);
-  folderFog.add(params, "exp2");
-  folderFog.add(params, "density", 0.00, 0.10).step(0.001);
-  folderFog.addColor(params, "color");
+  const folderFog = pane.addFolder({ title: "FOG", expanded: true });
+  folderFog.addBinding(params, "near", { min: 1, max: 3000, step: 1 });
+  folderFog.addBinding(params, "far", { min: 1, max: 3000, step: 1 });
+  folderFog.addBinding(params, "exp2");
+  folderFog.addBinding(params, "density", { min: 0.00, max: 0.10, step: 0.001 });
+  folderFog.addBinding(params, "color", { view: "color" });
 
-  let folderLight = gui.addFolder("LIGHT");
-  folderLight.open();
-  folderLight
-    .add(light.position, "x")
-    .min(-2000)
-    .max(2000)
-    .step(1);
-  folderLight
-    .add(light.position, "y")
-    .min(-2000)
-    .max(2000)
-    .step(1);
-  folderLight
-    .add(light.position, "z")
-    .min(-2000)
-    .max(2000)
-    .step(1);
+  const folderLight = pane.addFolder({ title: "LIGHT", expanded: true });
+  folderLight.addBinding(light.position, "x", { min: -2000, max: 2000, step: 1 });
+  folderLight.addBinding(light.position, "y", { min: -2000, max: 2000, step: 1 });
+  folderLight.addBinding(light.position, "z", { min: -2000, max: 2000, step: 1 });
 }
 
 function updateThree() {

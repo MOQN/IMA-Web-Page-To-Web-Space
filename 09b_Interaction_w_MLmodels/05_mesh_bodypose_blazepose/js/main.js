@@ -60,8 +60,7 @@ function setupThree() {
   lines.push(new Bar(pose.right_wrist, pose.right_pinky));
 
 
-  // GUI
-  gui.add(params, "poseScale", 0, 500);
+  pane.addBinding(params, "poseScale", { min: 0, max: 500 });
 }
 
 function updateThree() {

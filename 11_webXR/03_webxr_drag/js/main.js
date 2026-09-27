@@ -78,9 +78,8 @@ function setupThree() {
 
   }
 
-  // gui
-  gui.add(params, "cubes", 0, 5000).step(1).listen();
-  gui.add(params, "scene_children", 0, 5000).step(1).listen();
+  pane.addBinding(params, "cubes", { min: 0, max: 5000, step: 1 });
+  pane.addBinding(params, "scene_children", { min: 0, max: 5000, step: 1 });
 }
 
 function updateThree() {
@@ -121,7 +120,6 @@ function updateThree() {
     }
   }
 
-  // update the GUI
   params.cubes = cubes.length;
   params.scene_children = scene.children.length;
   */

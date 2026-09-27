@@ -34,8 +34,7 @@ function setupThree() {
     box.material.opacity = random(0.4, 0.7);
   }
 
-  // gui
-  gui.add(camera.position, "z", 10, 500).step(1);
+  pane.addBinding(camera.position, "z", { min: 10, max: 500, step: 1 });
 }
 
 function updateThree() {

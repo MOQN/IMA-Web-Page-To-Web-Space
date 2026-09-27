@@ -40,7 +40,7 @@ function createUserForClient(clientId) {
   console.log("User added - ID: " + clientId);
 
   if (clientId === socket.id) {
-    // If this is the current client, randomize the properties and set up the GUI
+    // If this is the current client, randomize the properties and set up the controls.
     user.setPosition(
       random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
       random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
@@ -49,7 +49,7 @@ function createUserForClient(clientId) {
     user.setScale(random(50, 100), random(50, 100), random(50, 100));
     user.setColor(random(0, 1), random(0, 1), random(0, 1));
 
-    setupUserGUI(user);
+    setupUserPane(user);
   }
 }
 
@@ -75,58 +75,19 @@ function sendUserUpdate() {
   socket.emit("update_user", data);
 }
 
-function setupUserGUI(user) {
-  const positionFolder = gui.addFolder("Position");
-  positionFolder.open();
-  positionFolder.add(user.mesh.position, "x")
-    .min(-WORLD_HALF_SIZE)
-    .max(WORLD_HALF_SIZE)
-    .step(0.1)
-    .onChange(sendUserUpdate); // *** 
-  positionFolder.add(user.mesh.position, "y")
-    .min(-WORLD_HALF_SIZE)
-    .max(WORLD_HALF_SIZE)
-    .step(0.1)
-    .onChange(sendUserUpdate); // ***
-  positionFolder.add(user.mesh.position, "z")
-    .min(-WORLD_HALF_SIZE)
-    .max(WORLD_HALF_SIZE)
-    .step(0.1)
-    .onChange(sendUserUpdate); // ***
+function setupUserPane(user) {
+  const positionFolder = pane.addFolder({ title: "Position", expanded: true });
+  positionFolder.addBinding(user.mesh.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
+  positionFolder.addBinding(user.mesh.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
+  positionFolder.addBinding(user.mesh.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
 
-  const rotationFolder = gui.addFolder("Rotation");
-  rotationFolder.open();
-  rotationFolder.add(user.mesh.rotation, "x")
-    .min(-Math.PI)
-    .max(Math.PI)
-    .step(0.01)
-    .onChange(sendUserUpdate); // ***
-  rotationFolder.add(user.mesh.rotation, "y")
-    .min(-Math.PI)
-    .max(Math.PI)
-    .step(0.01)
-    .onChange(sendUserUpdate); // ***
-  rotationFolder.add(user.mesh.rotation, "z")
-    .min(-Math.PI)
-    .max(Math.PI)
-    .step(0.01)
-    .onChange(sendUserUpdate); // ***
+  const rotationFolder = pane.addFolder({ title: "Rotation", expanded: true });
+  rotationFolder.addBinding(user.mesh.rotation, "x", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendUserUpdate);
+  rotationFolder.addBinding(user.mesh.rotation, "y", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendUserUpdate);
+  rotationFolder.addBinding(user.mesh.rotation, "z", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendUserUpdate);
 
-  const scaleFolder = gui.addFolder("Scale");
-  scaleFolder.open();
-  scaleFolder.add(user.mesh.scale, "x")
-    .min(1)
-    .max(200)
-    .step(0.1)
-    .onChange(sendUserUpdate); // ***
-  scaleFolder.add(user.mesh.scale, "y")
-    .min(1)
-    .max(200)
-    .step(0.1)
-    .onChange(sendUserUpdate); // ***
-  scaleFolder.add(user.mesh.scale, "z")
-    .min(1)
-    .max(200)
-    .step(0.1)
-    .onChange(sendUserUpdate); // ***
+  const scaleFolder = pane.addFolder({ title: "Scale", expanded: true });
+  scaleFolder.addBinding(user.mesh.scale, "x", { min: 1, max: 200, step: 0.1 }).on("change", sendUserUpdate);
+  scaleFolder.addBinding(user.mesh.scale, "y", { min: 1, max: 200, step: 0.1 }).on("change", sendUserUpdate);
+  scaleFolder.addBinding(user.mesh.scale, "z", { min: 1, max: 200, step: 0.1 }).on("change", sendUserUpdate);
 }

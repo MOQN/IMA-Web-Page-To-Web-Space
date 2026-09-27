@@ -20,10 +20,9 @@ function setupThree() {
   // Character
   user = new Character();
 
-  // gui
-  gui.add(camera.position, "z", 10, 1000).step(1);
-  gui.add(params, "angle", -PI, PI).step(0.01).listen();
-  gui.add(params, "distance", 0, 1000).step(1).listen();
+  pane.addBinding(camera.position, "z", { min: 10, max: 1000, step: 1 });
+  pane.addBinding(params, "angle", { min: -PI, max: PI, step: 0.01 });
+  pane.addBinding(params, "distance", { min: 0, max: 1000, step: 1 });
 }
 
 function updateThree() {

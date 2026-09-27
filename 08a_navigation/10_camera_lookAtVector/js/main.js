@@ -50,8 +50,7 @@ function setupThree() {
   cube.material.color.g = 0.0;
   cube.material.color.b = 1.0;
 
-  // gui
-  gui.add(camera.position, "z", 10, 500).step(1);
+  pane.addBinding(camera.position, "z", { min: 10, max: 500, step: 1 });
 }
 
 function updateThree() {

@@ -1,5 +1,5 @@
 // Please note that this is similar to what we have explored in the early semester.
-// But revised using THREE.Vector3 and JS Object to be more suitable for communication with the server and GUI.
+// But revised using THREE.Vector3 and JS Object to be more suitable for communication with the server and controls.
 
 class User {
   constructor(clientId) {

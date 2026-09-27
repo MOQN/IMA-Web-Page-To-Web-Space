@@ -23,8 +23,11 @@ function setupThree() {
   pointCloud = getPoints(particles);
   scene.add(pointCloud);
 
-  // GUI
-  gui.add(params, "drawCount", 0, MAX_PARTICLE_NUMBER).step(1).listen();
+  pane.addBinding(params, "drawCount", {
+    min: 0,
+    max: MAX_PARTICLE_NUMBER,
+    step: 1,
+  });
 }
 
 function updateThree() {
@@ -56,7 +59,6 @@ function updateThree() {
   pointCloud.geometry.setDrawRange(0, particles.length); // ***
   pointCloud.geometry.attributes.position.needsUpdate = true;
 
-  // update GUI
   params.drawCount = particles.length;
 }
 

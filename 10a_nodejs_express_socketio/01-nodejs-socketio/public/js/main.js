@@ -50,27 +50,24 @@ function createCubeForClient(clientId) {
   userData[clientId] = cube;
   console.log("Cube added - ID: " + clientId);
 
-  // add GUI controls only for the local client cube. If it's myself!
+  // Add controls only for the local client cube.
   if (clientId === socket.id) {
     cube.position.set(random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE), random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE), random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE));
     cube.scale.set(random(50, 100), random(50, 100), random(50, 100));
     cube.material.color.setRGB(random(0, 1), random(0, 1), random(0, 1));
 
-    const positionFolder = gui.addFolder("Position");
-    positionFolder.open();
-    positionFolder.add(cube.position, "x").min(-WORLD_HALF_SIZE).max(WORLD_HALF_SIZE).step(0.1).onChange(sendCubeUpdate);
-    positionFolder.add(cube.position, "y").min(-WORLD_HALF_SIZE).max(WORLD_HALF_SIZE).step(0.1).onChange(sendCubeUpdate);
-    positionFolder.add(cube.position, "z").min(-WORLD_HALF_SIZE).max(WORLD_HALF_SIZE).step(0.1).onChange(sendCubeUpdate);
-    const rotationFolder = gui.addFolder("Rotation");
-    rotationFolder.open();
-    rotationFolder.add(cube.rotation, "x").min(-Math.PI).max(Math.PI).step(0.01).onChange(sendCubeUpdate);
-    rotationFolder.add(cube.rotation, "y").min(-Math.PI).max(Math.PI).step(0.01).onChange(sendCubeUpdate);
-    rotationFolder.add(cube.rotation, "z").min(-Math.PI).max(Math.PI).step(0.01).onChange(sendCubeUpdate);
-    const scaleFolder = gui.addFolder("Scale");
-    scaleFolder.open();
-    scaleFolder.add(cube.scale, "x").min(1).max(200).step(0.1).onChange(sendCubeUpdate);
-    scaleFolder.add(cube.scale, "y").min(1).max(200).step(0.1).onChange(sendCubeUpdate);
-    scaleFolder.add(cube.scale, "z").min(1).max(200).step(0.1).onChange(sendCubeUpdate);
+    const positionFolder = pane.addFolder({ title: "Position", expanded: true });
+    positionFolder.addBinding(cube.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
+    positionFolder.addBinding(cube.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
+    positionFolder.addBinding(cube.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
+    const rotationFolder = pane.addFolder({ title: "Rotation", expanded: true });
+    rotationFolder.addBinding(cube.rotation, "x", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendCubeUpdate);
+    rotationFolder.addBinding(cube.rotation, "y", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendCubeUpdate);
+    rotationFolder.addBinding(cube.rotation, "z", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendCubeUpdate);
+    const scaleFolder = pane.addFolder({ title: "Scale", expanded: true });
+    scaleFolder.addBinding(cube.scale, "x", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
+    scaleFolder.addBinding(cube.scale, "y", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
+    scaleFolder.addBinding(cube.scale, "z", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
   }
 }
 

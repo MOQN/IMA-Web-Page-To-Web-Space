@@ -45,8 +45,7 @@ function setupThree() {
   scene.add(cube);
   cube.scale.set(30, 30, 30);
 
-  // GUI
-  gui.add(params, "poseScale", 0, 500);
+  pane.addBinding(params, "poseScale", { min: 0, max: 500 });
 }
 
 function updateThree() {

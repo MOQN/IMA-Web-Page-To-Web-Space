@@ -37,34 +37,31 @@ function setupThree() {
   light.lookAt(0, 0, 0);
   scene.add(light);
 
-  // gui
-  let folderFog = gui.addFolder("Fog");
-  folderFog.add(params, "near", 1, 5000).step(1);
-  folderFog.add(params, "far", 1, 5000).step(1);
+  let folderFog = pane.addFolder({ title: "Fog", expanded: true });
+  folderFog.addBinding(params, "near", { min: 1, max: 5000, step: 1 });
+  folderFog.addBinding(params, "far", { min: 1, max: 5000, step: 1 });
 
-  let folderAmbiLight = gui.addFolder("AmbientLight");
-  folderAmbiLight.add(ambiLight.color, "r", 0.0, 1.0);
-  folderAmbiLight.add(ambiLight.color, "g", 0.0, 1.0);
-  folderAmbiLight.add(ambiLight.color, "b", 0.0, 1.0);
+  let folderAmbiLight = pane.addFolder({ title: "AmbientLight", expanded: true });
+  folderAmbiLight.addBinding(ambiLight.color, "r", { min: 0.0, max: 1.0 });
+  folderAmbiLight.addBinding(ambiLight.color, "g", { min: 0.0, max: 1.0 });
+  folderAmbiLight.addBinding(ambiLight.color, "b", { min: 0.0, max: 1.0 });
 
-  let folderRectLight = gui.addFolder("RectAreaLight");
-  folderRectLight.open();
-  folderRectLight.add(light.position, "x", -WORLD_HALF_SIZE, WORLD_HALF_SIZE).step(0.1);
-  folderRectLight.add(light.position, "y", -WORLD_HALF_SIZE, WORLD_HALF_SIZE).step(0.1);
-  folderRectLight.add(light.position, "z", -WORLD_HALF_SIZE, WORLD_HALF_SIZE).step(0.1);
-  folderRectLight.add(light, "intensity", 0.1, 50).step(0.1);
-  folderRectLight.add(light, "width", 10, 2000).step(1);
-  folderRectLight.add(light, "height", 10, 2000).step(1);
-  folderRectLight.add(light.color, "r", 0, 1).step(0.01);
-  folderRectLight.add(light.color, "g", 0, 1).step(0.01);
-  folderRectLight.add(light.color, "b", 0, 1).step(0.01);
+  let folderRectLight = pane.addFolder({ title: "RectAreaLight", expanded: true });
+  folderRectLight.addBinding(light.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderRectLight.addBinding(light.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderRectLight.addBinding(light.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderRectLight.addBinding(light, "intensity", { min: 0.1, max: 50, step: 0.1 });
+  folderRectLight.addBinding(light, "width", { min: 10, max: 2000, step: 1 });
+  folderRectLight.addBinding(light, "height", { min: 10, max: 2000, step: 1 });
+  folderRectLight.addBinding(light.color, "r", { min: 0, max: 1, step: 0.01 });
+  folderRectLight.addBinding(light.color, "g", { min: 0, max: 1, step: 0.01 });
+  folderRectLight.addBinding(light.color, "b", { min: 0, max: 1, step: 0.01 });
 
   params.lookAt = new THREE.Vector3(0, -100, 0);
-  let folderLightDirection = gui.addFolder("RectAreaLight Direction");
-  folderLightDirection.open();
-  folderLightDirection.add(params.lookAt, "x", -WORLD_HALF_SIZE / 2, WORLD_HALF_SIZE / 2).step(0.1);
-  folderLightDirection.add(params.lookAt, "y", -WORLD_HALF_SIZE / 2, WORLD_HALF_SIZE / 2).step(0.1);
-  folderLightDirection.add(params.lookAt, "z", -WORLD_HALF_SIZE / 2, WORLD_HALF_SIZE / 2).step(0.1);
+  let folderLightDirection = pane.addFolder({ title: "RectAreaLight Direction", expanded: true });
+  folderLightDirection.addBinding(params.lookAt, "x", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
+  folderLightDirection.addBinding(params.lookAt, "y", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
+  folderLightDirection.addBinding(params.lookAt, "z", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
 }
 
 

@@ -47,8 +47,6 @@ function updateThree() {
       i--;
     }
   }
-
-  // update the GUI
   params.cubes = cubes.length;
   params.scene_children = scene.children.length;
 }

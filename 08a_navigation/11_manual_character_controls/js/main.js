@@ -19,8 +19,7 @@ function setupThree() {
   // Character
   user = new Character();
 
-  // gui
-  gui.add(camera.position, "z", 10, 1000).step(1);
+  pane.addBinding(camera.position, "z", { min: 10, max: 1000, step: 1 });
 }
 
 function updateThree() {

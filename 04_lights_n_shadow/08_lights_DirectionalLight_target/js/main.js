@@ -63,25 +63,23 @@ function setupThree() {
   directLightHelper = new THREE.DirectionalLightHelper(directLight, 500);
   scene.add(directLightHelper);
 
-  // gui
-  let folderFog = gui.addFolder("Fog");
-  folderFog.add(params, "near", 1, 5000).step(1);
-  folderFog.add(params, "far", 1, 5000).step(1);
+  let folderFog = pane.addFolder({ title: "Fog", expanded: true });
+  folderFog.addBinding(params, "near", { min: 1, max: 5000, step: 1 });
+  folderFog.addBinding(params, "far", { min: 1, max: 5000, step: 1 });
 
-  let folderAmbiLight = gui.addFolder("AmbientLight");
-  folderAmbiLight.add(ambiLight.color, "r", 0.0, 1.0);
-  folderAmbiLight.add(ambiLight.color, "g", 0.0, 1.0);
-  folderAmbiLight.add(ambiLight.color, "b", 0.0, 1.0);
+  let folderAmbiLight = pane.addFolder({ title: "AmbientLight", expanded: true });
+  folderAmbiLight.addBinding(ambiLight.color, "r", { min: 0.0, max: 1.0 });
+  folderAmbiLight.addBinding(ambiLight.color, "g", { min: 0.0, max: 1.0 });
+  folderAmbiLight.addBinding(ambiLight.color, "b", { min: 0.0, max: 1.0 });
 
-  let folderDirectLight = gui.addFolder("DirectionalLight");
-  folderDirectLight.open();
-  folderDirectLight.add(directLight, "intensity", 0.1, 10).step(0.01);
-  folderDirectLight.add(directLight.position, "x", -WORLD_HALF_SIZE, WORLD_HALF_SIZE).step(0.1);
-  folderDirectLight.add(directLight.position, "y", 0, WORLD_HALF_SIZE).step(0.1);
-  folderDirectLight.add(directLight.position, "z", -WORLD_HALF_SIZE, WORLD_HALF_SIZE).step(0.1);
-  folderDirectLight.add(directLight.color, "r", 0.0, 1).step(0.05);
-  folderDirectLight.add(directLight.color, "g", 0.0, 1).step(0.05);
-  folderDirectLight.add(directLight.color, "b", 0.0, 1).step(0.05);
+  let folderDirectLight = pane.addFolder({ title: "DirectionalLight", expanded: true });
+  folderDirectLight.addBinding(directLight, "intensity", { min: 0.1, max: 10, step: 0.01 });
+  folderDirectLight.addBinding(directLight.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderDirectLight.addBinding(directLight.position, "y", { min: 0, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderDirectLight.addBinding(directLight.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderDirectLight.addBinding(directLight.color, "r", { min: 0.0, max: 1, step: 0.05 });
+  folderDirectLight.addBinding(directLight.color, "g", { min: 0.0, max: 1, step: 0.05 });
+  folderDirectLight.addBinding(directLight.color, "b", { min: 0.0, max: 1, step: 0.05 });
 }
 
 
@@ -91,8 +89,6 @@ function updateThree() {
 
   // update the objects
   for (let c of cubes) {
-    c.move();
-    c.rotate();
     c.update();
   }
 
@@ -131,20 +127,21 @@ function getBox() {
 
 class Cube {
   constructor() {
-    this.pos = new THREE.Vector3();
-    this.vel = new THREE.Vector3();
-    this.acc = new THREE.Vector3();
-    this.scl = new THREE.Vector3(1, 1, 1);
-    this.mass = 1;
-    //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
-    this.rot = new THREE.Vector3();
-    this.rotVel = new THREE.Vector3();
-    this.rotAcc = new THREE.Vector3();
     this.mesh = getBox();
     scene.add(this.mesh); // don't forget to add the mesh to the scene
+
+    this.pos = this.mesh.position;
+    this.vel = new THREE.Vector3();
+    this.acc = new THREE.Vector3();
+    this.rot = this.mesh.rotation;
+    this.rotVel = new THREE.Vector3();
+    this.rotAcc = new THREE.Vector3();
+    this.scale = this.mesh.scale;
+    this.baseScale = new THREE.Vector3(1, 1, 1);
+    this.mass = 1;
   }
   setPosition(x, y, z) {
-    this.pos = new THREE.Vector3(x, y, z);
+    this.pos.set(x, y, z);
     return this;
   }
   setTranslation(x, y, z) {
@@ -152,53 +149,55 @@ class Cube {
     return this;
   }
   setVelocity(x, y, z) {
-    this.vel = new THREE.Vector3(x, y, z);
+    this.vel.set(x, y, z);
     return this;
   }
   setRotationAngle(x, y, z) {
-    this.rot = new THREE.Vector3(x, y, z);
+    this.rot.set(x, y, z);
     return this;
   }
   setRotationVelocity(x, y, z) {
-    this.rotVel = new THREE.Vector3(x, y, z);
+    this.rotVel.set(x, y, z);
     return this;
   }
   setScale(w, h = w, d = w) {
     const minScale = 0.01;
-    if (w < minScale) w = minScale;
-    if (h < minScale) h = minScale;
-    if (d < minScale) d = minScale;
-    this.scl = new THREE.Vector3(w, h, d);
+    w = Math.max(w, minScale);
+    h = Math.max(h, minScale);
+    d = Math.max(d, minScale);
+    this.baseScale.set(w, h, d);
+    this.scale.set(w, h, d);
     return this;
   }
   setMass(mass) {
-    if (mass) {
+    if (mass !== undefined) {
       this.mass = mass;
-    } else {
-      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+    }
+    else {
+      this.mass = 1 + this.baseScale.x * this.baseScale.y * this.baseScale.z * 0.000001;
     }
     return this;
   }
-  move() {
+  applyForce(f) {
+    if (this.mass <= 0) return;
+    const force = f.clone();
+    force.divideScalar(this.mass);
+    this.acc.add(force);
+  }
+  update() {
+    this.updatePosition();
+    this.updateRotation();
+  }
+  updatePosition() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.set(0, 0, 0);
   }
-  rotate() {
+  updateRotation() {
     this.rotVel.add(this.rotAcc);
-    this.rot.add(this.rotVel);
+    this.rot.x += this.rotVel.x;
+    this.rot.y += this.rotVel.y;
+    this.rot.z += this.rotVel.z;
     this.rotAcc.set(0, 0, 0);
-  }
-  applyForce(f) {
-    let force = f.clone();
-    if (this.mass > 0) {
-      force.divideScalar(this.mass);
-    }
-    this.acc.add(force);
-  }
-  update() {
-    this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
-    this.mesh.rotation.set(this.rot.x, this.rot.y, this.rot.z);
-    this.mesh.scale.set(this.scl.x, this.scl.y, this.scl.z);
   }
 }

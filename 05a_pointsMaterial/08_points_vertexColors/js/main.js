@@ -68,7 +68,6 @@ function updateThree() {
   pointCloud.geometry.attributes.position.needsUpdate = true;
   pointCloud.geometry.attributes.color.needsUpdate = true;
 
-  // update GUI
   params.drawCount = particles.length;
 }
 

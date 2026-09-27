@@ -10,7 +10,7 @@ let particles = [];
 function setupThree() {
   loadOBJ("assets/gummy.obj");
 
-  gui.add(params, "percent", 0, 3).step(0.005);
+  pane.addBinding(params, "percent", { min: 0, max: 3, step: 0.005 });
 }
 
 function updateThree() {
