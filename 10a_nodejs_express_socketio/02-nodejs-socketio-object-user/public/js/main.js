@@ -1,5 +1,5 @@
-const WORLD_SIZE = 1000;
-const WORLD_HALF_SIZE = 500;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 
 let userData = {};
 
@@ -42,9 +42,9 @@ function createUserForClient(clientId) {
   if (clientId === socket.id) {
     // If this is the current client, randomize the properties and set up the controls.
     user.setPosition(
-      random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
-      random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
-      random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE)
+      random(-WORLD_HALF, WORLD_HALF),
+      random(-WORLD_HALF, WORLD_HALF),
+      random(-WORLD_HALF, WORLD_HALF)
     );
     user.setScale(random(50, 100), random(50, 100), random(50, 100));
     user.setColor(random(0, 1), random(0, 1), random(0, 1));
@@ -77,9 +77,9 @@ function sendUserUpdate() {
 
 function setupUserPane(user) {
   const positionFolder = pane.addFolder({ title: "Position", expanded: true });
-  positionFolder.addBinding(user.mesh.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
-  positionFolder.addBinding(user.mesh.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
-  positionFolder.addBinding(user.mesh.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendUserUpdate);
+  positionFolder.addBinding(user.mesh.position, "x", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendUserUpdate);
+  positionFolder.addBinding(user.mesh.position, "y", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendUserUpdate);
+  positionFolder.addBinding(user.mesh.position, "z", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendUserUpdate);
 
   const rotationFolder = pane.addFolder({ title: "Rotation", expanded: true });
   rotationFolder.addBinding(user.mesh.rotation, "x", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendUserUpdate);

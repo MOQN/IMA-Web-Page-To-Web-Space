@@ -1,4 +1,5 @@
-const WORLD_HALF = 200;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 
 let plane;
 let objects = [];
@@ -48,7 +49,7 @@ function getBox() {
 }
 
 function getPlane() {
-  const geometry = new THREE.PlaneGeometry(WORLD_HALF * 10, WORLD_HALF * 10, 100, 100);
+  const geometry = new THREE.PlaneGeometry(WORLD_SIZE, WORLD_SIZE, 100, 100);
   const material = new THREE.MeshBasicMaterial({
     wireframe: true,
     side: THREE.DoubleSide

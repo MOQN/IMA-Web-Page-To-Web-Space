@@ -2,7 +2,7 @@ let params = {
   color: "#FFF"
 };
 
-const WORLD_SIZE = 1000;
+const WORLD_SIZE = 2000;
 
 const raycaster = new THREE.Raycaster();
 const mouse = new THREE.Vector2();

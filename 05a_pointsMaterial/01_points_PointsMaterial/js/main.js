@@ -2,7 +2,7 @@ let params = {
   fps: 0,
 };
 
-const WORLD_SIZE = 1000;
+const WORLD_SIZE = 2000;
 let pointCloud;
 
 function setupThree() {

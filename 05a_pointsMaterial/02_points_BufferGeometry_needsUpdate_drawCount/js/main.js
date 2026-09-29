@@ -2,7 +2,7 @@ let params = {
   fps: 0,
 };
 
-const WORLD_SIZE = 1000;
+const WORLD_SIZE = 2000;
 const MAX_PARTICLE_NUMBER = 10000;
 
 let pointCloud;

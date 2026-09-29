@@ -1,5 +1,5 @@
-const WORLD_SIZE = 1000;
-const WORLD_HALF_SIZE = 500;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 
 let userData = {};
 
@@ -52,14 +52,14 @@ function createCubeForClient(clientId) {
 
   // Add controls only for the local client cube.
   if (clientId === socket.id) {
-    cube.position.set(random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE), random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE), random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE));
+    cube.position.set(random(-WORLD_HALF, WORLD_HALF), random(-WORLD_HALF, WORLD_HALF), random(-WORLD_HALF, WORLD_HALF));
     cube.scale.set(random(50, 100), random(50, 100), random(50, 100));
     cube.material.color.setRGB(random(0, 1), random(0, 1), random(0, 1));
 
     const positionFolder = pane.addFolder({ title: "Position", expanded: true });
-    positionFolder.addBinding(cube.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
-    positionFolder.addBinding(cube.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
-    positionFolder.addBinding(cube.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 }).on("change", sendCubeUpdate);
+    positionFolder.addBinding(cube.position, "x", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendCubeUpdate);
+    positionFolder.addBinding(cube.position, "y", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendCubeUpdate);
+    positionFolder.addBinding(cube.position, "z", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 }).on("change", sendCubeUpdate);
     const rotationFolder = pane.addFolder({ title: "Rotation", expanded: true });
     rotationFolder.addBinding(cube.rotation, "x", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendCubeUpdate);
     rotationFolder.addBinding(cube.rotation, "y", { min: -Math.PI, max: Math.PI, step: 0.01 }).on("change", sendCubeUpdate);

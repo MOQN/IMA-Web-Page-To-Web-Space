@@ -1,5 +1,5 @@
 const WORLD_SIZE = 2000;
-const WORLD_HALF_SIZE = 1000;
+const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_HEIGHT = -150;
 const C_GRAVITY = 0.3;
 
@@ -13,7 +13,7 @@ function setupThree() {
   // plane
   plane = getPlane();
   scene.add(plane);
-  plane.position.y = -WORLD_HALF_SIZE / 4;
+  plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
 
   // boxes
@@ -21,9 +21,9 @@ function setupThree() {
     let box = getBox();
     scene.add(box);
 
-    box.position.x = random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE);
-    box.position.y = random(-WORLD_HALF_SIZE / 2, WORLD_HALF_SIZE);
-    box.position.z = random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE);
+    box.position.x = random(-WORLD_HALF, WORLD_HALF);
+    box.position.y = random(-WORLD_HALF / 2, WORLD_HALF);
+    box.position.z = random(-WORLD_HALF, WORLD_HALF);
 
     box.rotation.x = random(TWO_PI);
     box.rotation.y = random(TWO_PI);
@@ -65,7 +65,7 @@ function getBox() {
 }
 
 function getPlane() {
-  const geometry = new THREE.PlaneGeometry(WORLD_HALF_SIZE * 2, WORLD_HALF_SIZE * 2, 100, 100);
+  const geometry = new THREE.PlaneGeometry(WORLD_HALF * 2, WORLD_HALF * 2, 100, 100);
   const material = new THREE.MeshBasicMaterial({
     wireframe: true,
     side: THREE.DoubleSide
@@ -78,8 +78,8 @@ function getPlane() {
     let y = position.array[i + 1];
     let z = position.array[i + 2];
 
-    let xOffset = (x + WORLD_HALF_SIZE) * 0.005;
-    let yOffset = (y + WORLD_HALF_SIZE) * 0.005;
+    let xOffset = (x + WORLD_HALF) * 0.005;
+    let yOffset = (y + WORLD_HALF) * 0.005;
     let amp = 6;
     let noiseValue = (noise(xOffset, yOffset) * amp) ** 3;
 
@@ -114,9 +114,9 @@ function createUserForClient(clientId) {
 
   if (clientId === socket.id) {
     user.position.set(
-      random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
+      random(-WORLD_HALF, WORLD_HALF),
       FLOOR_HEIGHT,
-      random(-WORLD_HALF_SIZE, WORLD_HALF_SIZE),
+      random(-WORLD_HALF, WORLD_HALF),
     );
     user.setColor(random(0, 1), random(0, 1), random(0, 1));
   }

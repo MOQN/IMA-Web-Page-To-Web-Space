@@ -4,7 +4,8 @@ let params = {
   far: 2600,
 };
 
-const WORLD_HALF_SIZE = 1000;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_POSITION = -200;
 const COLOR_BG = 0x000000;
 
@@ -18,7 +19,7 @@ function setupThree() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
   // the floor
-  plane = getPlane(WORLD_HALF_SIZE * 2, WORLD_HALF_SIZE * 2);
+  plane = getPlane(WORLD_HALF * 2, WORLD_HALF * 2);
   plane.position.y = FLOOR_POSITION;
   plane.rotation.x = PI / 2;
   scene.add(plane);
@@ -47,9 +48,9 @@ function setupThree() {
   folderAmbiLight.addBinding(ambiLight.color, "b", { min: 0.0, max: 1.0 });
 
   let folderRectLight = pane.addFolder({ title: "RectAreaLight", expanded: true });
-  folderRectLight.addBinding(light.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderRectLight.addBinding(light.position, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderRectLight.addBinding(light.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderRectLight.addBinding(light.position, "x", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
+  folderRectLight.addBinding(light.position, "y", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
+  folderRectLight.addBinding(light.position, "z", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
   folderRectLight.addBinding(light, "intensity", { min: 0.1, max: 50, step: 0.1 });
   folderRectLight.addBinding(light, "width", { min: 10, max: 2000, step: 1 });
   folderRectLight.addBinding(light, "height", { min: 10, max: 2000, step: 1 });
@@ -59,9 +60,9 @@ function setupThree() {
 
   params.lookAt = new THREE.Vector3(0, -100, 0);
   let folderLightDirection = pane.addFolder({ title: "RectAreaLight Direction", expanded: true });
-  folderLightDirection.addBinding(params.lookAt, "x", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
-  folderLightDirection.addBinding(params.lookAt, "y", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
-  folderLightDirection.addBinding(params.lookAt, "z", { min: -WORLD_HALF_SIZE / 2, max: WORLD_HALF_SIZE / 2, step: 0.1 });
+  folderLightDirection.addBinding(params.lookAt, "x", { min: -WORLD_HALF / 2, max: WORLD_HALF / 2, step: 0.1 });
+  folderLightDirection.addBinding(params.lookAt, "y", { min: -WORLD_HALF / 2, max: WORLD_HALF / 2, step: 0.1 });
+  folderLightDirection.addBinding(params.lookAt, "z", { min: -WORLD_HALF / 2, max: WORLD_HALF / 2, step: 0.1 });
 }
 
 

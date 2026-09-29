@@ -4,7 +4,8 @@ let params = {
   far: 2600,
 };
 
-const WORLD_HALF_SIZE = 1000;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_POSITION = -200;
 const COLOR_BG = 0x000000;
 
@@ -22,15 +23,15 @@ function setupThree() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
   // the floor
-  plane = getPlane(WORLD_HALF_SIZE * 2 + 200, WORLD_HALF_SIZE * 2 + 200);
+  plane = getPlane(WORLD_HALF * 2 + 200, WORLD_HALF * 2 + 200);
   plane.position.y = FLOOR_POSITION;
   plane.rotation.x = PI / 2;
   scene.add(plane);
 
   // cubes
   const distance = 100;
-  for (let z = -WORLD_HALF_SIZE; z <= WORLD_HALF_SIZE; z += distance) {
-    for (let x = -WORLD_HALF_SIZE; x <= WORLD_HALF_SIZE; x += distance) {
+  for (let z = -WORLD_HALF; z <= WORLD_HALF; z += distance) {
+    for (let x = -WORLD_HALF; x <= WORLD_HALF; x += distance) {
       let tCube = new Cube()
         .setPosition(x, FLOOR_POSITION, z)
         .setScale(50, random(2, 18) ** 2, 50)
@@ -74,9 +75,9 @@ function setupThree() {
 
   let folderDirectLight = pane.addFolder({ title: "DirectionalLight", expanded: true });
   folderDirectLight.addBinding(directLight, "intensity", { min: 0.1, max: 10, step: 0.01 });
-  folderDirectLight.addBinding(directLight.position, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderDirectLight.addBinding(directLight.position, "y", { min: 0, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderDirectLight.addBinding(directLight.position, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderDirectLight.addBinding(directLight.position, "x", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
+  folderDirectLight.addBinding(directLight.position, "y", { min: 0, max: WORLD_HALF, step: 0.1 });
+  folderDirectLight.addBinding(directLight.position, "z", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
   folderDirectLight.addBinding(directLight.color, "r", { min: 0.0, max: 1, step: 0.05 });
   folderDirectLight.addBinding(directLight.color, "g", { min: 0.0, max: 1, step: 0.05 });
   folderDirectLight.addBinding(directLight.color, "b", { min: 0.0, max: 1, step: 0.05 });

@@ -2,7 +2,8 @@ let params = {
   color: "#FFF"
 };
 
-const WORLD_HALF = 1000;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 let plane;
 
 function setupThree() {

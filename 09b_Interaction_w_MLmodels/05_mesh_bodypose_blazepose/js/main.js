@@ -2,7 +2,7 @@ let params = {
   poseScale: 250,
 };
 
-const WORLD_SIZE = 1000;
+const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 const VIDEO_WIDTH = 640;
 

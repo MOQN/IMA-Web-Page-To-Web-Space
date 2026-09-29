@@ -4,7 +4,8 @@ let params = {
   far: 2600,
 };
 
-const WORLD_HALF_SIZE = 1000;
+const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_POSITION = -200;
 const COLOR_BG = 0x000000;
 
@@ -20,15 +21,15 @@ function setupThree() {
   renderer.shadowMap.type = THREE.PCFSoftShadowMap; // default THREE.PCFShadowMap
 
   // the floor
-  plane = getPlane(WORLD_HALF_SIZE * 2 + 200, WORLD_HALF_SIZE * 2 + 200);
+  plane = getPlane(WORLD_HALF * 2 + 200, WORLD_HALF * 2 + 200);
   plane.position.y = FLOOR_POSITION;
   plane.rotation.x = PI / 2;
   scene.add(plane);
 
   // cubes
   const distance = 100;
-  for (let z = -WORLD_HALF_SIZE; z <= WORLD_HALF_SIZE; z += distance) {
-    for (let x = -WORLD_HALF_SIZE; x <= WORLD_HALF_SIZE; x += distance) {
+  for (let z = -WORLD_HALF; z <= WORLD_HALF; z += distance) {
+    for (let x = -WORLD_HALF; x <= WORLD_HALF; x += distance) {
       let tCube = new Cube()
         .setPosition(x, FLOOR_POSITION, z)
         .setScale(50, random(2, 18) ** 2, 50)
@@ -59,9 +60,9 @@ function setupThree() {
   folderAmbiLight.addBinding(ambiLight.color, "b", { min: 0.0, max: 1.0 });
 
   let folderSpotLight = pane.addFolder({ title: "SpotLight", expanded: true });
-  folderSpotLight.addBinding(tLight.pos, "x", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderSpotLight.addBinding(tLight.pos, "y", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
-  folderSpotLight.addBinding(tLight.pos, "z", { min: -WORLD_HALF_SIZE, max: WORLD_HALF_SIZE, step: 0.1 });
+  folderSpotLight.addBinding(tLight.pos, "x", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
+  folderSpotLight.addBinding(tLight.pos, "y", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
+  folderSpotLight.addBinding(tLight.pos, "z", { min: -WORLD_HALF, max: WORLD_HALF, step: 0.1 });
   folderSpotLight.addBinding(tLight.light, "intensity", { min: 0.1, max: 10, step: 0.1 });
   folderSpotLight.addBinding(tLight.light, "distance", { min: 0, max: 2000, step: 1 });
   folderSpotLight.addBinding(tLight.light, "angle", { min: 0, max: PI / 2, step: 0.01 });
