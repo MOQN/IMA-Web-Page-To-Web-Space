@@ -3,14 +3,15 @@ let params = {
 };
 
 const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 
 let pointCloud;
 let particles = [];
 
 function setupThree() {
   // particles
-  for (let z = -WORLD_SIZE / 2; z < WORLD_SIZE / 2; z += 7) {
-    for (let x = -WORLD_SIZE / 2; x < WORLD_SIZE / 2; x += 7) {
+  for (let z = -WORLD_HALF; z < WORLD_HALF; z += 7) {
+    for (let x = -WORLD_HALF; x < WORLD_HALF; x += 7) {
       let tParticle = new Particle()
         .setPosition(x, -200, z)
       particles.push(tParticle);
@@ -25,7 +26,7 @@ function updateThree() {
   // update the particles first
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
-    p.fluctuate();
+    p.updatePosition();
   }
 
   // then update the points
@@ -50,6 +51,7 @@ function getPoints(objects) {
   const geometry = new THREE.BufferGeometry();
   // attributes
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  geometry.getAttribute('position').setUsage(THREE.DynamicDrawUsage);
   // draw range
   const drawCount = objects.length; // draw the whole objects
   geometry.setDrawRange(0, drawCount);
@@ -80,7 +82,7 @@ class Particle {
     this.pos = new THREE.Vector3(x, y, z);
     return this;
   }
-  fluctuate() {
+  updatePosition() {
     let xFreq = this.pos.x * 0.01 + frame * 0.005;
     let zFreq = this.pos.z * 0.01 + frame * 0.005;
     let yOffset = noise(xFreq, zFreq) * 200;

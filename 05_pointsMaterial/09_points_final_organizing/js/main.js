@@ -52,23 +52,23 @@ function updateThree() {
   }
 
   // then update the points
-  let positionArray = pointCloud.geometry.attributes.position.array;
-  let colorArray = pointCloud.geometry.attributes.color.array;
+  const positionAttribute = pointCloud.geometry.getAttribute("position");
+  const colorAttribute = pointCloud.geometry.getAttribute("color");
   for (let i = 0; i < particles.length; i++) {
     let p = particles[i];
     let ptIndex = i * 3;
     // position
-    positionArray[ptIndex + 0] = p.pos.x;
-    positionArray[ptIndex + 1] = p.pos.y;
-    positionArray[ptIndex + 2] = p.pos.z;
+    positionAttribute.array[ptIndex + 0] = p.pos.x;
+    positionAttribute.array[ptIndex + 1] = p.pos.y;
+    positionAttribute.array[ptIndex + 2] = p.pos.z;
     //color
-    colorArray[ptIndex + 0] = 1.0 * p.lifespan;
-    colorArray[ptIndex + 1] = 0.5 * p.lifespan;
-    colorArray[ptIndex + 2] = 0.1 * p.lifespan;
+    colorAttribute.array[ptIndex + 0] = 1.0 * p.lifespan;
+    colorAttribute.array[ptIndex + 1] = 0.5 * p.lifespan;
+    colorAttribute.array[ptIndex + 2] = 0.1 * p.lifespan;
   }
   pointCloud.geometry.setDrawRange(0, particles.length); // ***
-  pointCloud.geometry.attributes.position.needsUpdate = true;
-  pointCloud.geometry.attributes.color.needsUpdate = true;
+  positionAttribute.needsUpdate = true;
+  colorAttribute.needsUpdate = true;
 
   params.drawCount = particles.length;
 }
@@ -88,8 +88,10 @@ function getPoints(objects) {
   // attributes
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
   geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
-  geometry.getAttribute('position').setUsage(THREE.DynamicDrawUsage);
-  geometry.getAttribute('color').setUsage(THREE.DynamicDrawUsage);
+  const positionAttribute = geometry.getAttribute("position");
+  const colorAttribute = geometry.getAttribute("color");
+  positionAttribute.setUsage(THREE.DynamicDrawUsage);
+  colorAttribute.setUsage(THREE.DynamicDrawUsage);
   // draw range
   const drawCount = objects.length; // draw the whole objects
   geometry.setDrawRange(0, drawCount);

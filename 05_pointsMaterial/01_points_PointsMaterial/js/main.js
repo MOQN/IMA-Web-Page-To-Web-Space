@@ -3,6 +3,8 @@ let params = {
 };
 
 const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
+
 let pointCloud;
 
 function setupThree() {
@@ -19,9 +21,9 @@ function getPoints() {
   const vertices = [];
 
   for (let i = 0; i < 50000; i++) {
-    let x = random(-WORLD_SIZE / 2, WORLD_SIZE / 2);
-    let y = random(-WORLD_SIZE / 2, WORLD_SIZE / 2);
-    let z = random(-WORLD_SIZE / 2, WORLD_SIZE / 2);
+    let x = random(-WORLD_HALF, WORLD_HALF);
+    let y = random(-WORLD_HALF, WORLD_HALF);
+    let z = random(-WORLD_HALF, WORLD_HALF);
     vertices.push(x, y, z);
   }
 

@@ -4,6 +4,7 @@ let params = {
 };
 
 const WORLD_SIZE = 2000;
+const WORLD_HALF = WORLD_SIZE / 2;
 const MAX_PARTICLE_NUMBER = 10000;
 
 let pointCloud;
@@ -13,7 +14,7 @@ function setupThree() {
   // particles
   for (let i = 0; i < MAX_PARTICLE_NUMBER; i++) {
     let tParticle = new Particle()
-      .setPosition(random(-WORLD_SIZE / 2, WORLD_SIZE / 2), random(-WORLD_SIZE / 2, WORLD_SIZE / 2), random(-WORLD_SIZE / 2, WORLD_SIZE / 2))
+      .setPosition(random(-WORLD_HALF, WORLD_HALF), random(-WORLD_HALF, WORLD_HALF), random(-WORLD_HALF, WORLD_HALF))
       .setVelocity(random(-0.5, 0.5), random(-0.5, 0.5), random(-0.5, 0.5))
     particles.push(tParticle);
   }
@@ -36,11 +37,12 @@ function updateThree() {
     let p = particles[i];
 
     p.attractedTo(0, 0, 0);
-    p.move();
+    p.updatePosition();
     p.adjustVelocity(-0.01);
-    p.rotate();
+    p.updateRotation();
 
-    p.age();
+    p.updateLifespan();
+    p.updateScale();
     if (p.isDone) {
       particles.splice(i, 1);
       i--;
@@ -71,6 +73,7 @@ function getPoints(objects) {
   const geometry = new THREE.BufferGeometry();
   // attributes
   geometry.setAttribute('position', new THREE.Float32BufferAttribute(vertices, 3));
+  geometry.getAttribute('position').setUsage(THREE.DynamicDrawUsage);
   // draw range
   const drawCount = objects.length; // draw the whole objects
   geometry.setDrawRange(0, drawCount);
@@ -87,7 +90,8 @@ class Particle {
     this.vel = new THREE.Vector3();
     this.acc = new THREE.Vector3();
 
-    this.scl = new THREE.Vector3(1, 1, 1);
+    this.baseScl = new THREE.Vector3(1, 1, 1);
+    this.scl = this.baseScl.clone();
     this.mass = 1;
     //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
 
@@ -120,18 +124,19 @@ class Particle {
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
-    this.scl = new THREE.Vector3(w, h, d);
+    this.baseScl.set(w, h, d);
+    this.scl.copy(this.baseScl);
     return this;
   }
   setMass(mass) {
     if (mass) {
       this.mass = mass;
     } else {
-      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+      this.mass = 1 + (this.baseScl.x * this.baseScl.y * this.baseScl.z) * 0.000001; // arbitrary
     }
     return this;
   }
-  move() {
+  updatePosition() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.set(0, 0, 0);
@@ -139,7 +144,7 @@ class Particle {
   adjustVelocity(amount) {
     this.vel.multiplyScalar(1 + amount);
   }
-  rotate() {
+  updateRotation() {
     this.rotVel.add(this.rotAcc);
     this.rot.add(this.rotVel);
     this.rotAcc.set(0, 0, 0);
@@ -152,21 +157,28 @@ class Particle {
     this.acc.add(force);
   }
   reappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
-      this.pos.z = -WORLD_SIZE / 2;
+    if (this.pos.z > WORLD_HALF) {
+      this.pos.z = -WORLD_HALF;
     }
   }
   disappear() {
-    if (this.pos.z > WORLD_SIZE / 2) {
+    if (this.pos.z > WORLD_HALF) {
       this.isDone = true;
     }
   }
-  age() {
+  updateLifespan() {
     this.lifespan -= this.lifeReduction;
     if (this.lifespan <= 0) {
       this.lifespan = 0;
       this.isDone = true;
     }
+  }
+  updateScale() {
+    this.scl.set(
+      this.baseScl.x * this.lifespan,
+      this.baseScl.y * this.lifespan,
+      this.baseScl.z * this.lifespan
+    );
   }
   attractedTo(x, y, z) {
     let target = new THREE.Vector3(x, y, z);
