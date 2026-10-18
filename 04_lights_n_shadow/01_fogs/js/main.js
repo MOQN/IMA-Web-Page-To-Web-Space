@@ -9,22 +9,29 @@ let params = {
 
 
 let cubes = [];
+let linearFog, exponentialFog;
 
 function setupThree() {
-  pane.addBinding(params, "fogColor", { view: "color" });
-  pane.addBinding(params, "exp2");
+  linearFog = new THREE.Fog(params.fogColor, params.near, params.far);
+  exponentialFog = new THREE.FogExp2(params.fogColor, params.density);
+  updateFog();
+  pane.addBinding(params, "fogColor", { view: "color" }).on("change", updateFog);
+  pane.addBinding(params, "exp2").on("change", updateFog);
 
   let folderCommon = pane.addFolder({ title: "NORMAL", expanded: true });
   folderCommon.addBinding(params, "near", { min: 1, max: 5000, step: 1 }).on("change", function () {
     params.exp2 = false;
+    updateFog();
   });
   folderCommon.addBinding(params, "far", { min: 1, max: 5000, step: 1 }).on("change", function () {
     params.exp2 = false;
+    updateFog();
   });
 
   let folderExp2 = pane.addFolder({ title: "EXP2", expanded: true });
   folderExp2.addBinding(params, "density", { min: 0.0, max: 0.003, step: 0.0001 }).on("change", function () {
     params.exp2 = true;
+    updateFog();
   });
 
   for (let i = 0; i < 100; i++) {
@@ -37,14 +44,16 @@ function setupThree() {
   }
 }
 
-function updateThree() {
-  // we usually call this in initTHREE().
-  if (params.exp2) {
-    scene.fog = new THREE.FogExp2(params.fogColor, params.density);
-  } else {
-    scene.fog = new THREE.Fog(params.fogColor, params.near, params.far);
-  }
+function updateFog() {
+  linearFog.color.set(params.fogColor);
+  linearFog.near = params.near;
+  linearFog.far = params.far;
+  exponentialFog.color.set(params.fogColor);
+  exponentialFog.density = params.density;
+  scene.fog = params.exp2 ? exponentialFog : linearFog;
+}
 
+function updateThree() {
   // update the objects
   for (let c of cubes) {
     c.update();
