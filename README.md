@@ -5,39 +5,6 @@ Interactive Media Arts (IMA) at NYU Shanghai
 * [Course Notes](https://docs.google.com/document/d/1_KAc3IYll3QHzGT2VizRUSOwpKSDmDN88llLNoY5vVU/edit?usp=sharing)
 * [Example Codes on Web Editor](https://docs.google.com/document/d/1SwlymiC-GtLWn3lierr-RxoAMVOi-Rd8rHhorRjIm38/edit?usp=sharing)
 
-### Model hierarchy examples (06)
-Open these examples through a local web server. OBJ and GLTF examples that modify
-meshes use `traverse()` to process every level of the model hierarchy. The 30
-example folders are numbered consecutively from 01 to 30.
-
-* [OBJ: all meshes](./06_adding_realism/20_OBJLoader/): preserves nested groups, replacing materials only on meshes.
-* [OBJ points: all meshes](./06_adding_realism/21_OBJLoader_Points/): collects vertices from nested meshes and applies their parent transforms before building one point cloud.
-* [OBJ morph: all meshes](./06_adding_realism/22_OBJLoader_Points_morph/): uses those transformed vertices as morph targets; values above 1 extrapolate beyond the model.
-* [GLTF: original materials](./06_adding_realism/24_GLTFLoader/): keeps the complete scene's imported materials and textures, with ambient and directional lighting.
-* [GLTF: light and shadow](./06_adding_realism/25_GLTFLoader_LightShadow/): preserves imported materials, casts directional-light shadows from all nested meshes onto a 10000 x 10000 floor, and places the floor just below the model's initial bounds.
-* [GLTF: shared material](./06_adding_realism/26_GLTFLoader_Material/): replaces all mesh materials with one shared `MeshNormalMaterial`, with a wireframe control.
-* [GLTF OOP](./06_adding_realism/27_GLTFLoader_OOP/): loads once and creates 100 `Model` objects around the world origin with independent movement, rotation, and random-colored materials, plus fog and light controls like the OBJ OOP example. Each model rotates around its initial bounding-box center using a wrapper group. `SkeletonUtils.clone` keeps skeletons independent too; animation clips are not played.
-* [GLTF points](./06_adding_realism/28_GLTFLoader_Points/): turns all nested meshes into a single point cloud, with a point-size control.
-* [GLTF points morph](./06_adding_realism/29_GLTFLoader_Points_morph/): morphs a sphere-shaped point cloud into the model; `percent` runs from 0 to 3, with the model at 1.
-* [GLTF cube refraction](./06_adding_realism/30_GLTFLoader_textureCube_refraction/): shares one `MeshPhongMaterial` across all meshes, using the DeepSpace cube map and refraction controls. `MixOperation`, a refraction ratio of 0.8, and reflectivity of 1 make the environment colors and distortion easier to see.
-
-The OBJ and GLTF point examples use static mesh positions, not animated or skinned
-poses. Parent transforms are baked into the collected vertices; the GLTF point
-examples use the same 1000x display scale as example 24.
-The morph examples refresh their bounding spheres after changing positions.
-The 06 examples use frame-based animation, with GLTF models rotating by 0.01
-radians per frame. Rotation speed therefore depends on the frame rate; elapsed
-time is used only to display FPS. The base 24 example preserves
-the imported appearance. The 26 material example replaces
-each mesh's imported materials and textures with a single shared `MeshNormalMaterial`,
-which does not respond to lighting. After loading, their wireframe controls bind
-directly to that material, without an update function or recreating materials.
-The refraction and OOP examples also visit nested meshes.
-
-The HDR examples now import `HDRLoader`. In Three.js r185, the deprecated
-`RGBELoader` is a compatibility subclass of `HDRLoader` (deprecated since r180).
-The `.hdr` assets and texture settings are unchanged.
-
 ## Course Information
 * Instructor: J.H. Moon
   * Office: Room W839
