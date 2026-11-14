@@ -1,3 +1,14 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import {
+  getDatabase,
+  onChildAdded,
+  onChildChanged,
+  onChildMoved,
+  onChildRemoved,
+  push,
+  ref
+} from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
 let database, dbRef;
 
 function setup() {
@@ -5,8 +16,7 @@ function setup() {
   background(0);
 
   setupDB();
-  clearDBReference("realtimeData");
-  dbRef = getDBReference("realtimeData");
+  dbRef = getDBReference("classroom/drawingPoints");
 }
 
 function draw() {
@@ -18,12 +28,13 @@ function mousePressed() {
     x: mouseX,
     y: mouseY
   };
-  dbRef.push(data);
+  push(dbRef, data).catch(error => {
+    console.error("Could not save the point:", error.message);
+  });
 }
 
 function setupDB() {
   // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "---",
     authDomain: "---",
@@ -34,26 +45,15 @@ function setupDB() {
     appId: "---",
     measurementId: "---"
   };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  database = firebase.database();
+  const app = initializeApp(firebaseConfig);
+  database = getDatabase(app);
 }
 
 function getDBReference(refName) {
-  let ref = database.ref(refName);
-
-  // clear out the previous data in the key
-  ref
-    .remove()
-    .then(function() {
-      console.log("! DB Remove succeeded.");
-    })
-    .catch(function(error) {
-      console.log("! DB Remove failed: " + error.message);
-    });
+  const reference = ref(database, refName);
 
   // event listeners
-  ref.on("child_added", data => {
+  onChildAdded(reference, data => {
     console.log("! DB ADDED");
     console.log(data.key);
     console.log(data.val());
@@ -62,35 +62,25 @@ function getDBReference(refName) {
     fill(255);
     rect(value.x, value.y, 10, 10);
   });
-  ref.on("child_removed", data => {
+  onChildRemoved(reference, data => {
     console.log("! DB REMOVED");
     console.log(data.key);
     console.log(data.val());
   });
-  ref.on("child_changed", data => {
+  onChildChanged(reference, data => {
     console.log("! DB CHANGED");
     console.log(data.key);
     console.log(data.val());
   });
-  ref.on("child_moved", data => {
+  onChildMoved(reference, data => {
     console.log("! DB MOVED");
     console.log(data.key);
     console.log(data.val());
   });
 
-  return ref;
+  return reference;
 }
 
-function clearDBReference(refName) {
-  let ref = database.ref(refName);
-
-  // clear out the previous data in the key
-  ref
-    .remove()
-    .then(function() {
-      console.log("! DB Remove succeeded.");
-    })
-    .catch(function(error) {
-      console.log("! DB Remove failed: " + error.message);
-    });
-}
+window.setup = setup;
+window.draw = draw;
+window.mousePressed = mousePressed;

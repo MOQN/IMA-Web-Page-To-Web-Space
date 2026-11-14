@@ -1,6 +1,6 @@
 let params = {
-  mode: "Box",
   fps: 0,
+  mode: "Box",
   frame: 0,
   time: 0,
   x: 0,

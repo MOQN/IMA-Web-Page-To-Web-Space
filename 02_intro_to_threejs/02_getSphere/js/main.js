@@ -1,5 +1,7 @@
 // https://threejs.org/docs/?q=sphere#api/en/geometries/SphereGeometry
 
+const params = { fps: 0 };
+
 let ball;
 
 function setupThree() {

@@ -6,3 +6,9 @@ node_modules/
 # files
 .DS_Store
 *.zip
+
+# Local notes and tests
+__README*
+__*.test.*
+__*.spec.*
+__test*/

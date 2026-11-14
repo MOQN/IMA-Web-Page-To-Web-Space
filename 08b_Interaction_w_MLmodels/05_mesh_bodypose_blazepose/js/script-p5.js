@@ -48,11 +48,9 @@ function clearPoseConfidence() {
 }
 
 
-function preload() {
-  bodypose = ml5.bodyPose("BlazePose"); // ***
-}
+async function setup() {
+  bodypose = await ml5.bodyPose("BlazePose");
 
-function setup() {
   let canvas = createCanvas(640, 480);
   canvas.parent("container-p5");
 

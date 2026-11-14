@@ -1,10 +1,14 @@
 let params = {
+  fps: 0,
   drawCount: 0,
 };
 
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 const MAX_PARTICLE_NUMBER = 5000;
+const PARTICLE_JITTER = WORLD_HALF * 0.05;
+const POINT_SIZE = 20;
+const PARTICLE_EXTENT = WORLD_HALF + PARTICLE_JITTER + POINT_SIZE / 2;
 
 let pointCloud;
 let particles = [];
@@ -13,7 +17,8 @@ function setupThree() {
   // floor
   const floor = getPlane();
   scene.add(floor);
-  floor.position.y = -WORLD_HALF / 2;
+  // Match the bottom edge of the pixel plane, including jitter and point size.
+  floor.position.y = -PARTICLE_EXTENT;
   floor.rotation.x = -PI / 2;
 
   // create Points
@@ -77,7 +82,7 @@ function getPoints(number) {
   const material = new THREE.PointsMaterial({
     //color: 0xFFFFFF,
     vertexColors: true,
-    size: 20,
+    size: POINT_SIZE,
     sizeAttenuation: true,
     // opacity: 0.9,
     // transparent: true,
@@ -91,7 +96,7 @@ function getPoints(number) {
 }
 
 function getPlane() {
-  const geometry = new THREE.PlaneGeometry(WORLD_SIZE, WORLD_SIZE, 20, 20);
+  const geometry = new THREE.PlaneGeometry(PARTICLE_EXTENT * 2, WORLD_SIZE, 20, 20);
   const material = new THREE.MeshBasicMaterial({
     color: 0x999999,
     wireframe: true,

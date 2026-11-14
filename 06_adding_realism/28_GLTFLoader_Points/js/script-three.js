@@ -3,8 +3,7 @@ console.log("three.js Version: " + THREE.REVISION);
 let container, pane;
 let scene, camera, renderer;
 let controls;
-let time, frame = 0;
-let lastFrameTime;
+let timer, time = 0, delta = 0, frame = 0;
 
 function initThree() {
   scene = new THREE.Scene();
@@ -28,6 +27,9 @@ function initThree() {
   pane.addBinding(params, "fps", {
     label: "FPS",
     readonly: true,
+    format: function (value) {
+      return value.toFixed(2);
+    },
   });
   pane.addBinding(params, "fps", {
     label: "FPS Graph",
@@ -38,23 +40,25 @@ function initThree() {
   });
   pane.addBlade({ view: "separator" });
 
+  setupThree(); // ***
 
-  setupThree(); // load the model
+  timer = new THREE.Timer();
+  timer.connect(document);
+  timer.reset();
 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  time = performance.now();
   frame++;
-  params.fps = lastFrameTime !== undefined && time > lastFrameTime
-    ? (1000 / (time - lastFrameTime)).toFixed(2) : "0.00";
-  lastFrameTime = time;
+  timer.update();
+  time = timer.getElapsed() * 1000; // milliseconds
+  delta = timer.getDelta();
+  params.fps = delta > 0 ? 1 / delta : 0;
 
-  updateThree();
+  updateThree(); // ***
 
   pane.refresh();
-
   renderer.render(scene, camera);
 }
 

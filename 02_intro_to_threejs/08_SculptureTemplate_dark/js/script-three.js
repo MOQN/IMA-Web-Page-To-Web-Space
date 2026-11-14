@@ -2,7 +2,7 @@ console.log("three.js Version: " + THREE.REVISION);
 
 let scene, camera, renderer, container;
 let controls;
-let time, frame = 0;
+let timer, time = 0, delta = 0, frame = 0;
 
 function initThree() {
   scene = new THREE.Scene();
@@ -22,15 +22,21 @@ function initThree() {
 
   controls = new OrbitControls(camera, renderer.domElement);
 
+  setupThree(); // ***
 
-  setupThree(); // *** 
+  timer = new THREE.Timer();
+  timer.connect(document);
+  timer.reset();
 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  time = performance.now();
   frame++;
+  timer.update();
+  time = timer.getElapsed() * 1000; // milliseconds
+  delta = timer.getDelta();
+  params.fps = delta > 0 ? 1 / delta : 0;
 
   updateThree(); // ***
 

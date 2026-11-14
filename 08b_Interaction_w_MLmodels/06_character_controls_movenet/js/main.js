@@ -1,5 +1,7 @@
 // Input sources produce the same intent; Character only knows how to move.
+
 let params = { fps: 0 };
+
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_HEIGHT = -150;

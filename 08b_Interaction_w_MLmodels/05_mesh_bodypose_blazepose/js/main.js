@@ -1,5 +1,7 @@
 // BodyPose turns tracked landmarks into endpoint-based Bars from example 04.
+
 let params = { fps: 0 };
+
 const WORLD_SIZE = 2000;
 let body;
 

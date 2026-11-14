@@ -1,3 +1,5 @@
+const params = { fps: 0 };
+
 let cube1, cube2;
 let group;
 

@@ -1,0 +1,3 @@
+* { box-sizing: border-box; }
+body { margin: 0; overflow: hidden; background: #000000; color: #dddddd; font: 14px/1.6 system-ui, sans-serif; }
+canvas { display: block; }

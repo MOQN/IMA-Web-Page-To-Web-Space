@@ -1,5 +1,7 @@
 // https://threejs.org/docs/?q=materi#api/en/materials/MeshNormalMaterial
 
+const params = { fps: 0 };
+
 let cube;
 
 function setupThree() {

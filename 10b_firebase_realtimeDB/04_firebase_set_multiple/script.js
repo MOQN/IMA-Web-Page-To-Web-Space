@@ -1,5 +1,7 @@
-let database, dbRef;
-let myDataRef;
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import { getDatabase, onValue, push, ref, set, update } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-database.js";
+
+let database, dbRef, myDataRef;
 
 let myName = "";
 let myData = {};
@@ -8,18 +10,28 @@ let entireData = {};
 function setup() {
   createCanvas(800, 600);
 
-  myName = prompt("What's your name?").toLowerCase();
+  myName = (prompt("Enter your name.") || "").trim();
+  if (!myName) {
+    return;
+  }
 
   setupDB();
-  //clearDBReference("realtimeData" + myName);
-  dbRef = getDBReference("realtimeData");
-  myDataRef = getUserDBReference("realtimeData/" + myName);
+  dbRef = ref(database, "classroom/participants");
+  onValue(
+    dbRef,
+    snapshot => {
+      entireData = snapshot.val() || {};
+    },
+    error => console.error("Could not read the user list:", error.message)
+  );
 
   myData.name = myName;
   myData.x = random(width);
   myData.y = random(height);
-  //myDataRef.push(myData);
-  dbRef.child(myName).set(myData);
+  myDataRef = push(dbRef);
+  set(myDataRef, myData).catch(error => {
+    console.error("Could not save the user:", error.message);
+  });
 }
 
 function draw() {
@@ -35,14 +47,19 @@ function draw() {
 }
 
 function mouseDragged() {
+  if (!myDataRef) {
+    return;
+  }
+
   myData.x = mouseX;
   myData.y = mouseY;
-  dbRef.child(myName).set(myData);
+  update(myDataRef, { x: myData.x, y: myData.y }).catch(error => {
+    console.error("Could not change the position:", error.message);
+  });
 }
 
 function setupDB() {
   // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
   const firebaseConfig = {
     apiKey: "---",
     authDomain: "---",
@@ -53,62 +70,10 @@ function setupDB() {
     appId: "---",
     measurementId: "---"
   };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  database = firebase.database();
+  const app = initializeApp(firebaseConfig);
+  database = getDatabase(app);
 }
 
-function getDBReference(refName) {
-  let ref = database.ref(refName);
-
-  // event listeners
-  ref.on("child_added", data => {
-    console.log("! DB ADDED");
-    console.log(data.key);
-    console.log(data.val());
-  });
-  ref.on("child_removed", data => {
-    console.log("! DB REMOVED");
-    console.log(data.key);
-    console.log(data.val());
-  });
-  ref.on("child_changed", data => {
-    console.log("! DB CHANGED");
-    console.log(data.key);
-    console.log(data.val());
-
-    entireData[data.key] = data.val(); // ***
-  });
-  ref.on("child_moved", data => {
-    console.log("! DB MOVED");
-    console.log(data.key);
-    console.log(data.val());
-  });
-
-  return ref;
-}
-
-function getUserDBReference(refName) {
-  let ref = database.ref(refName);
-  // event listeners
-  ref.on("child_added", data => {});
-  ref.on("child_removed", data => {});
-  ref.on("child_changed", data => {});
-  ref.on("child_moved", data => {});
-
-  return ref;
-}
-
-function clearDBReference(refName) {
-  let ref = database.ref(refName);
-
-  // clear out the previous data in the key
-  ref
-    .remove()
-    .then(function() {
-      console.log("! DB Remove succeeded.");
-    })
-    .catch(function(error) {
-      console.log("! DB Remove failed: " + error.message);
-    });
-}
+window.setup = setup;
+window.draw = draw;
+window.mouseDragged = mouseDragged;

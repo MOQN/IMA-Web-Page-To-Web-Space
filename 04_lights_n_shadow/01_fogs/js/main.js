@@ -7,7 +7,6 @@ let params = {
   density: 0.001,
 };
 
-
 let cubes = [];
 let linearFog, exponentialFog;
 

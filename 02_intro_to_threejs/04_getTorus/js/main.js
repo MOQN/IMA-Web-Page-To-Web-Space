@@ -1,5 +1,7 @@
 // https://threejs.org/docs/#api/en/geometries/PlaneGeometry
 
+const params = { fps: 0 };
+
 let torus;
 
 function setupThree() {

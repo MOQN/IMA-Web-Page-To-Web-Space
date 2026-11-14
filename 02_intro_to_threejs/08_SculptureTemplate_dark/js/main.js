@@ -1,6 +1,8 @@
 // https://threejs.org/docs/index.html?q=light#api/en/lights/PointLight
 // https://threejs.org/docs/index.html?q=phong#api/en/materials/MeshPhongMaterial
 
+const params = { fps: 0 };
+
 let light, lightMesh;
 let sculpture;
 

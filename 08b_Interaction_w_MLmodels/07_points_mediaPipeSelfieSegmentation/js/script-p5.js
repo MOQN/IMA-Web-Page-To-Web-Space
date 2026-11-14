@@ -6,8 +6,11 @@
 let cam;
 let segmenter;
 let segmentationData = [];
+let segmentationWidth = 0;
+let segmentationHeight = 0;
+let segmentationPending = false;
 
-function setup() {
+async function setup() {
   let canvas = createCanvas(640, 480);
   canvas.parent("container-p5");
   //canvas.hide();
@@ -15,7 +18,9 @@ function setup() {
 
   frameRate(30);
 
-  cam = createCapture(VIDEO, camReady);
+  await loadBodySegmentationModel();
+
+  cam = createCapture(VIDEO);
   cam.size(640, 480);
   cam.hide();
 
@@ -35,18 +40,19 @@ function draw() {
   for (let y = 0; y < cam.height; y += gridSize) {
     for (let x = 0; x < cam.width; x += gridSize) {
       const index = (x + y * cam.width) * 4;
-      const segIndex = segmentationData[index];
-
-      text(segIndex, x, y);
+      const maskX = min(segmentationWidth - 1, floor(x / cam.width * segmentationWidth));
+      const maskY = min(segmentationHeight - 1, floor(y / cam.height * segmentationHeight));
+      // The alpha channel stores the probability that this pixel is a person.
+      const confidence = segmentationData[(maskX + maskY * segmentationWidth) * 4 + 3] / 255;
 
       const x3D = random(-0.05, 0.05) + map(x, 0, cam.width, 1.0, -1.0); // mirroring
-      const y3D = random(-0.05, 0.05) + map(y, 0, cam.width, 1.0, -1.0); // y axis is flipped in 3D
+      const y3D = random(-0.05, 0.05) + map(y, 0, cam.height, 1.0, -1.0); // y axis is flipped in 3D
       const z3D = random(-0.1, 0.1); // y axis is flipped in 3D
       const r = cam.pixels[index + 0] / 255;
       const g = cam.pixels[index + 1] / 255;
       const b = cam.pixels[index + 2] / 255;
 
-      if (segIndex != 0) {
+      if (confidence >= 0.5) {
         // generate a particle here!
         const scaleAdj = WORLD_HALF;
         const tParticle = new Particle()
@@ -59,11 +65,6 @@ function draw() {
   }
 }
 
-function camReady() {
-  console.log("Webcam Ready!");
-  loadBodySegmentationModel();
-}
-
 async function loadBodySegmentationModel() {
   const model = bodySegmentation.SupportedModels.MediaPipeSelfieSegmentation;
   const segmenterConfig = {
@@ -71,19 +72,20 @@ async function loadBodySegmentationModel() {
     solutionPath: 'https://cdn.jsdelivr.net/npm/@mediapipe/selfie_segmentation'
   };
   segmenter = await bodySegmentation.createSegmenter(model, segmenterConfig);
-  console.log("Model Loaded!");
 }
 
 async function getSegmentation() {
-  if (segmenter == undefined) return;
+  if (segmentationPending || cam.elt.readyState < 2) return;
 
-  const segmentationConfig = {
-    flipHorizontal: false
-  };
-  const segmentation = await segmenter.segmentPeople(cam.elt, segmentationConfig);
-
+  segmentationPending = true;
+  const segmentation = await segmenter.segmentPeople(cam.elt, { flipHorizontal: false });
   if (segmentation.length > 0) {
-    let result = await segmentation[0].mask.toImageData();
-    segmentationData = result.data;;
+    const result = await segmentation[0].mask.toImageData();
+    segmentationData = result.data;
+    segmentationWidth = result.width;
+    segmentationHeight = result.height;
+  } else {
+    segmentationData = [];
   }
+  segmentationPending = false;
 }

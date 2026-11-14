@@ -1,8 +1,11 @@
+const params = { fps: 0 };
+
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 
 let plane;
 
+let socket;
 let userData = {};
 
 function setupThree() {
@@ -103,9 +106,12 @@ function setupSocket() {
   socket = io.connect();
 
   socket.on("connect", () => {
-    // emit a message to the server to notify of new client connection
-    socket.emit("new_client");
+    // Clear old objects before the server sends the current users.
+    for (const clientId of Object.keys(userData)) removeClient(clientId);
+    for (const child of [...pane.children].slice(3)) child.dispose();
   });
+
+  socket.on("remove_user", removeClient);
 
   socket.on("initialize_user", (clientId) => {
     createUserForClient(clientId);
@@ -117,6 +123,7 @@ function setupSocket() {
 }
 
 function createUserForClient(clientId) {
+  if (userData[clientId]) return;
   const user = new User(clientId); // create a user object. see public/js/User.js
   userData[clientId] = user; // add the user object to the userData object
 
@@ -132,11 +139,13 @@ function createUserForClient(clientId) {
     );
     user.setScale(random(50, 100), random(50, 100), random(50, 100));
     user.setColor(random(0, 1), random(0, 1), random(0, 1));
+    sendUserUpdate();
   }
 }
 
 function updateUserFromSocket(data) {
   const { clientId, position, rotation, scale, color } = data;
+  if (!userData[clientId]) createUserForClient(clientId);
   if (userData[clientId]) {
     const user = userData[clientId];
     user.setPosition(position.x, position.y, position.z);
@@ -152,9 +161,21 @@ function updateUserFromSocket(data) {
 // this function is called whenever the user's position, rotation, or scale is changed
 // also, see the User class in public/js/User.js for the toData() method
 function sendUserUpdate() {
+  if (!socket.connected || !userData[socket.id]) return;
   const user = userData[socket.id];
   if (!user) return;
 
   const data = user.toData();
   socket.emit("update_user", data);
+}
+
+function removeClient(clientId) {
+  const item = userData[clientId];
+  if (!item) return;
+  const mesh = item.mesh || item;
+  if (item.dispose) item.dispose();
+  scene.remove(mesh);
+  mesh.geometry.dispose();
+  mesh.material.dispose();
+  delete userData[clientId];
 }

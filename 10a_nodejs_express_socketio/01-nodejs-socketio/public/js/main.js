@@ -1,6 +1,9 @@
+const params = { fps: 0 };
+
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 
+let socket;
 let userData = {};
 
 function setupThree() {
@@ -29,9 +32,12 @@ function setupSocket() {
   socket = io.connect();
 
   socket.on("connect", () => {
-    // emit a message to the server to notify of new client connection
-    socket.emit("new_client");
+    // Clear old objects before the server sends the current users.
+    for (const clientId of Object.keys(userData)) removeClient(clientId);
+    for (const child of [...pane.children].slice(3)) child.dispose();
   });
+
+  socket.on("remove_cube", removeClient);
 
   socket.on("initialize_cube", (clientId) => {
     createCubeForClient(clientId);
@@ -43,6 +49,7 @@ function setupSocket() {
 }
 
 function createCubeForClient(clientId) {
+  if (userData[clientId]) return;
   const cube = getBox();
   scene.add(cube);
   cube.scale.set(30, 30, 30);
@@ -68,23 +75,30 @@ function createCubeForClient(clientId) {
     scaleFolder.addBinding(cube.scale, "x", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
     scaleFolder.addBinding(cube.scale, "y", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
     scaleFolder.addBinding(cube.scale, "z", { min: 1, max: 200, step: 0.1 }).on("change", sendCubeUpdate);
+    sendCubeUpdate();
   }
 }
 
 function updateCubeFromSocket(data) {
   console.log(data);
   const { clientId, position, rotation, scale, color } = data;
+  if (!userData[clientId]) createCubeForClient(clientId);
   if (userData[clientId]) {
     userData[clientId].position.set(position.x, position.y, position.z);
     userData[clientId].rotation.set(rotation.x, rotation.y, rotation.z);
     userData[clientId].scale.set(scale.x, scale.y, scale.z);
-    userData[clientId].material.color.set(color);
+    if (color && typeof color === "object") {
+      userData[clientId].material.color.setRGB(color.r, color.g, color.b);
+    } else {
+      userData[clientId].material.color.set(color);
+    }
   } else {
     createCubeForClient(clientId);
   }
 }
 
 function sendCubeUpdate() {
+  if (!socket.connected || !userData[socket.id]) return;
   const mesh = userData[socket.id];
   const data = {
     clientId: socket.id,
@@ -103,7 +117,18 @@ function sendCubeUpdate() {
       y: float(mesh.scale.y.toFixed(2)),
       z: float(mesh.scale.z.toFixed(2))
     },
-    color: mesh.material.color,
+    color: mesh.material.color.getHex(),
   };
   socket.emit("update_cube", data);
+}
+
+function removeClient(clientId) {
+  const item = userData[clientId];
+  if (!item) return;
+  const mesh = item.mesh || item;
+  if (item.dispose) item.dispose();
+  scene.remove(mesh);
+  mesh.geometry.dispose();
+  mesh.material.dispose();
+  delete userData[clientId];
 }

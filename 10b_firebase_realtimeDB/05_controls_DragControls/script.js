@@ -1,3 +1,5 @@
+const params = { fps: 0, frame: 0 };
+
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 
@@ -57,18 +59,18 @@ function getPlane() {
   const mesh = new THREE.Mesh(geometry, material);
 
   //console.log(geometry.attributes.position.array);
-  let posArray = geometry.attributes.position.array; // REORGANIZE
-  for (let i = 0; i < posArray.length; i += 3) {
-    let x = posArray[i + 0];
-    let y = posArray[i + 1];
-    let z = posArray[i + 2];
+  let positionAttribute = geometry.attributes.position;
+  for (let i = 0; i < positionAttribute.array.length; i += 3) {
+    let x = positionAttribute.array[i + 0];
+    let y = positionAttribute.array[i + 1];
+    let z = positionAttribute.array[i + 2];
 
     let xOffset = (x + WORLD_HALF) * 0.02;
     let yOffset = (y + WORLD_HALF) * 0.02;
     let amp = 6;
     let noiseValue = (noise(xOffset, yOffset) * amp) ** 3;
 
-    posArray[i + 2] = noiseValue; // update the z value.
+    positionAttribute.array[i + 2] = noiseValue; // update the z value.
   }
 
   return mesh;
@@ -91,11 +93,9 @@ function draw() {
 
 ///// three.js /////
 
-let container, pane, params;
+let container, pane;
 let scene, camera, renderer;
-let time = 0;
-let frame = 0;
-const fps = { value: 0, last: 0 };
+let timer, time = 0, delta = 0, frame = 0;
 
 function initTHREE() {
   console.log(THREE.REVISION);
@@ -136,10 +136,6 @@ function initTHREE() {
     controlsOrbit.enabled = true; // ***
   });
 
-  params = {
-    fps: 0,
-    frame: 0,
-  };
 
   pane = new Pane();
   pane.addBinding(params, "fps", {
@@ -159,21 +155,25 @@ function initTHREE() {
   });
   pane.addBlade({ view: "separator" });
 
-  setupThree();
+  setupThree(); // ***
 
   // let's draw!
+  timer = new THREE.Timer();
+  timer.connect(document);
+  timer.reset();
+
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  time = performance.now();
   frame++;
-  fps.value = 1000 / (time - fps.last);
-  fps.last = time;
-  params.fps = fps.value.toFixed(2);
+  timer.update();
+  time = timer.getElapsed() * 1000; // milliseconds
+  delta = timer.getDelta();
+  params.fps = delta > 0 ? 1 / delta : 0;
   params.frame = frame;
 
-  updateThree();
+  updateThree(); // ***
 
   pane.refresh();
 

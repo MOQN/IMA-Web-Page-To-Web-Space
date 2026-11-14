@@ -35,8 +35,16 @@ class User {
       space: false,
       shift: false,
     }
-    document.addEventListener('keydown', (e) => this.onKeyDown(e), false);
-    document.addEventListener('keyup', (e) => this.onKeyUp(e), false);
+    this.keyDown = (event) => this.onKeyDown(event);
+    this.keyUp = (event) => this.onKeyUp(event);
+    if (clientId === socket.id) {
+      document.addEventListener("keydown", this.keyDown);
+      document.addEventListener("keyup", this.keyUp);
+    }
+  }
+  dispose() {
+    document.removeEventListener("keydown", this.keyDown);
+    document.removeEventListener("keyup", this.keyUp);
   }
   getMesh() {
     const geometry = new THREE.BoxGeometry(100, 200, 20);
@@ -67,9 +75,12 @@ class User {
   }
   setColor(r, g, b) {
     if (r instanceof THREE.Color) {
-      this.color = r;
+      this.color.copy(r);
     }
-    else if (r > 255 && g === undefined && b === undefined) {
+    else if (r && typeof r === "object") {
+      this.color.setRGB(r.r, r.g, r.b);
+    }
+    else if (typeof r === "number" && g === undefined && b === undefined) {
       // take the hex color
       this.color.setHex(r);
     }

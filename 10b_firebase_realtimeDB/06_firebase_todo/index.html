@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Firebase task list</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+  <main class="card">
+    <h1>Firebase task list</h1>
+    <p class="intro">Add, finish, or delete tasks. Changes appear in other windows too.</p>
+
+    <section class="guide" aria-labelledby="guide-title">
+      <h2 id="guide-title">Get started</h2>
+      <ol>
+        <li>Create a Realtime Database in Firebase Console.</li>
+        <li>Set <code>firebaseConfig</code> in <code>script.js</code> to your app settings.</li>
+        <li>Open the page with VS Code Live Server. Database rules must allow reads and writes.</li>
+      </ol>
+      <p>Data is saved at <code>classroom/tasks/taskID</code>. For a real app, add login and rules that limit access.</p>
+    </section>
+
+    <form id="task-form">
+      <label for="task-input">New task</label>
+      <div class="form-row">
+        <input id="task-input" name="task" type="text" maxlength="100" placeholder="Example: Run the Firebase demo" required>
+        <button type="submit">Add</button>
+      </div>
+    </form>
+
+    <p id="status" role="status" aria-live="polite">Checking Firebase settings.</p>
+    <ul id="task-list" aria-label="Task list"></ul>
+  </main>
+
+  <script type="module" src="script.js"></script>
+</body>
+
+</html>

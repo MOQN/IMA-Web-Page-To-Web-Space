@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="css/style.css" />
 
   <!-- import the p5.js library -->
-  <script src="https://cdn.jsdelivr.net/npm/p5@2.3.2/lib/p5.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/p5@2.3.4/lib/p5.js"></script>
   <!-- <script src="https://cdn.jsdelivr.net/npm/p5.sound@0.4.1/dist/p5.sound.min.js"></script> -->
 
   <!-- import the three.js library -->
@@ -25,12 +25,13 @@
     </script>
   <script type="module">
     import * as THREE from "three";
+    import { Timer } from "https://cdn.jsdelivr.net/npm/three@0.185.0/src/core/Timer.js";
     import { OrbitControls } from "three/addons/controls/OrbitControls.js";
     import { Pane } from 'tweakpane';
     import { BoxLineGeometry } from "three/addons/geometries/BoxLineGeometry.js";
     import { XRButton } from "three/addons/webxr/XRButton.js";
     import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFactory.js";
-    window.THREE = THREE;
+    window.THREE = { ...THREE, Timer };
     window.OrbitControls = OrbitControls;
     window.Pane = Pane;
     window.BoxLineGeometry = BoxLineGeometry;

@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live chat demo</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/socket.io/socket.io.js" defer></script>
+    <script src="/chat.js" defer></script>
+  </head>
+  <body>
+    <main class="chat">
+      <header class="chat__header">
+        <p class="eyebrow">NODE.JS + SOCKET.IO</p>
+        <h1>Live chat</h1>
+        <p>Open another window and send a message.</p>
+        <p id="connection-status" class="status" role="status">Connecting to the server...</p>
+      </header>
+
+      <section aria-label="Chat messages" class="messages-panel">
+        <ol id="messages" class="messages" aria-live="polite"></ol>
+        <p id="notice" class="notice" role="status" aria-live="polite"></p>
+      </section>
+
+      <form id="chat-form" class="chat-form">
+        <label>
+          <span>Name</span>
+          <input id="username" name="username" maxlength="24" value="Student" required>
+        </label>
+        <label class="chat-form__message">
+          <span>Message</span>
+          <input
+            id="message"
+            name="message"
+            maxlength="500"
+            placeholder="Type a message"
+            autocomplete="off"
+            required
+          >
+        </label>
+        <button type="submit">Send</button>
+      </form>
+
+      <footer>Messages are not saved.</footer>
+    </main>
+  </body>
+</html>

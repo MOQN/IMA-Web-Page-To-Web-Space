@@ -1,4 +1,5 @@
 // A Bar points its local +X axis from start to end using a quaternion.
+
 let params = { fps: 0 };
 
 let target;

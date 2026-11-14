@@ -3,9 +3,7 @@ console.log("three.js Version: " + THREE.REVISION);
 let container, pane;
 let scene, camera, renderer;
 let controls;
-let time, frame = 0;
-const fps = { value: 0, last: 0 };
-
+let timer, time = 0, delta = 0, frame = 0;
 
 function initThree() {
   scene = new THREE.Scene();
@@ -25,11 +23,13 @@ function initThree() {
 
   controls = new OrbitControls(camera, renderer.domElement);
 
-  if (typeof params.fps === "undefined") params.fps = 0;
   pane = new Pane();
   pane.addBinding(params, "fps", {
     label: "FPS",
     readonly: true,
+    format: function (value) {
+      return value.toFixed(2);
+    },
   });
   pane.addBinding(params, "fps", {
     label: "FPS Graph",
@@ -40,28 +40,30 @@ function initThree() {
   });
   pane.addBlade({ view: "separator" });
 
+  setupThree(); // ***
 
-  setupThree(); // *** 
+  timer = new THREE.Timer();
+  timer.connect(document);
+  timer.reset();
 
   renderer.setAnimationLoop(animate);
 }
 
 function animate() {
-  time = performance.now();
   frame++;
-  fps.value = 1000 / (time - fps.last);
-  fps.last = time;
-  params.fps = fps.value.toFixed(2);
-
+  timer.update();
+  time = timer.getElapsed() * 1000; // milliseconds
+  delta = timer.getDelta();
+  params.fps = delta > 0 ? 1 / delta : 0;
 
   updateThree(); // ***
 
   pane.refresh();
-
   renderer.render(scene, camera);
 }
 
 window.addEventListener("resize", function () {
+  if (!camera || !renderer) return;
   camera.aspect = window.innerWidth / window.innerHeight;
   camera.updateProjectionMatrix();
   renderer.setSize(window.innerWidth, window.innerHeight);

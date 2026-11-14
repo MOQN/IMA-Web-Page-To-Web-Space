@@ -46,9 +46,12 @@ class User {
   }
   setColor(r, g, b) {
     if (r instanceof THREE.Color) {
-      this.color = r;
+      this.color.copy(r);
     }
-    else if (r > 255 && g === undefined && b === undefined) {
+    else if (r && typeof r === "object") {
+      this.color.setRGB(r.r, r.g, r.b);
+    }
+    else if (typeof r === "number" && g === undefined && b === undefined) {
       // take the hex color
       this.color.setHex(r);
     }

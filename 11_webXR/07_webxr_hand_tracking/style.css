@@ -1,0 +1,43 @@
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  background: #10131b;
+  color: #f3f5fa;
+  font: 14px/1.5 system-ui, sans-serif;
+}
+
+canvas {
+  display: block;
+}
+
+#help {
+  position: fixed;
+  z-index: 1;
+  top: 16px;
+  left: 16px;
+  width: min(390px, calc(100vw - 56px));
+  padding: 14px 18px;
+  border: 1px solid #495269;
+  border-radius: 12px;
+  background: rgb(16 19 27 / 88%);
+  pointer-events: none;
+}
+
+h1,
+p {
+  margin: 0 0 8px;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+pre {
+  margin: 0;
+  color: #b7d8ff;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

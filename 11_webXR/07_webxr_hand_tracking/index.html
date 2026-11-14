@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WebXR Hand Tracking</title>
+    <link rel="stylesheet" href="style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://unpkg.com/three@0.187.0/build/three.module.js",
+          "three/addons/": "https://unpkg.com/three@0.187.0/examples/jsm/"
+        }
+      }
+    </script>
+    <script type="module" src="main.js"></script>
+  </head>
+  <body>
+    <section id="help" aria-live="polite">
+      <h1>Hand tracking</h1>
+      <p>Pinch your thumb and index finger to make a ball between them.</p>
+      <pre id="status">Checking WebXR support...</pre>
+    </section>
+  </body>
+</html>

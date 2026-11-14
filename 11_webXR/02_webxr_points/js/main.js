@@ -1,4 +1,5 @@
 let params = {
+  fps: 0,
   drawCount: 0,
 };
 
