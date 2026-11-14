@@ -39,6 +39,8 @@ function setupThree() {
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "x", { min: -500, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "y", { min: 0, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "z", { min: 50, max: 800 });
+
+  showInstruction("Click the terrain to move. WASD / arrows also work; keyboard input cancels the destination.");
 }
 
 function setMoveDestination(event) {

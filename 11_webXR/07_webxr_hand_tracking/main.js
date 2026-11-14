@@ -1,10 +1,11 @@
+import { showInstruction } from "./script-three.js";
 import * as THREE from "three";
 import { XRButton } from "three/addons/webxr/XRButton.js";
 
 const params = { fps: 0 };
 let timer, time = 0, delta = 0, frame = 0;
 
-const status = document.querySelector("#status");
+let status;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x10131b);
 scene.add(new THREE.HemisphereLight(0xffffff, 0x526080, 2));
@@ -160,6 +161,8 @@ function updateHands(frame) {
   }
 }
 
+setupThree(); // ***
+
 if (navigator.xr) {
   status.textContent = "Checking immersive-vr support...";
   navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
@@ -204,3 +207,12 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
 });
+
+
+function setupThree() {
+  status = document.createElement("pre");
+  status.style.whiteSpace = "pre-wrap";
+  status.style.overflowWrap = "anywhere";
+  status.textContent = "Checking WebXR support...";
+  showInstruction("Pinch your thumb and index finger together to make a ball!").appendChild(status);
+}

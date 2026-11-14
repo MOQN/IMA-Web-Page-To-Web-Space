@@ -18,6 +18,7 @@ let terrainRaycaster;
 let destinationMarker;
 let artworks = [];
 let selectedArtwork = null;
+let galleryInstruction;
 
 function setupThree() {
   plane = createTerrain();
@@ -37,12 +38,12 @@ function setupThree() {
   scene.add(destinationMarker);
   renderer.domElement.addEventListener("pointerdown", setMoveDestination);
   pane.addBinding(params, "navigation", { label: "Navigation", readonly: true });
-  updateGalleryInfo();
-
   const cameraFolder = pane.addFolder({ title: "CAMERA", expanded: true });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "x", { min: -500, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "y", { min: 0, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "z", { min: 50, max: 800 });
+
+  galleryInstruction = showInstruction("Click an artwork to read about it, or click the floor to move. WASD / arrows also work.");
 }
 
 function setMoveDestination(event) {
@@ -116,9 +117,8 @@ function updateGalleryInfo() {
     (artwork) => artwork.mesh.position.distanceTo(character.mesh.position) < 260
   );
   const artwork = selectedArtwork || nearbyArtwork;
-  const info = document.getElementById("gallery-info");
-  info.textContent = artwork
-    ? `${artwork.title}\n${artwork.description}`
+  galleryInstruction.textContent = artwork
+    ? `${artwork.title} — ${artwork.description}`
     : "Click an artwork to read about it, or click the floor to move. WASD / arrows also work.";
 }
 

@@ -9,6 +9,11 @@ function setupThree() {
   scene.add(model.mesh, arrow);
 
   setupGUI();
+
+  showInstruction(
+    "Change the target direction. The arrow turns to point that way!",
+    "model.mesh.quaternion.setFromUnitVectors(forward, direction);"
+  );
 }
 function updateThree() {
   direction.set(params.x, params.y, params.z);

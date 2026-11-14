@@ -6,6 +6,11 @@ function setupThree() {
   scene.add(gimbal.mesh);
 
   setupGUI();
+
+  showInstruction(
+    "Turn the outer ring first, then the inner ones. Each axis moves with its parent!",
+    "gimbal.setAngles(params.x, params.y, params.z);"
+  );
 }
 function updateThree() {
   gimbal.setAngles(params.x, params.y, params.z);

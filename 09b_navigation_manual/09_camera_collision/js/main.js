@@ -26,6 +26,8 @@ function setupThree() {
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "x", { min: -500, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "y", { min: 0, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "z", { min: 50, max: 800 });
+
+  showInstruction("Walk toward a wall to see the camera move forward instead of clipping through it.");
 }
 
 function createWalls() {

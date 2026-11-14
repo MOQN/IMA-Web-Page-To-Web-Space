@@ -1,3 +1,4 @@
+import { showInstruction } from "./script-three.js";
 import * as THREE from "three";
 import { XRButton } from "three/addons/webxr/XRButton.js";
 import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFactory.js";
@@ -5,7 +6,7 @@ import { XRControllerModelFactory } from "three/addons/webxr/XRControllerModelFa
 const params = { fps: 0 };
 let timer, time = 0, delta = 0, frame = 0;
 
-const status = document.querySelector("#status");
+let status;
 const scene = new THREE.Scene();
 scene.background = new THREE.Color(0x10131b);
 scene.add(new THREE.HemisphereLight(0xffffff, 0x526080, 2));
@@ -142,6 +143,8 @@ function updateStatus() {
   }).join("\n\n") + `\n\nselect count: ${selectCount}`;
 }
 
+setupThree(); // ***
+
 if (navigator.xr) {
   status.textContent = "Checking immersive-vr support...";
   navigator.xr.isSessionSupported("immersive-vr").then((supported) => {
@@ -184,3 +187,12 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(innerWidth, innerHeight);
 });
+
+
+function setupThree() {
+  status = document.createElement("pre");
+  status.style.whiteSpace = "pre-wrap";
+  status.style.overflowWrap = "anywhere";
+  status.textContent = "Checking WebXR support...";
+  showInstruction("Point at an object and press the trigger to change its color. Try the grip and stick too!").appendChild(status);
+}

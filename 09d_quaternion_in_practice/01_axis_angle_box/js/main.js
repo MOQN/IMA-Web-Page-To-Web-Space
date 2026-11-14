@@ -19,10 +19,14 @@ function setupThree() {
   scene.add(box);
 
   setupGUI();
+
+  showInstruction(
+    "Change Angle to rotate the box around Y.",
+    "box.quaternion.setFromAxisAngle(axis, angle);"
+  );
 }
 
 function updateThree() {
-  // 1. Choose the axis. 2. Convert degrees. 3. Set the orientation.
   const angle = THREE.MathUtils.degToRad(params.angle);
   box.quaternion.setFromAxisAngle(axis, angle);
 }

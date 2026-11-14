@@ -6,6 +6,11 @@ function setupThree() {
   scene.add(model.mesh);
 
   setupGUI();
+
+  showInstruction(
+    "Try the X, Y and Z sliders one at a time. Then mix them!",
+    "model.mesh.rotation.set(x, y, z, \"XYZ\");"
+  );
 }
 function updateThree() {
   const x = THREE.MathUtils.degToRad(params.x);

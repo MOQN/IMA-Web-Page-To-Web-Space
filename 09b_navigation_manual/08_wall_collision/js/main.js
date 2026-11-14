@@ -25,6 +25,8 @@ function setupThree() {
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "x", { min: -500, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "y", { min: 0, max: 500 });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "z", { min: 50, max: 800 });
+
+  showInstruction("WASD / arrows move · Q / E turn · Shift run · Space jump. Walls and world bounds block movement.");
 }
 
 function createWalls() {

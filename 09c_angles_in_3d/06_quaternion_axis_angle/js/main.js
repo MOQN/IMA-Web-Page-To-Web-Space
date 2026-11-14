@@ -8,6 +8,11 @@ function setupThree() {
   scene.add(model.mesh, arrow);
 
   setupGUI();
+
+  showInstruction(
+    "Pick an axis and slide the angle. That is all you need to build a rotation!",
+    "model.mesh.quaternion.setFromAxisAngle(axis, THREE.MathUtils.degToRad(params.angle));"
+  );
 }
 function updateThree() {
   if (params.axis === "X") axis.set(1, 0, 0);

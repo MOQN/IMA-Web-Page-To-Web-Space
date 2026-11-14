@@ -9,6 +9,11 @@ function setupThree() {
   scene.add(model.mesh, reference.mesh);
 
   setupGUI();
+
+  showInstruction(
+    "Try 0, 360 and 720 degrees. Different turn counts can end at the same pose!",
+    "model.mesh.rotation.y = THREE.MathUtils.degToRad(params.angle);"
+  );
 }
 function updateThree() {
   model.mesh.rotation.y = THREE.MathUtils.degToRad(params.angle);

@@ -12,6 +12,11 @@ function setupThree() {
   end.setFromAxisAngle(axis, THREE.MathUtils.degToRad(-170));
 
   setupGUI();
+
+  showInstruction(
+    "Slide t from 0 to 1. Watch the quaternion take the shorter route!",
+    "left.mesh.rotation.y = THREE.MathUtils.degToRad(angle);\nright.mesh.quaternion.slerpQuaternions(start, end, params.t);"
+  );
 }
 function updateThree() {
   const angle = THREE.MathUtils.lerp(170, -170, params.t);

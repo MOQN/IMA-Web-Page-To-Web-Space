@@ -1,6 +1,5 @@
 let params = {
   fps: 0,
-  color: "#FFF"
 };
 
 const WORLD_SIZE = 2000;

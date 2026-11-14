@@ -23,6 +23,11 @@ function setupThree() {
   scene.add(fan);
 
   setupGUI();
+
+  showInstruction(
+    "Change Speed to spin the fan. Negative values reverse its direction.",
+    "fan.quaternion.setFromAxisAngle(axis, angle);"
+  );
 }
 
 function updateThree() {

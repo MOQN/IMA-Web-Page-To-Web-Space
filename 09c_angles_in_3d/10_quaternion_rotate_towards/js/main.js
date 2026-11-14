@@ -8,6 +8,11 @@ function setupThree() {
   scene.add(current.mesh, target.mesh);
 
   setupGUI();
+
+  showInstruction(
+    "Move the target angles, then change Speed. Watch the object turn toward the target!",
+    "target.mesh.quaternion.setFromEuler(targetAngles);\ncurrent.mesh.quaternion.rotateTowards(target.mesh.quaternion, step);"
+  );
 }
 function updateThree() {
   targetAngles.set(THREE.MathUtils.degToRad(params.x), THREE.MathUtils.degToRad(params.y), 0, "XYZ");

@@ -1,3 +1,26 @@
 * { box-sizing: border-box; }
 body { margin: 0; overflow: hidden; background: #000000; color: #dddddd; font: 14px/1.6 system-ui, sans-serif; }
 canvas { display: block; }
+
+.instruction {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 500px;
+  max-width: calc(100vw - 64px);
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #cccccc;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.instruction-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #555555;
+}

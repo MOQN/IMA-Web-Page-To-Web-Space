@@ -22,6 +22,11 @@ function setupThree() {
   scene.add(hinge);
 
   setupGUI();
+
+  showInstruction(
+    "Change Open to rotate the door around its hinge.",
+    "hinge.quaternion.setFromAxisAngle(axis, angle);"
+  );
 }
 
 function updateThree() {

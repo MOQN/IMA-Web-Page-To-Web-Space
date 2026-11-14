@@ -23,15 +23,25 @@ canvas {
   /* add your style */
 }
 
-#navigation-help {
-  position: fixed;
+.instruction {
+  position: absolute;
+  top: 20px;
   left: 20px;
-  bottom: 20px;
-  z-index: 1;
-  max-width: 360px;
-  padding: 10px 14px;
-  color: white;
-  background: rgb(0 0 0 / 70%);
-  font: 14px/1.4 sans-serif;
+  width: 500px;
+  max-width: calc(100vw - 64px);
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #cccccc;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
   pointer-events: none;
+}
+
+.instruction-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #555555;
 }

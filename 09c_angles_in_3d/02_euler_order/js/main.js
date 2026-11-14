@@ -9,6 +9,11 @@ function setupThree() {
   scene.add(left.mesh, right.mesh);
 
   setupGUI();
+
+  showInstruction(
+    "Give both objects the same angles, then change the order on the right. See the difference?",
+    "left.mesh.rotation.set(x, y, z, \"XYZ\");\nright.mesh.rotation.set(x, y, z, params.order);"
+  );
 }
 function updateThree() {
   const x = THREE.MathUtils.degToRad(params.x);

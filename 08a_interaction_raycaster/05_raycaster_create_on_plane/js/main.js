@@ -1,6 +1,5 @@
 let params = {
   fps: 0,
-  color: "#FFF"
 };
 
 const raycaster = new THREE.Raycaster();
