@@ -31,7 +31,6 @@ function clearPoseConfidence() {
   for (const point of Object.values(pose)) point.confidence = 0;
 }
 
-
 async function setup() {
   bodypose = await ml5.bodyPose();
 

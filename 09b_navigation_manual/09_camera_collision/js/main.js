@@ -8,8 +8,6 @@ const FLOOR_HEIGHT = -WORLD_HALF / 4;
 const GRAVITY = 1080;
 const PLAYER_RADIUS = 45;
 
-
-
 let plane;
 let character;
 let thirdPersonCamera;

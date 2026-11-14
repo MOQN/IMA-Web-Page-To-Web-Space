@@ -20,7 +20,6 @@ function setupThree() {
   plane.position.y = -WORLD_HALF / 4;
   plane.rotation.x = -PI / 2;
 
-
   // Background boxes
   for (let i = 0; i < 100; i++) {
     let box = getBox();

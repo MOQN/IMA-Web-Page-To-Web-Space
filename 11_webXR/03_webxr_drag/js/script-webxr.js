@@ -67,7 +67,6 @@ function onSelectEnd(event) {
   }
 }
 
-
 const intersected = [];
 const tempMatrix = new THREE.Matrix4();
 

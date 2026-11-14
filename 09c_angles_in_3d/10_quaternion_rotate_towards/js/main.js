@@ -6,6 +6,8 @@ function setupThree() {
   current = new Model(); target = new Model(0xff3300);
   current.mesh.position.x = -2.3; target.mesh.position.x = 2.3;
   scene.add(current.mesh, target.mesh);
+
+  setupGUI();
 }
 function updateThree() {
   targetAngles.set(THREE.MathUtils.degToRad(params.x), THREE.MathUtils.degToRad(params.y), 0, "XYZ");

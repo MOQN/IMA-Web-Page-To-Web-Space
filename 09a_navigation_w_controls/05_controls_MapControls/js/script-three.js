@@ -36,11 +36,11 @@ function initThree() {
     max: 120,
   });
 
-  setupThree(); // ***
-
   timer = new THREE.Timer();
   timer.connect(document);
   timer.reset();
+
+  setupThree(); // ***
 
   renderer.setAnimationLoop(animate);
 }

@@ -63,7 +63,6 @@ function updateThree() {
   params.scene_children = scene.children.length;
 }
 
-
 ///// UTILS /////
 
 function getRoom() {

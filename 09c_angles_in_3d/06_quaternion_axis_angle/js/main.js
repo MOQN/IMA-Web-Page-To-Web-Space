@@ -6,6 +6,8 @@ function setupThree() {
   model = new Model();
   arrow = new THREE.ArrowHelper(new THREE.Vector3(0, 1, 0), new THREE.Vector3(), 3, 0xffff00);
   scene.add(model.mesh, arrow);
+
+  setupGUI();
 }
 function updateThree() {
   if (params.axis === "X") axis.set(1, 0, 0);

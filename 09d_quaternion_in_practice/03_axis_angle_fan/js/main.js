@@ -21,6 +21,8 @@ function setupThree() {
   blade2.scale.set(30, 300, 12);
   fan.add(blade1, blade2);
   scene.add(fan);
+
+  setupGUI();
 }
 
 function updateThree() {

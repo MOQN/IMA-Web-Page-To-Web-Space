@@ -40,8 +40,6 @@ function updateThree() {
   }
 }
 
-
-
 function getBox() {
   let geometry = new THREE.BoxGeometry(1, 1, 1);
   let material = new THREE.MeshBasicMaterial({

@@ -9,6 +9,8 @@ function setupThree() {
   left = new Model(); right = new Model(0xff3300);
   left.mesh.position.x = -2.3; right.mesh.position.x = 2.3;
   scene.add(left.mesh, right.mesh);
+
+  setupGUI();
 }
 function updateThree() {
   qX.setFromAxisAngle(axisX, THREE.MathUtils.degToRad(params.x));

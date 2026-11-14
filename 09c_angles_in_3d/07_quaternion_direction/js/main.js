@@ -7,6 +7,8 @@ function setupThree() {
   model = new Model();
   arrow = new THREE.ArrowHelper(forward, new THREE.Vector3(), 3, 0xffff00);
   scene.add(model.mesh, arrow);
+
+  setupGUI();
 }
 function updateThree() {
   direction.set(params.x, params.y, params.z);

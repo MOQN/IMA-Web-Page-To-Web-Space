@@ -18,6 +18,8 @@ function setupThree() {
   arrow.position.x = -180;
   target = getTarget();
   scene.add(arrow, target);
+
+  setupGUI();
 }
 
 function updateThree() {

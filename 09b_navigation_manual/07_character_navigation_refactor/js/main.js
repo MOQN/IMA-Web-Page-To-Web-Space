@@ -7,8 +7,6 @@ const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_HEIGHT = -WORLD_HALF / 4;
 const GRAVITY = 1080;
 
-
-
 let plane;
 let character;
 let thirdPersonCamera;

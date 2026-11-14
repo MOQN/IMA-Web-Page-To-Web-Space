@@ -35,7 +35,6 @@ function setupThree() {
   const ambiLight = new THREE.AmbientLight(0x333333); // soft light
   scene.add(ambiLight);
 
-
   let folderFog = pane.addFolder({ title: "Fog", expanded: true });
   folderFog.addBinding(params, "near", { min: 1, max: 5000, step: 1 });
   folderFog.addBinding(params, "far", { min: 1, max: 5000, step: 1 });

@@ -35,7 +35,6 @@ function updateThree() {
   cube.rotation.z += 0.005;
 }
 
-
 ///// UTILS /////
 
 function getRoom() {

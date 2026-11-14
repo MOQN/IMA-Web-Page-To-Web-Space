@@ -83,7 +83,6 @@ function setupThree() {
   folderDirectLight.addBinding(directLight.color, "b", { min: 0.0, max: 1, step: 0.05 });
 }
 
-
 function updateThree() {
   // update fog
   scene.fog = new THREE.Fog(COLOR_BG, params.near, params.far);

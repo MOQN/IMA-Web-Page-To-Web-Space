@@ -18,6 +18,8 @@ function setupThree() {
   box.scale.set(160, 80, 50);
   box.add(new THREE.AxesHelper(160).setColors(0xff0000, 0x00ff00, 0x0000ff));
   scene.add(box);
+
+  setupGUI();
 }
 
 function updateThree() {

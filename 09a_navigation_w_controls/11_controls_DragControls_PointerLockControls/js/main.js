@@ -5,8 +5,6 @@ let params = {
 
 let controls;
 
-
-
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 const moveSpeed = 300;
@@ -157,7 +155,6 @@ function getPlane() {
 
   return mesh;
 }
-
 
 // event listeners
 document.addEventListener('keydown', onKeyDown);

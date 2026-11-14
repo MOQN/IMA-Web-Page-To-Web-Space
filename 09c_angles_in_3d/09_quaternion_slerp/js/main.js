@@ -10,6 +10,8 @@ function setupThree() {
   const axis = new THREE.Vector3(0, 1, 0);
   start.setFromAxisAngle(axis, THREE.MathUtils.degToRad(170));
   end.setFromAxisAngle(axis, THREE.MathUtils.degToRad(-170));
+
+  setupGUI();
 }
 function updateThree() {
   const angle = THREE.MathUtils.lerp(170, -170, params.t);

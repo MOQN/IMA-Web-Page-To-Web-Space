@@ -126,7 +126,6 @@ function updateThree() {
   */
 }
 
-
 ///// UTILS /////
 
 function getRoom() {

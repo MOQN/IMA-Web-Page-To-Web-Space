@@ -20,6 +20,8 @@ function setupThree() {
   scene.add(box);
   const axis = new THREE.Vector3(0, 1, 0);
   end.setFromAxisAngle(axis, Math.PI / 2);
+
+  setupGUI();
 }
 
 function updateThree() {

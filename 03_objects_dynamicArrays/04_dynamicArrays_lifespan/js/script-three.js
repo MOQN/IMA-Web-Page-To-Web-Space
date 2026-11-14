@@ -4,7 +4,6 @@ let container, pane, gui;
 let scene, camera, renderer;
 let controls;
 
-
 function createGuiCompat(paneInstance) {
   const makeControl = (target, key, opts = {}) => {
     const control = paneInstance.addBinding(target, key, opts);
@@ -94,11 +93,11 @@ function initThree() {
   });
   pane.addBlade({ view: "separator" });
 
-  setupThree(); // ***
-
   timer = new THREE.Timer();
   timer.connect(document);
   timer.reset();
+
+  setupThree(); // ***
 
   renderer.setAnimationLoop(animate);
 }

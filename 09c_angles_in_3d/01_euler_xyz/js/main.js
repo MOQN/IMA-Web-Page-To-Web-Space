@@ -4,6 +4,8 @@ let model;
 function setupThree() {
   model = new Model();
   scene.add(model.mesh);
+
+  setupGUI();
 }
 function updateThree() {
   const x = THREE.MathUtils.degToRad(params.x);

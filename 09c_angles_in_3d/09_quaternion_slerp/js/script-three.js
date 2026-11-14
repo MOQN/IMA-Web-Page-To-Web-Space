@@ -21,12 +21,11 @@ function initThree() {
   grid.position.y = -3;
   scene.add(grid);
 
-  setupThree(); // ***
-
-  setupGUI();
   timer = new THREE.Timer();
   timer.connect(document);
   timer.reset();
+
+  setupThree(); // ***
 
   renderer.setAnimationLoop(animate);
 }

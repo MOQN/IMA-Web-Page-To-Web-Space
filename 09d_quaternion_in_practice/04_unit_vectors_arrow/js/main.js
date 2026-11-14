@@ -16,6 +16,8 @@ function setupThree() {
 
   arrow = getArrow();
   scene.add(arrow, new THREE.AxesHelper(250).setColors(0xff0000, 0x00ff00, 0x0000ff));
+
+  setupGUI();
 }
 
 function updateThree() {

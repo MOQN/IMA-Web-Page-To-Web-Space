@@ -87,7 +87,6 @@ class Ray {
       // get the position of the intersection
       const intersectionPosition = intersection.point;
 
-
       // optional
       this.intersectionMarker.position.copy(intersectionPosition);
 

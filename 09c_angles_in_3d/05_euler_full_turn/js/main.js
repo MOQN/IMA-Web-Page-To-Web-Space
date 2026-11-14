@@ -7,6 +7,8 @@ function setupThree() {
   model.mesh.position.x = -2.3;
   reference.mesh.position.x = 2.3;
   scene.add(model.mesh, reference.mesh);
+
+  setupGUI();
 }
 function updateThree() {
   model.mesh.rotation.y = THREE.MathUtils.degToRad(params.angle);

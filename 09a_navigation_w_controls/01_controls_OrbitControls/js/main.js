@@ -2,8 +2,6 @@ let params = { fps: 0 };
 
 let controls;
 
-
-
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 let plane;

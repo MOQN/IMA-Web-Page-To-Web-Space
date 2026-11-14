@@ -16,6 +16,8 @@ function setupThree() {
 
   arrow = getArrow();
   scene.add(arrow);
+
+  setupGUI();
 }
 
 function updateThree() {

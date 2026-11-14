@@ -25,6 +25,8 @@ function setupThree() {
   target = getTarget();
   target.position.set(250, -130, 150);
   scene.add(arrow, target);
+
+  setupGUI();
 }
 
 function updateThree() {

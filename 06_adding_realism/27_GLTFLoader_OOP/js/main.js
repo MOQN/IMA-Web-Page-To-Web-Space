@@ -96,7 +96,6 @@ function getLight() {
   return light;
 }
 
-
 class Model {
   constructor(object) {
     // SkeletonUtils.clone also keeps skinned models independent!

@@ -24,6 +24,8 @@ function setupThree() {
   hinge.add(door, new THREE.AxesHelper(180).setColors(0xff0000, 0x00ff00, 0x0000ff));
   scene.add(hinge);
   opened.setFromAxisAngle(new THREE.Vector3(0, 1, 0), Math.PI / 2);
+
+  setupGUI();
 }
 
 function updateThree() {

@@ -72,7 +72,6 @@ function updateThree() {
   params.drawCount = particles.length;
 }
 
-
 ///// UTILS /////
 
 function getRoom() {

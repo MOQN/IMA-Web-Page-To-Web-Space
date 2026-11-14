@@ -7,6 +7,8 @@ function setupThree() {
   left.mesh.position.x = -2.3;
   right.mesh.position.x = 2.3;
   scene.add(left.mesh, right.mesh);
+
+  setupGUI();
 }
 function updateThree() {
   const x = THREE.MathUtils.degToRad(params.x);

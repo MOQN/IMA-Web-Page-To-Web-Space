@@ -40,11 +40,11 @@ function initThree() {
   });
   pane.addBlade({ view: 'separator' });
 
-  setupThree(); // ***
-
   timer = new THREE.Timer();
   timer.connect(document);
   timer.reset();
+
+  setupThree(); // ***
 
   renderer.setAnimationLoop(animate);
 }

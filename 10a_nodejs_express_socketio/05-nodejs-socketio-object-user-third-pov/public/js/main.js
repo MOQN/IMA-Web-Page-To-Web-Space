@@ -8,8 +8,6 @@ const WORLD_HALF = WORLD_SIZE / 2;
 const FLOOR_HEIGHT = -150;
 const C_GRAVITY = 0.3;
 
-
-
 let plane;
 let thirdPovCam;
 let socket;

@@ -20,6 +20,8 @@ function setupThree() {
   steadyArrow.position.x = 220;
   steadyArrow.children[0].material.color.set(0xff3300);
   scene.add(smoothArrow, steadyArrow);
+
+  setupGUI();
 }
 
 function updateThree() {

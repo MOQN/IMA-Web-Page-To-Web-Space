@@ -4,8 +4,6 @@ let controls;
 
 // Move with WASD or the arrow keys. Drag the mouse to look around.
 
-
-
 const WORLD_SIZE = 2000;
 const WORLD_HALF = WORLD_SIZE / 2;
 let plane;

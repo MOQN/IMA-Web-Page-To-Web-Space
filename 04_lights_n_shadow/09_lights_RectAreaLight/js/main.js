@@ -65,7 +65,6 @@ function setupThree() {
   folderLightDirection.addBinding(params.lookAt, "z", { min: -WORLD_HALF / 2, max: WORLD_HALF / 2, step: 0.1 });
 }
 
-
 function updateThree() {
   // update fog
   scene.fog = new THREE.Fog(COLOR_BG, params.near, params.far);

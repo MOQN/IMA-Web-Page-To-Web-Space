@@ -100,7 +100,6 @@ function getLight() {
   return light;
 }
 
-
 class Bear {
   constructor(object) {
     this.group = object.clone();

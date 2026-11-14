@@ -2,7 +2,6 @@ const params = { fps: 0 };
 
 let controls;
 
-
 function setupThree() {
   // controls
   controls = new TrackballControls(camera, renderer.domElement);

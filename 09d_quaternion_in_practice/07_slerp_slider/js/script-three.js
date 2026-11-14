@@ -16,12 +16,11 @@ function initThree() {
   container = document.getElementById("container-three");
   container.appendChild(renderer.domElement);
 
-  setupThree(); // ***
-
-  setupGUI();
   timer = new THREE.Timer();
   timer.connect(document);
   timer.reset();
+
+  setupThree(); // ***
 
   renderer.setAnimationLoop(animate);
 }
