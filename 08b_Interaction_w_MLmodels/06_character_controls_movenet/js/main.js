@@ -9,7 +9,6 @@ const FLOOR_HEIGHT = -150;
 let user;
 let keyboard;
 let poseInput;
-let previousUpdateTime = null;
 
 function setupThree() {
   const floor = getPlane();
@@ -30,19 +29,15 @@ function setupThree() {
 }
 
 function updateThree() {
-  const now = performance.now();
-  const dt = previousUpdateTime === null ? 0 : Math.min((now - previousUpdateTime) / 1000, 0.05);
-  previousUpdateTime = now;
-
   const keyboardIntent = keyboard.read();
   let intent;
   if (keyboardIntent.active) {
     poseInput.status = "Keyboard control";
     intent = keyboardIntent;
   } else {
-    intent = poseInput.read(pose, lastPoseTime, now, document.hidden);
+    intent = poseInput.read(pose, lastPoseTime, time, document.hidden);
   }
-  user.update(intent, dt);
+  user.update(intent, delta);
 
   camera.position.copy(user.position);
   camera.quaternion.copy(user.direction);
@@ -75,7 +70,7 @@ class Character {
   }
   update(intent, dt) {
     if (!Number.isFinite(dt) || dt <= 0) return;
-    dt = Math.min(dt, 0.05);
+    dt = Math.min(dt, 0.05); // Limit the time step to avoid sudden large movements during slow frames.
     this.rotate(intent.turn, dt);
     this.move(intent, dt);
     this.jump(intent.jump, dt);

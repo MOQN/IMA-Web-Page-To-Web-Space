@@ -77,7 +77,7 @@ function setupThree() {
 }
 
 function updateThree() {
-  const dt = Math.min(delta, 0.05);
+  const dt = Math.min(delta, 0.05); // Limit the time step to avoid sudden large movements during slow frames.
   if (!controls.isLocked) return;
   const forward = Number(moveForward) - Number(moveBackward);
   const sideways = Number(moveRight) - Number(moveLeft);

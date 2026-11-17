@@ -63,7 +63,7 @@ async function setup() {
 }
 
 function draw() {
-  if (performance.now() - lastPoseTime > POSE_TIMEOUT_MS) clearPoseConfidence();
+  if (time - lastPoseTime > POSE_TIMEOUT_MS) clearPoseConfidence();
   background(50);
 
   drawMirroredCam();
@@ -86,7 +86,7 @@ function gotPoses(results) {
   poses = results;
   clearPoseConfidence();
   if (!results.length) return;
-  lastPoseTime = performance.now();
+  lastPoseTime = time;
 
   // Mirror a copy for the preview; do not mutate the model's input data.
   poses = results.map(result => ({

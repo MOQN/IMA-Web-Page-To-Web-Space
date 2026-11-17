@@ -27,7 +27,7 @@ function setupThree() {
 }
 
 function updateThree() {
-  const dt = Math.min(delta, 0.05);
+  const dt = Math.min(delta, 0.05); // Limit the time step to avoid sudden large movements during slow frames.
   character.update(dt);
   thirdPersonCamera.update(character, dt);
 }

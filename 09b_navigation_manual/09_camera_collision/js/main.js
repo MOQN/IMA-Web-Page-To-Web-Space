@@ -12,7 +12,6 @@ let plane;
 let character;
 let thirdPersonCamera;
 let walls = [];
-let wallMeshes = [];
 
 function setupThree() {
   plane = createTerrain();
@@ -20,7 +19,7 @@ function setupThree() {
 
   createWalls();
   character = new Character();
-  thirdPersonCamera = new ThirdPersonCamera(camera, wallMeshes);
+  thirdPersonCamera = new ThirdPersonCamera(camera, walls);
 
   const cameraFolder = pane.addFolder({ title: "CAMERA", expanded: true });
   cameraFolder.addBinding(thirdPersonCamera.idealOffset, "x", { min: -500, max: 500 });
@@ -31,45 +30,49 @@ function setupThree() {
 }
 
 function createWalls() {
-  addWall(0, -800, 1600, 30);
-  addWall(0, 800, 1600, 30);
-  addWall(-800, 0, 30, 1600);
-  addWall(800, 0, 30, 1600);
+  walls = [
+    getWall(0, -800, 1600, 30),
+    getWall(0, 800, 1600, 30),
+    getWall(-800, 0, 30, 1600),
+    getWall(800, 0, 30, 1600),
+  ];
+
+  for (const wall of walls) {
+    scene.add(wall);
+    wall.updateMatrixWorld(true);
+  }
 }
 
-function addWall(x, z, width, depth) {
+function getWall(x, z, width, depth) {
   const geometry = new THREE.BoxGeometry(width, 200, depth);
   const material = new THREE.MeshBasicMaterial({ color: 0x303744 });
   const wall = new THREE.Mesh(geometry, material);
   wall.position.set(x, FLOOR_HEIGHT + 100, z);
-  scene.add(wall);
-  wall.updateMatrixWorld(true);
-  wallMeshes.push(wall);
-  walls.push({
-    minX: x - width / 2,
-    maxX: x + width / 2,
-    minZ: z - depth / 2,
-    maxZ: z + depth / 2,
-  });
+  return wall;
 }
 
 function collidesWithWall(position) {
-  if (Math.abs(position.x) > WORLD_HALF - PLAYER_RADIUS ||
-      Math.abs(position.z) > WORLD_HALF - PLAYER_RADIUS) {
+  // Look down at the XZ plane, so jumping does not change the collision test.
+  const point = new THREE.Vector2(position.x, position.z);
+  const limit = WORLD_HALF - PLAYER_RADIUS;
+  if (Math.abs(point.x) > limit || Math.abs(point.y) > limit) {
     return true;
   }
 
-  return walls.some((wall) => {
-    const closestX = Math.max(wall.minX, Math.min(position.x, wall.maxX));
-    const closestZ = Math.max(wall.minZ, Math.min(position.z, wall.maxZ));
-    const dx = position.x - closestX;
-    const dz = position.z - closestZ;
-    return dx * dx + dz * dz < PLAYER_RADIUS * PLAYER_RADIUS;
-  });
+  for (const wall of walls) {
+    const bounds = new THREE.Box3().setFromObject(wall);
+    const min = new THREE.Vector2(bounds.min.x, bounds.min.z);
+    const max = new THREE.Vector2(bounds.max.x, bounds.max.z);
+    const closest = point.clone().clamp(min, max);
+    if (point.distanceTo(closest) < PLAYER_RADIUS) {
+      return true;
+    }
+  }
+  return false;
 }
 
 function updateThree() {
-  const dt = Math.min(delta, 0.05);
+  const dt = Math.min(delta, 0.05); // Limit the time step to avoid sudden large movements during slow frames.
   character.update(dt);
   thirdPersonCamera.update(character, dt);
 }
