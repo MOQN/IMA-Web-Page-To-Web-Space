@@ -150,7 +150,7 @@ class PoseInput {
     }
     const dx = right.x - left.x;
     const dy = right.y - left.y;
-    this.distance = Math.hypot(dx, dy);
+    this.distance = dist(0, 0, dx, dy);
     if (this.distance < 1) {
       this.status = "Shoulders too close — movement paused";
       return intent;

@@ -81,7 +81,7 @@ function updateThree() {
   if (!controls.isLocked) return;
   const forward = Number(moveForward) - Number(moveBackward);
   const sideways = Number(moveRight) - Number(moveLeft);
-  const length = Math.hypot(forward, sideways);
+  const length = dist(0, 0, forward, sideways);
   if (length > 0) {
     controls.moveForward(forward / length * params.moveSpeed * dt);
     controls.moveRight(sideways / length * params.moveSpeed * dt);
