@@ -1,0 +1,47 @@
+html,
+body {
+  height: 100%;
+  background-color: #000000;
+}
+
+body {
+  margin: 0;
+}
+
+canvas {
+  display: block;
+}
+
+#container-p5 {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+}
+
+#container-three {
+  display: block;
+  /* add your style */
+}
+
+.instruction {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 500px;
+  max-width: calc(100vw - 64px);
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #cccccc;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  pointer-events: none;
+}
+
+.instruction-code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin: 12px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #555555;
+}
