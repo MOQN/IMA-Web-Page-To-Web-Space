@@ -1,0 +1,25 @@
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #181818;
+  font:
+    14px Arial,
+    sans-serif;
+}
+canvas {
+  display: block;
+}
+#container-p5 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+#container-p5 canvas {
+  max-width: 100%;
+  height: auto !important;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "02-p5-users-color",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Small steps for sharing data with Socket.IO",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test ../__test/__course.integration.test.cjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "dependencies": {
+    "express": "^5.3.0",
+    "socket.io": "^4.8.4"
+  },
+  "devDependencies": {
+    "socket.io-client": "^4.8.4"
+  }
+}
