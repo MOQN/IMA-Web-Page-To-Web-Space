@@ -51,7 +51,6 @@ function animate() {
   timer.update();
   time = timer.getElapsed() * 1000; // milliseconds
   delta = timer.getDelta();
-
   if (delta > 0) {
     params.fps = 1 / delta;
   } else {
