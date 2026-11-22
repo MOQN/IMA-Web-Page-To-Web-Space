@@ -67,8 +67,8 @@ class Cube {
 // event listeners
 window.addEventListener("pointerdown", onPointerDown);
 window.addEventListener("pointerup", onPointerUp);
-window.addEventListener("pointercancel", () => { isPressed = false; });
-window.addEventListener("blur", () => { isPressed = false; });
+window.addEventListener("pointercancel", function() { isPressed = false; });
+window.addEventListener("blur", function() { isPressed = false; });
 
 function onPointerDown(event) {
   if (event.target !== renderer.domElement || event.button !== 0 || !event.isPrimary) return;

@@ -13,7 +13,11 @@ function updateThree() {
   controls.update();
 }
 
-window.addEventListener("resize", () => controls?.handleResize());
+window.addEventListener("resize", function() {
+  if (controls !== null && controls !== undefined) {
+    return controls.handleResize();
+  }
+});
 
 function getSphere() {
   const radius = 300;

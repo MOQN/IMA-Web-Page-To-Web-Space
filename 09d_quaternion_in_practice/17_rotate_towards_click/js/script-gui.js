@@ -9,16 +9,32 @@ function setupGUI() {
   pane.addBinding(params, "status", { readonly: true });
 
   const quaternionFolder = pane.addFolder({ title: "Current Quaternion" });
-  quaternionFolder.addBinding(arrow.quaternion, "x", { label: "qx", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "y", { label: "qy", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "z", { label: "qz", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "w", { label: "qw", readonly: true, format: value => value.toFixed(3) });
+  quaternionFolder.addBinding(arrow.quaternion, "x", { label: "qx", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "y", { label: "qy", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "z", { label: "qz", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "w", { label: "qw", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
 
   const targetQuaternionFolder = pane.addFolder({ title: "Target Quaternion", expanded: false });
-  targetQuaternionFolder.addBinding(targetRotation, "x", { label: "qx", readonly: true, format: value => value.toFixed(3) });
-  targetQuaternionFolder.addBinding(targetRotation, "y", { label: "qy", readonly: true, format: value => value.toFixed(3) });
-  targetQuaternionFolder.addBinding(targetRotation, "z", { label: "qz", readonly: true, format: value => value.toFixed(3) });
-  targetQuaternionFolder.addBinding(targetRotation, "w", { label: "qw", readonly: true, format: value => value.toFixed(3) });
+  targetQuaternionFolder.addBinding(targetRotation, "x", { label: "qx", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  targetQuaternionFolder.addBinding(targetRotation, "y", { label: "qy", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  targetQuaternionFolder.addBinding(targetRotation, "z", { label: "qz", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  targetQuaternionFolder.addBinding(targetRotation, "w", { label: "qw", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
 
 }
 

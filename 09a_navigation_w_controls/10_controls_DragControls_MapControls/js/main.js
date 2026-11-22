@@ -51,7 +51,8 @@ function setupThree() {
   controlsMap.maxDistance = 1800;
   controlsMap.listenToKeyEvents(window);
 
-  controlsDrag.addEventListener("dragstart", ({ object }) => {
+  controlsDrag.addEventListener("dragstart", function(event) {
+    const object = event.object;
     dragPosition.copy(object.position);
     hasFloorGrab = Boolean(getFloorPoint());
     if (hasFloorGrab) grabOffset.copy(dragPosition).sub(floorPoint);
@@ -59,7 +60,8 @@ function setupThree() {
     controlsMap.enabled = false;
   });
 
-  controlsDrag.addEventListener("drag", ({ object }) => {
+  controlsDrag.addEventListener("drag", function(event) {
+    const object = event.object;
     if (getFloorPoint()) {
       if (!hasFloorGrab) grabOffset.copy(dragPosition).sub(floorPoint);
       hasFloorGrab = true;
@@ -68,7 +70,8 @@ function setupThree() {
     object.position.copy(dragPosition);
   });
 
-  controlsDrag.addEventListener("dragend", ({ object }) => {
+  controlsDrag.addEventListener("dragend", function(event) {
+    const object = event.object;
     object.material.color.set(0x00ff00);
     controlsMap.enabled = true;
   });

@@ -45,11 +45,14 @@ class BodyPose {
     this.group = new THREE.Group();
     this.poseScale = 250;
     this.confidenceThreshold = 0.1;
-    this.bones = connections.map(([startName, endName]) => {
+    this.bones = [];
+    for (let i = 0; i < connections.length; i++) {
+      let startName = connections[i][0];
+      let endName = connections[i][1];
       const bar = new Bar(30);
       this.group.add(bar.mesh);
-      return { startName, endName, bar };
-    });
+      this.bones.push({ startName: startName, endName: endName, bar: bar });
+    }
     // Reuse these vectors instead of allocating for every bone on every frame.
     this.start = new THREE.Vector3();
     this.end = new THREE.Vector3();
@@ -68,8 +71,12 @@ class BodyPose {
   }
   update(keypoints) {
     for (const bone of this.bones) {
-      const start = keypoints?.[bone.startName];
-      const end = keypoints?.[bone.endName];
+      let start;
+      let end;
+      if (keypoints !== null && keypoints !== undefined) {
+        start = keypoints[bone.startName];
+        end = keypoints[bone.endName];
+      }
       if (!this.hasPoint(start) || !this.hasPoint(end)) {
         bone.bar.mesh.visible = false;
         continue;

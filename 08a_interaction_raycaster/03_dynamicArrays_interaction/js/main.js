@@ -26,7 +26,11 @@ function updateThree() {
 
   // update the ray and calculate intersected objects
   raycaster.setFromCamera(mouse, camera);
-  const intersections = raycaster.intersectObjects(cubes.map(cube => cube.mesh), false);
+  let meshes = [];
+  for (let i = 0; i < cubes.length; i++) {
+    meshes.push(cubes[i].mesh);
+  }
+  const intersections = raycaster.intersectObjects(meshes, false);
 
   // update the cubes
   for (let c of cubes) {
@@ -208,7 +212,9 @@ function onMouseMove(event) {
   mouse.y = -((event.clientY - canvasBounds.top) / canvasBounds.height) * 2 + 1;
 }
 // Stop hovering after the pointer leaves the canvas or the window loses focus.
-window.addEventListener('pointerout', event => {
+window.addEventListener('pointerout', function(event) {
   if (event.target === renderer.domElement) mouse.set(-2, -2);
 });
-window.addEventListener('blur', () => mouse.set(-2, -2));
+window.addEventListener('blur', function() {
+  return mouse.set(-2, -2);
+});

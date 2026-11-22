@@ -9,10 +9,18 @@ function setupGUI() {
   pane.addBinding(params, "z", { min: -400, max: 400, step: 1, label: "Target Z" });
 
   const quaternionFolder = pane.addFolder({ title: "Quaternion" });
-  quaternionFolder.addBinding(arrow.quaternion, "x", { label: "qx", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "y", { label: "qy", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "z", { label: "qz", readonly: true, format: value => value.toFixed(3) });
-  quaternionFolder.addBinding(arrow.quaternion, "w", { label: "qw", readonly: true, format: value => value.toFixed(3) });
+  quaternionFolder.addBinding(arrow.quaternion, "x", { label: "qx", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "y", { label: "qy", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "z", { label: "qz", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  quaternionFolder.addBinding(arrow.quaternion, "w", { label: "qw", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
 
 }
 

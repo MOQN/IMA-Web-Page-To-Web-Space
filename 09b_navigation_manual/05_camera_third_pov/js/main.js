@@ -223,7 +223,10 @@ class Character {
     }
   }
   onKeyDown(event) {
-    if (event.target?.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+    if (event.target !== null && event.target !== undefined
+        && event.target.closest !== null && event.target.closest !== undefined) {
+      if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+    }
     if (event.code === 'Space' || event.code.startsWith('Arrow')) event.preventDefault();
     switch (event.code) {
       case 'ArrowUp':

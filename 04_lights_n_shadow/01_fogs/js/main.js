@@ -49,7 +49,12 @@ function updateFog() {
   linearFog.far = params.far;
   exponentialFog.color.set(params.fogColor);
   exponentialFog.density = params.density;
-  scene.fog = params.exp2 ? exponentialFog : linearFog;
+
+  if (params.exp2) {
+    scene.fog = exponentialFog;
+  } else {
+    scene.fog = linearFog;
+  }
 }
 
 function updateThree() {

@@ -52,7 +52,11 @@ function setMoveDestination(event) {
   scene.updateMatrixWorld(true);
   camera.updateMatrixWorld(true);
   terrainRaycaster.setFromCamera(pointer, camera);
-  const intersection = terrainRaycaster.intersectObjects([plane, ...walls])[0];
+  let obstacles = [plane];
+  for (let i = 0; i < walls.length; i++) {
+    obstacles.push(walls[i]);
+  }
+  const intersection = terrainRaycaster.intersectObjects(obstacles)[0];
   if (!intersection) return;
   if (intersection.object !== plane || collidesWithWall(intersection.point)) {
     character.destination = null;
@@ -147,7 +151,12 @@ function getHeightAt(position) {
     new THREE.Vector3(0, -1, 0)
   );
   const intersections = raycaster.intersectObject(plane);
-  return intersections.length > 0 ? intersections[0].point.y : FLOOR_HEIGHT;
+
+  if (intersections.length > 0) {
+    return intersections[0].point.y;
+  } else {
+    return FLOOR_HEIGHT;
+  }
 }
 
 class Character {
@@ -176,21 +185,25 @@ class Character {
     this.pressedKeys = new Set();
     this.destination = null;
     params.navigation = "Paused";
-    this.onKeyDown = (event) => this.setKey(event, true);
-    this.onKeyUp = (event) => this.setKey(event, false);
-    this.resetKeys = () => {
+    this.onKeyDown = function(event) {
+      return this.setKey(event, true);
+    }.bind(this);
+    this.onKeyUp = function(event) {
+      return this.setKey(event, false);
+    }.bind(this);
+    this.resetKeys = function() {
       this.pressedKeys.clear();
       this.jumpWasPressed = false;
       this.destination = null;
       for (const key of Object.keys(this.keys)) this.keys[key] = false;
-    };
+    }.bind(this);
 
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("keyup", this.onKeyUp);
     window.addEventListener("blur", this.resetKeys);
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", function() {
       if (document.hidden) this.resetKeys();
-    });
+    }.bind(this));
   }
 
   update(dt) {
@@ -216,9 +229,14 @@ class Character {
       this.destination = null;
       params.navigation = "Keyboard control";
     }
-    const movement = usingKeyboard
-      ? keyboardMovement
-      : this.destination && new THREE.Vector3().subVectors(this.destination, this.mesh.position);
+    let movement;
+
+    if (usingKeyboard) {
+      movement = keyboardMovement;
+    } else {
+      movement = this.destination && new THREE.Vector3().subVectors(this.destination, this.mesh.position);
+    }
+
     if (!movement) return;
     movement.y = 0;
     if (movement.lengthSq() === 0) {
@@ -241,9 +259,23 @@ class Character {
       }
     }
 
-    const speed = this.keys.run ? 360 : 150;
+    let speed;
+
+    if (this.keys.run) {
+      speed = 360;
+    } else {
+      speed = 150;
+    }
+
     const distance = speed * dt;
-    const step = usingKeyboard ? distance : Math.min(distance, remaining);
+    let step;
+
+    if (usingKeyboard) {
+      step = distance;
+    } else {
+      step = Math.min(distance, remaining);
+    }
+
     const previousPosition = this.mesh.position.clone();
     const nextPosition = previousPosition.clone();
 
@@ -275,7 +307,10 @@ class Character {
   }
 
   setKey(event, isDown) {
-    if (isDown && event.target?.closest?.("input, textarea, select, [contenteditable='true']")) return;
+    if (isDown && event.target !== null && event.target !== undefined
+        && event.target.closest !== null && event.target.closest !== undefined) {
+      if (event.target.closest("input, textarea, select, [contenteditable='true']")) return;
+    }
     const bindings = {
       ArrowUp: "forward",
       KeyW: "forward",
@@ -299,7 +334,14 @@ class Character {
     }
     if (isDown) this.pressedKeys.add(event.code);
     else this.pressedKeys.delete(event.code);
-    this.keys[key] = [...this.pressedKeys].some((code) => bindings[code] === key);
+    let anyPressed = false;
+    for (const code of this.pressedKeys) {
+      if (bindings[code] === key) {
+        anyPressed = true;
+        break;
+      }
+    }
+    this.keys[key] = anyPressed;
   }
 }
 

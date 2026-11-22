@@ -1,60 +1,8 @@
 console.log("three.js Version: " + THREE.REVISION);
 
-let container, pane, gui;
+let container, pane;
 let scene, camera, renderer;
 let controls;
-
-function createGuiCompat(paneInstance) {
-  const makeControl = (target, key, opts = {}) => {
-    const control = paneInstance.addBinding(target, key, opts);
-    return {
-      min(v) { if (v !== undefined) opts.min = v; return this; },
-      max(v) { if (v !== undefined) opts.max = v; return this; },
-      step(v) { if (v !== undefined) opts.step = v; return this; },
-      listen() { return this; },
-      onChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
-      onFinishChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
-    };
-  };
-
-  const api = {
-    add(target, key, min, max, step) {
-      const opts = {};
-      if (typeof min === "number") opts.min = min;
-      if (typeof max === "number") opts.max = max;
-      if (typeof step === "number") opts.step = step;
-      return makeControl(target, key, opts);
-    },
-    addColor(target, key) {
-      const control = paneInstance.addBinding(target, key, { view: "color" });
-      return {
-        onChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
-        onFinishChange(fn) { if (typeof fn === "function") control.on("change", (ev) => fn(ev.value)); return this; },
-      };
-    },
-    addFolder(titleOrOptions) {
-      const title = typeof titleOrOptions === "string"
-        ? titleOrOptions
-        : (titleOrOptions && titleOrOptions.title) || "Folder";
-      const folderPane = paneInstance.addFolder({ title, expanded: true });
-      return createGuiCompat(folderPane);
-    },
-    open() {
-      if ("expanded" in paneInstance) {
-        paneInstance.expanded = true;
-      }
-      return api;
-    },
-    close() {
-      if ("expanded" in paneInstance) {
-        paneInstance.expanded = false;
-      }
-      return api;
-    },
-  };
-
-  return api;
-}
 let timer, time = 0, delta = 0, frame = 0;
 
 function initThree() {
@@ -76,7 +24,6 @@ function initThree() {
   controls = new OrbitControls(camera, renderer.domElement);
 
   pane = new Pane();
-  gui = createGuiCompat(pane);
   pane.addBinding(params, "fps", {
     label: "FPS",
     readonly: true,
@@ -107,7 +54,12 @@ function animate() {
   timer.update();
   time = timer.getElapsed() * 1000; // milliseconds
   delta = timer.getDelta();
-  params.fps = delta > 0 ? 1 / delta : 0;
+
+  if (delta > 0) {
+    params.fps = 1 / delta;
+  } else {
+    params.fps = 0;
+  }
 
   updateThree(); // ***
 

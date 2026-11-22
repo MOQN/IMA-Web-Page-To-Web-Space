@@ -25,7 +25,9 @@ function setupThree() {
   pane.addBinding(poseInput, "angle", { label: "Shoulder tilt (degrees)", readonly: true });
   pane.addBinding(poseInput, "distance", { label: "Shoulder width", readonly: true });
   pane.addBinding(poseInput, "neutralWidth", { readonly: true });
-  pane.addButton({ title: "Calibrate neutral pose" }).on("click", () => poseInput.calibrate());
+  pane.addButton({ title: "Calibrate neutral pose" }).on("click", function() {
+    return poseInput.calibrate();
+  });
 }
 
 function updateThree() {
@@ -84,7 +86,14 @@ class Character {
     // Preserve analog pose input, but cap diagonal keyboard movement at length 1.
     if (this.movement.lengthSq() > 1) this.movement.normalize();
     this.movement.applyQuaternion(this.direction);
-    const speed = intent.run ? this.runSpeed : this.walkSpeed;
+    let speed;
+
+    if (intent.run) {
+      speed = this.runSpeed;
+    } else {
+      speed = this.walkSpeed;
+    }
+
     this.position.addScaledVector(this.movement, speed * dt);
   }
   jump(requested, dt) {
@@ -127,8 +136,12 @@ class PoseInput {
   }
   read(keypoints, lastDetectionTime, now, hidden = false) {
     const intent = getNeutralIntent();
-    const left = keypoints?.left_shoulder;
-    const right = keypoints?.right_shoulder;
+    let left;
+    let right;
+    if (keypoints !== null && keypoints !== undefined) {
+      left = keypoints.left_shoulder;
+      right = keypoints.right_shoulder;
+    }
     const age = now - lastDetectionTime;
     if (hidden || !Number.isFinite(age) || age < 0 || age > this.timeoutMs
         || !this.hasPoint(left) || !this.hasPoint(right)) {
@@ -146,11 +159,16 @@ class PoseInput {
     if (!this.neutralWidth) this.neutralWidth = this.distance;
     this.status = "Tracking";
     const ratio = this.distance / this.neutralWidth;
-    const clamp = value => Math.max(0, Math.min(1, value));
     // A neutral zone prevents small tracking jitters from starting movement.
-    intent.z = ratio > 1.1 ? -clamp((ratio - 1.1) / 0.3)
-      : ratio < 0.9 ? clamp((0.9 - ratio) / 0.3) : 0;
-    intent.turn = -Math.sign(this.angle) * clamp((Math.abs(this.angle) - 12) / 18);
+    // p5.js method
+    if (ratio > 1.1) {
+      intent.z = -constrain((ratio - 1.1) / 0.3, 0, 1);
+    } else if (ratio < 0.9) {
+      intent.z = constrain((0.9 - ratio) / 0.3, 0, 1);
+    } else {
+      intent.z = 0;
+    }
+    intent.turn = -Math.sign(this.angle) * constrain((Math.abs(this.angle) - 12) / 18, 0, 1);
     intent.active = true;
     return intent;
   }
@@ -170,16 +188,23 @@ class KeyboardInput {
     this.windowTarget = windowTarget;
     this.pressed = new Set();
     this.jumpRequested = false;
-    this.onKeyDown = event => {
+    this.onKeyDown = function(event) {
       if (!KEY_ACTIONS[event.code]) return;
-      if (event.target?.closest?.('input, textarea, select, [contenteditable="true"]')) return;
+      if (event.target !== null && event.target !== undefined
+          && event.target.closest !== null && event.target.closest !== undefined) {
+        if (event.target.closest('input, textarea, select, [contenteditable="true"]')) return;
+      }
       if (event.code === "Space" || event.code.startsWith("Arrow")) event.preventDefault();
       if (event.code === "Space" && !this.pressed.has(event.code)) this.jumpRequested = true;
       this.pressed.add(event.code);
-    };
-    this.onKeyUp = event => this.pressed.delete(event.code);
-    this.onBlur = () => this.reset();
-    this.onVisibility = () => { if (this.keyTarget.hidden) this.reset(); };
+    }.bind(this);
+    this.onKeyUp = function(event) {
+      return this.pressed.delete(event.code);
+    }.bind(this);
+    this.onBlur = function() {
+      return this.reset();
+    }.bind(this);
+    this.onVisibility = function() { if (this.keyTarget.hidden) this.reset(); }.bind(this);
     keyTarget.addEventListener("keydown", this.onKeyDown);
     keyTarget.addEventListener("keyup", this.onKeyUp);
     keyTarget.addEventListener("visibilitychange", this.onVisibility);
@@ -190,7 +215,10 @@ class KeyboardInput {
     this.jumpRequested = false;
   }
   read() {
-    const actions = new Set([...this.pressed].map(code => KEY_ACTIONS[code]));
+    const actions = new Set();
+    for (let code of this.pressed) {
+      actions.add(KEY_ACTIONS[code]);
+    }
     const intent = getNeutralIntent();
     intent.x = Number(actions.has("right")) - Number(actions.has("left"));
     intent.z = Number(actions.has("backward")) - Number(actions.has("forward"));

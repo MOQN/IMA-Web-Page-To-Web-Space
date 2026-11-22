@@ -25,7 +25,12 @@ function updateThree() {
     cube.rotate();
     cube.update();
     cube.mesh.material.wireframe = cube.mesh !== selectedObject;
-    cube.mesh.material.color.set(cube.mesh === selectedObject ? 0x00ff00 : 0xffffff);
+
+    if (cube.mesh === selectedObject) {
+      cube.mesh.material.color.set(0x00ff00);
+    } else {
+      cube.mesh.material.color.set(0xffffff);
+    }
   }
 }
 
@@ -122,6 +127,15 @@ function onClick(event) {
   scene.updateMatrixWorld(true);
   camera.updateWorldMatrix(true, false);
   raycaster.setFromCamera(mouse, camera);
-  const hits = raycaster.intersectObjects(cubes.map(cube => cube.mesh), false);
-  selectedObject = hits.length ? hits[0].object : null;
+  let meshes = [];
+  for (let i = 0; i < cubes.length; i++) {
+    meshes.push(cubes[i].mesh);
+  }
+  const hits = raycaster.intersectObjects(meshes, false);
+
+  if (hits.length) {
+    selectedObject = hits[0].object;
+  } else {
+    selectedObject = null;
+  }
 }

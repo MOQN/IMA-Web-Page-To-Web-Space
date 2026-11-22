@@ -30,7 +30,12 @@ function animate() {
   timer.update();
   time = timer.getElapsed() * 1000; // milliseconds
   delta = timer.getDelta();
-  params.fps = delta > 0 ? 1 / delta : 0;
+
+  if (delta > 0) {
+    params.fps = 1 / delta;
+  } else {
+    params.fps = 0;
+  }
 
   updateThree(); // ***
 

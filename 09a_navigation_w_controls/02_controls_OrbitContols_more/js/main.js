@@ -84,8 +84,12 @@ function setupControlsGUI() {
   const focus = pane.addFolder({ title: "Focus", expanded: false });
   focus.addBinding(controls, "target", { expanded: true });
   focus.addBinding(controls, "cursor", { expanded: true });
-  focus.addButton({ title: "Save View" }).on("click", () => controls.saveState());
-  focus.addButton({ title: "Reset View" }).on("click", () => controls.reset());
+  focus.addButton({ title: "Save View" }).on("click", function() {
+    return controls.saveState();
+  });
+  focus.addButton({ title: "Reset View" }).on("click", function() {
+    return controls.reset();
+  });
 
   const keyboard = pane.addFolder({ title: "Keyboard", expanded: false });
   const keyMaps = {
@@ -95,7 +99,7 @@ function setupControlsGUI() {
   controls.keys = keyMaps.wasd;
   keyboard.addBinding({ layout: "wasd" }, "layout", {
     options: { WASD: "wasd", Arrows: "arrows" },
-  }).on("change", ({ value }) => { controls.keys = keyMaps[value]; });
+  }).on("change", function(event) { controls.keys = keyMaps[event.value]; });
   keyboard.addBinding(controls, "keyPanSpeed", { min: 1, max: 50 });
   keyboard.addBinding(controls, "keyRotateSpeed", { min: 0.1, max: 5 });
 
@@ -116,11 +120,11 @@ function setupControlsGUI() {
 }
 
 function addLimits(folder, minProperty, maxProperty, options) {
-  folder.addBinding(controls, minProperty, options).on("change", ({ value }) => {
-    controls[maxProperty] = Math.max(controls[maxProperty], value);
+  folder.addBinding(controls, minProperty, options).on("change", function(event) {
+    controls[maxProperty] = Math.max(controls[maxProperty], event.value);
   });
-  folder.addBinding(controls, maxProperty, options).on("change", ({ value }) => {
-    controls[minProperty] = Math.min(controls[minProperty], value);
+  folder.addBinding(controls, maxProperty, options).on("change", function(event) {
+    controls[minProperty] = Math.min(controls[minProperty], event.value);
   });
 }
 

@@ -62,7 +62,12 @@ function getHeightAt(position) {
     new THREE.Vector3(0, -1, 0)
   );
   const intersections = raycaster.intersectObject(plane);
-  return intersections.length > 0 ? intersections[0].point.y : FLOOR_HEIGHT;
+
+  if (intersections.length > 0) {
+    return intersections[0].point.y;
+  } else {
+    return FLOOR_HEIGHT;
+  }
 }
 
 class Character {
@@ -89,20 +94,24 @@ class Character {
     this.jumpSpeed = 0;
     this.jumpWasPressed = false;
     this.pressedKeys = new Set();
-    this.onKeyDown = (event) => this.setKey(event, true);
-    this.onKeyUp = (event) => this.setKey(event, false);
-    this.resetKeys = () => {
+    this.onKeyDown = function(event) {
+      return this.setKey(event, true);
+    }.bind(this);
+    this.onKeyUp = function(event) {
+      return this.setKey(event, false);
+    }.bind(this);
+    this.resetKeys = function() {
       this.pressedKeys.clear();
       this.jumpWasPressed = false;
       for (const key of Object.keys(this.keys)) this.keys[key] = false;
-    };
+    }.bind(this);
 
     document.addEventListener("keydown", this.onKeyDown);
     document.addEventListener("keyup", this.onKeyUp);
     window.addEventListener("blur", this.resetKeys);
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener("visibilitychange", function() {
       if (document.hidden) this.resetKeys();
-    });
+    }.bind(this));
   }
 
   update(dt) {
@@ -126,7 +135,14 @@ class Character {
     if (movement.lengthSq() === 0) return;
 
     movement.normalize().applyQuaternion(this.direction);
-    const speed = this.keys.run ? 360 : 150;
+    let speed;
+
+    if (this.keys.run) {
+      speed = 360;
+    } else {
+      speed = 150;
+    }
+
     this.mesh.position.addScaledVector(movement, speed * dt);
   }
 
@@ -146,7 +162,10 @@ class Character {
   }
 
   setKey(event, isDown) {
-    if (isDown && event.target?.closest?.("input, textarea, select, [contenteditable='true']")) return;
+    if (isDown && event.target !== null && event.target !== undefined
+        && event.target.closest !== null && event.target.closest !== undefined) {
+      if (event.target.closest("input, textarea, select, [contenteditable='true']")) return;
+    }
     const bindings = {
       ArrowUp: "forward",
       KeyW: "forward",
@@ -170,7 +189,14 @@ class Character {
     }
     if (isDown) this.pressedKeys.add(event.code);
     else this.pressedKeys.delete(event.code);
-    this.keys[key] = [...this.pressedKeys].some((code) => bindings[code] === key);
+    let anyPressed = false;
+    for (const code of this.pressedKeys) {
+      if (bindings[code] === key) {
+        anyPressed = true;
+        break;
+      }
+    }
+    this.keys[key] = anyPressed;
   }
 }
 

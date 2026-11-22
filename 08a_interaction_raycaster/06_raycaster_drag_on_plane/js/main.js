@@ -94,11 +94,21 @@ window.addEventListener("blur", onPointerUp);
 function onPointerDown(event) {
   if (event.target !== renderer.domElement || event.button !== 0 || !event.isPrimary || selected) return;
   updateRay(event);
-  const intersections = raycaster.intersectObjects(cubes.map(c => c.mesh), false);
+  let meshes = [];
+  for (let i = 0; i < cubes.length; i++) {
+    meshes.push(cubes[i].mesh);
+  }
+  const intersections = raycaster.intersectObjects(meshes, false);
   if (intersections.length === 0) return;
   if (!raycaster.ray.intersectPlane(dragPlane, dragPosition)) return;
 
-  selected = cubes.find(c => c.mesh === intersections[0].object);
+  selected = null;
+  for (let i = 0; i < cubes.length; i++) {
+    if (cubes[i].mesh === intersections[0].object) {
+      selected = cubes[i];
+      break;
+    }
+  }
   dragOffset.subVectors(selected.pos, dragPosition); // keep the grabbed point under the pointer
   selected.mesh.material.color.set(0x00ff00);
   controls.enabled = false;

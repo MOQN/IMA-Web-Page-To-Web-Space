@@ -11,16 +11,32 @@ function setupGUI() {
   pane.addButton({ title: "Reset / Replay" }).on("click", resetRotation);
 
   const leftQuaternionFolder = pane.addFolder({ title: "Left Quaternion · slerp" });
-  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "x", { label: "qx", readonly: true, format: value => value.toFixed(3) });
-  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "y", { label: "qy", readonly: true, format: value => value.toFixed(3) });
-  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "z", { label: "qz", readonly: true, format: value => value.toFixed(3) });
-  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "w", { label: "qw", readonly: true, format: value => value.toFixed(3) });
+  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "x", { label: "qx", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "y", { label: "qy", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "z", { label: "qz", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  leftQuaternionFolder.addBinding(smoothArrow.quaternion, "w", { label: "qw", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
 
   const rightQuaternionFolder = pane.addFolder({ title: "Right Quaternion · rotateTowards" });
-  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "x", { label: "qx", readonly: true, format: value => value.toFixed(3) });
-  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "y", { label: "qy", readonly: true, format: value => value.toFixed(3) });
-  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "z", { label: "qz", readonly: true, format: value => value.toFixed(3) });
-  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "w", { label: "qw", readonly: true, format: value => value.toFixed(3) });
+  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "x", { label: "qx", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "y", { label: "qy", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "z", { label: "qz", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
+  rightQuaternionFolder.addBinding(steadyArrow.quaternion, "w", { label: "qw", readonly: true, format: function(value) {
+    return value.toFixed(3);
+  } });
 
 }
 

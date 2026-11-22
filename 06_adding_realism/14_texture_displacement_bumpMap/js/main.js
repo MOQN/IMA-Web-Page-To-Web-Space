@@ -30,7 +30,12 @@ function setupThree() {
     label: "Texture",
   }).on("change", function () {
     for (const mesh of [sphere, bumpSphere]) {
-      mesh.material.map = params.showTexture ? texture : null;
+      if (params.showTexture) {
+        mesh.material.map = texture;
+      } else {
+        mesh.material.map = null;
+      }
+
       mesh.material.needsUpdate = true;
     }
   });
@@ -80,16 +85,36 @@ function getLight() {
 
 function getSphere(useBumpMap = false) {
   const geometry = new THREE.SphereGeometry(1, 360, 360);
+  let textureMap;
+
+  if (params.showTexture) {
+    textureMap = texture;
+  } else {
+    textureMap = null;
+  }
+
+  let bumpMap2;
+
+  if (useBumpMap) {
+    bumpMap2 = texture;
+  } else {
+    bumpMap2 = null;
+  }
+
   // *** Use MeshStandardMaterial!
   const material = new THREE.MeshStandardMaterial({
     side: THREE.DoubleSide,
-    map: params.showTexture ? texture : null,
+    map: textureMap,
+
     // while displacement moves vertices;
     displacementMap: texture,
+
     displacementScale: params.displacementScale,
+
     // bump mapping adds surface detail to the lighting!
-    bumpMap: useBumpMap ? texture : null,
-    bumpScale: 1,
+    bumpMap: bumpMap2,
+
+    bumpScale: 1
   });
   const mesh = new THREE.Mesh(geometry, material);
   return mesh;

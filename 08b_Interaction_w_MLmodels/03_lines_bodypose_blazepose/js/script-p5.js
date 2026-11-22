@@ -89,17 +89,55 @@ function gotPoses(results) {
   lastPoseTime = time;
 
   // Mirror a copy for the preview; do not mutate the model's input data.
-  poses = results.map(result => ({
-    ...result,
-    keypoints: result.keypoints.map(point => ({ ...point, x: video.width - point.x }))
-  }));
+  poses = [];
+  for (let i = 0; i < results.length; i++) {
+    let result = results[i];
+    let copiedResult = {};
+    for (let key in result) {
+      if (Object.prototype.hasOwnProperty.call(result, key)) {
+        copiedResult[key] = result[key];
+      }
+    }
+
+    copiedResult.keypoints = [];
+    for (let j = 0; j < result.keypoints.length; j++) {
+      let point = result.keypoints[j];
+      let copiedPoint = {};
+      for (let property in point) {
+        if (Object.prototype.hasOwnProperty.call(point, property)) {
+          copiedPoint[property] = point[property];
+        }
+      }
+      copiedPoint.x = video.width - point.x;
+      copiedResult.keypoints.push(copiedPoint);
+    }
+    poses.push(copiedResult);
+  }
   const points = results[0].keypoints3D || [];
   const amount = 0.25;
-  for (const [index, point] of points.entries()) {
-    const name = point.name || results[0].keypoints[index]?.name;
+  for (let index = 0; index < points.length; index++) {
+    const point = points[index];
+    let name = point.name;
+    if (!name) {
+      const originalPoint = results[0].keypoints[index];
+      name = undefined;
+      if (originalPoint !== null && originalPoint !== undefined) {
+        name = originalPoint.name;
+      }
+    }
     const target = pose[name];
     if (!target) continue;
-    const confidence = point.confidence ?? results[0].keypoints[index]?.confidence ?? 0;
+    let confidence = point.confidence;
+    if (confidence === null || confidence === undefined) {
+      const originalPoint = results[0].keypoints[index];
+      confidence = undefined;
+      if (originalPoint !== null && originalPoint !== undefined) {
+        confidence = originalPoint.confidence;
+      }
+      if (confidence === null || confidence === undefined) {
+        confidence = 0;
+      }
+    }
     if (confidence <= 0.1 || !Number.isFinite(point.x) || !Number.isFinite(point.y)) continue;
     target.x = lerp(target.x, point.x, amount);
     target.y = lerp(target.y, point.y, amount);

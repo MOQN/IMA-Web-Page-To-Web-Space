@@ -37,11 +37,11 @@ function setupThree() {
   });
 
   // F toggles modes. Esc releases the pointer and returns to editing.
-  pane.addBinding(params, "walk", { label: "Walk (F)" }).on("change", ({ value }) => {
-    if (value) controls.lock();
+  pane.addBinding(params, "walk", { label: "Walk (F)" }).on("change", function(event) {
+    if (event.value) controls.lock();
     else controls.unlock();
   });
-  window.addEventListener("keydown", (event) => {
+  window.addEventListener("keydown", function(event) {
     if (event.code === "Escape" && controls.isLocked) {
       controls.unlock();
       return;
@@ -50,26 +50,26 @@ function setupThree() {
     if (controls.isLocked) controls.unlock();
     else controls.lock();
   });
-  const resetMovement = () => {
+  const resetMovement = function() {
     moveForward = moveBackward = moveLeft = moveRight = false;
   };
   controls.addEventListener('unlock', resetMovement);
   window.addEventListener('blur', resetMovement);
-  document.addEventListener('visibilitychange', () => {
+  document.addEventListener('visibilitychange', function() {
     if (document.hidden) {
       resetMovement();
       controls.unlock();
     }
   });
-  controls.addEventListener("lock", () => {
+  controls.addEventListener("lock", function() {
     params.walk = true;
     controlsDrag.enabled = false;
   });
-  controls.addEventListener("unlock", () => {
+  controls.addEventListener("unlock", function() {
     params.walk = false;
     controlsDrag.enabled = true;
   });
-  document.addEventListener("pointerlockerror", () => {
+  document.addEventListener("pointerlockerror", function() {
     params.walk = controls.isLocked;
   });
 
@@ -161,7 +161,8 @@ document.addEventListener('keydown', onKeyDown);
 document.addEventListener('keyup', onKeyUp);
 
 function onKeyDown(event) {
-  if (!controls?.isLocked) return;
+  if (controls === null || controls === undefined) return;
+  if (!controls.isLocked) return;
   if (event.code === "Space" || event.code.startsWith("Arrow")) event.preventDefault();
   switch (event.code) {
     case 'ArrowUp':
