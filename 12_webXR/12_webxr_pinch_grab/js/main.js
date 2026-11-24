@@ -1,0 +1,36 @@
+const params = { fps: 0 };
+
+let box;
+
+function setupThree() {
+  createXRScene();
+
+  setupGUI();
+
+  setupWebXR();
+
+  showInstruction("Start a pinch at the box. Move your hand and open your fingers to release.", "midpoint.copy(fingertip.position).lerp(thumb.position, 0.5)");
+}
+
+function updateThree(xrFrame) {
+  if (xrFrame) updateHands(xrFrame);
+}
+
+function createXRScene() {
+  const grid = new THREE.GridHelper(8, 8);
+  scene.add(grid);
+
+  box = getBox();
+  box.position.set(0, 1.3, -0.48);
+  scene.add(box);
+
+  const light = new THREE.HemisphereLight(0xffffff, 0x7788aa, 2);
+  scene.add(light);
+}
+
+function getBox() {
+  const geometry = new THREE.BoxGeometry(0.24, 0.24, 0.24);
+  const material = new THREE.MeshStandardMaterial({ color: 0x55aaff });
+  const mesh = new THREE.Mesh(geometry, material);
+  return mesh;
+}

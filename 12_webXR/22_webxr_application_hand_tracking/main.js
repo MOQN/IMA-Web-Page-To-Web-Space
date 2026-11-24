@@ -1,0 +1,276 @@
+const params = { fps: 0 };
+
+let timer, time = 0, delta = 0, frame = 0;
+
+let status;
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x10131b);
+scene.add(new THREE.HemisphereLight(0xffffff, 0x526080, 2));
+
+const keyLight = new THREE.DirectionalLight(0xffffff, 2);
+keyLight.position.set(2, 5, 3);
+scene.add(keyLight);
+
+const camera = new THREE.PerspectiveCamera(70, innerWidth / innerHeight, 0.1, 50);
+camera.position.set(0, 1.6, 4);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+renderer.setSize(innerWidth, innerHeight);
+renderer.xr.enabled = true;
+document.body.appendChild(renderer.domElement);
+document.body.appendChild(XRButton.createButton(renderer, {
+  optionalFeatures: ["hand-tracking"],
+}));
+
+const floor = getFloor();
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = -0.02;
+scene.add(floor);
+
+const jointGeometry = new THREE.SphereGeometry(1, 10, 8);
+const orbGeometry = new THREE.SphereGeometry(0.055, 20, 16);
+const orbMeshes = [];
+const hands = [];
+const pinchEnterDistance = 0.025;
+const pinchExitDistance = 0.045;
+let handCount = 0;
+let pinchCount = 0;
+
+function setupThree() {
+  status = document.createElement("pre");
+  status.style.whiteSpace = "pre-wrap";
+  status.style.overflowWrap = "anywhere";
+  status.textContent = "Checking WebXR support...";
+  showInstruction("Pinch your thumb and index finger together to make a ball!").appendChild(status);
+}
+
+function makeHandVisual(inputSource) {
+  const group = new THREE.Group();
+  let handColor;
+
+  if (inputSource.handedness === "left") {
+    handColor = 0x62d7ff;
+  } else {
+    handColor = 0xffa05f;
+  }
+
+  const jointMaterial = new THREE.MeshStandardMaterial({
+    color: handColor,
+    roughness: 0.4
+  });
+  const joints = {};
+
+  for (const entry of inputSource.hand) {
+    const name = entry[0];
+    const marker = new THREE.Mesh(jointGeometry, jointMaterial);
+    marker.name = String(name);
+    marker.visible = false;
+    group.add(marker);
+    joints[name] = marker;
+  }
+
+  scene.add(group);
+  return { inputSource, group, joints, jointMaterial, isPinching: false };
+}
+
+function removeHandVisual(visual) {
+  scene.remove(visual.group);
+  visual.jointMaterial.dispose();
+}
+
+function makePinchOrb(position, handedness) {
+  const orb = getPinchOrb(handedness);
+  orb.position.copy(position);
+  scene.add(orb);
+  orbMeshes.push(orb);
+
+  if (orbMeshes.length > 50) {
+    const oldest = orbMeshes.shift();
+    scene.remove(oldest);
+    oldest.material.dispose();
+  }
+
+  pinchCount += 1;
+}
+
+function updateHands(frame) {
+  const referenceSpace = renderer.xr.getReferenceSpace();
+  if (!referenceSpace) return;
+
+  for (const visual of hands) {
+    visual.active = false;
+    for (const name in visual.joints) {
+      visual.joints[name].visible = false;
+    }
+  }
+
+  handCount = 0;
+
+  for (const inputSource of frame.session.inputSources) {
+    if (!inputSource.hand) continue;
+
+    handCount += 1;
+    let visual;
+    for (const hand of hands) {
+      if (hand.inputSource === inputSource) {
+        visual = hand;
+        break;
+      }
+    }
+    if (!visual) {
+      visual = makeHandVisual(inputSource);
+      hands.push(visual);
+    }
+    visual.active = true;
+
+    let thumb;
+    let index;
+    for (const entry of inputSource.hand) {
+      const jointName = entry[0];
+      const jointSpace = entry[1];
+      const pose = frame.getJointPose(jointSpace, referenceSpace);
+      const marker = visual.joints[jointName];
+      if (!pose || !marker) continue;
+
+      marker.position.set(
+        pose.transform.position.x,
+        pose.transform.position.y,
+        pose.transform.position.z,
+      );
+      let radius = pose.radius;
+      if (radius === null || radius === undefined) {
+        radius = 0.008;
+      }
+      marker.scale.setScalar(Math.max(radius, 0.004));
+      marker.visible = true;
+      if (jointName === "thumb-tip") {
+        thumb = pose;
+      } else if (jointName === "index-finger-tip") {
+        index = pose;
+      }
+    }
+
+    if (!thumb || !index) {
+      visual.isPinching = false;
+      continue;
+    }
+
+    const thumbPosition = new THREE.Vector3(
+      thumb.transform.position.x,
+      thumb.transform.position.y,
+      thumb.transform.position.z,
+    );
+    const indexPosition = new THREE.Vector3(
+      index.transform.position.x,
+      index.transform.position.y,
+      index.transform.position.z,
+    );
+    const distance = thumbPosition.distanceTo(indexPosition);
+    let isPinching;
+
+    if (visual.isPinching) {
+      isPinching = distance < pinchExitDistance;
+    } else {
+      isPinching = distance < pinchEnterDistance;
+    }
+
+    if (isPinching && !visual.isPinching) {
+      makePinchOrb(thumbPosition.add(indexPosition).multiplyScalar(0.5), inputSource.handedness);
+    }
+    visual.isPinching = isPinching;
+  }
+
+  for (let i = hands.length - 1; i >= 0; i--) {
+    const visual = hands[i];
+    if (visual.active) continue;
+    removeHandVisual(visual);
+    hands.splice(i, 1);
+  }
+}
+
+setupThree(); // ***
+
+if (navigator.xr) {
+  status.textContent = "Checking immersive-vr support...";
+  navigator.xr.isSessionSupported("immersive-vr").then(function(supported) {
+    if (supported) {
+      status.textContent = "immersive-vr is ready. Press the XR start button.";
+    } else {
+      status.textContent = "This browser or device cannot use immersive-vr.";
+    }
+  }).catch(function(error) {
+    status.textContent = `Could not check XR support: ${error.message}`;
+  });
+} else {
+  status.textContent = "WebXR is not ready. Use HTTPS or localhost and a device that supports XR.";
+}
+
+renderer.xr.addEventListener("sessionend", function() {
+  for (const visual of hands) removeHandVisual(visual);
+  hands.length = 0;
+});
+
+timer = new THREE.Timer();
+timer.connect(document);
+timer.reset();
+
+renderer.setAnimationLoop(function(_time, xrFrame) {
+  frame++;
+  timer.update();
+  time = timer.getElapsed() * 1000; // milliseconds
+  delta = timer.getDelta();
+  if (delta > 0) {
+    params.fps = 1 / delta;
+  } else {
+    params.fps = 0;
+  }
+
+  if (xrFrame) {
+    updateHands(xrFrame);
+
+    if (handCount) {
+      status.textContent =
+        `Tracked hands: ${handCount}\n` +
+        `Balls made by pinching: ${pinchCount}\n` +
+        `Pinch start/end distance: ${pinchEnterDistance * 100} / ${pinchExitDistance * 100} cm`;
+    } else {
+      status.textContent = "No hand input. Allow hand-tracking and use a device that supports it.";
+    }
+  }
+
+  renderer.render(scene, camera);
+});
+
+window.addEventListener("resize", function() {
+  camera.aspect = innerWidth / innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth, innerHeight);
+});
+
+
+function getFloor() {
+  const geometry = new THREE.PlaneGeometry(8, 8);
+  const material = new THREE.MeshStandardMaterial({ color: 0x222938, roughness: 0.9 });
+  const mesh = new THREE.Mesh(geometry, material);
+  return mesh;
+}
+
+function getPinchOrb(handedness) {
+  let color;
+
+  if (handedness === "left") {
+    color = 0x62d7ff;
+  } else {
+    color = 0xffa05f;
+  }
+
+  const material = new THREE.MeshStandardMaterial({
+    color,
+    roughness: 0.35,
+    metalness: 0.1
+  });
+  const mesh = new THREE.Mesh(orbGeometry, material);
+  return mesh;
+}
