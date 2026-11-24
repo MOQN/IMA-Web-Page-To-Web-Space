@@ -15,7 +15,8 @@ function setupThree() {
 
   showInstruction(
     "Slide t from 0 to 1. Watch the quaternion take the shorter route!",
-    "left.mesh.rotation.y = THREE.MathUtils.degToRad(angle);\nright.mesh.quaternion.slerpQuaternions(start, end, params.t);"
+    "left.mesh.rotation.y = THREE.MathUtils.degToRad(angle);\n" +
+    "right.mesh.quaternion.slerpQuaternions(start, end, params.t);"
   );
 }
 function updateThree() {

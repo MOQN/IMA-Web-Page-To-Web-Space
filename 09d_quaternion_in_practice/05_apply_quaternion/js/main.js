@@ -21,7 +21,8 @@ function setupThree() {
 
   showInstruction(
     "Press Add X Rotation, then Add Y Rotation. Reset and try the reverse order.",
-    "q.setFromAxisAngle(axis, angle);\nbox.applyQuaternion(q);"
+    "q.setFromAxisAngle(axis, angle);\n" +
+    "box.applyQuaternion(q);"
   );
 }
 

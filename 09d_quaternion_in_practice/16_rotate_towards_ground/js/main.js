@@ -29,7 +29,8 @@ function setupThree() {
 
   showInstruction(
     "Change the target position and height. The arrow turns on the ground plane.",
-    "targetRotation.setFromUnitVectors(forward, direction);\narrow.quaternion.rotateTowards(targetRotation, step);"
+    "targetRotation.setFromUnitVectors(forward, direction);\n" +
+    "arrow.quaternion.rotateTowards(targetRotation, step);"
   );
 }
 

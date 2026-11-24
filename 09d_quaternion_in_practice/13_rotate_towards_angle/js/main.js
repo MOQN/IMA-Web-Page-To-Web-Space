@@ -23,7 +23,8 @@ function setupThree() {
 
   showInstruction(
     "Change Target and Speed to set the rotation and how fast the box turns.",
-    "target.setFromAxisAngle(axis, THREE.MathUtils.degToRad(params.angle));\nbox.quaternion.rotateTowards(target, step);"
+    "target.setFromAxisAngle(axis, THREE.MathUtils.degToRad(params.angle));\n" +
+    "box.quaternion.rotateTowards(target, step);"
   );
 }
 

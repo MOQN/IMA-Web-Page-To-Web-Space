@@ -29,7 +29,8 @@ function setupThree() {
 
   showInstruction(
     "Both boxes start tilted. Rotate Both turns the left box around its own Y axis and the right box around world Y.",
-    "left.rotateOnAxis(axis, angle);\nright.rotateOnWorldAxis(axis, angle);"
+    "left.rotateOnAxis(axis, angle);\n" +
+    "right.rotateOnWorldAxis(axis, angle);"
   );
 }
 

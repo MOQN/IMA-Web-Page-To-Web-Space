@@ -29,7 +29,8 @@ function setupThree() {
 
   showInstruction(
     "Change Angle. Left uses quaternion.copy(), right uses setRotationFromQuaternion(). Both receive the same rotation.",
-    "left.quaternion.copy(q);\nright.setRotationFromQuaternion(q);"
+    "left.quaternion.copy(q);\n" +
+    "right.setRotationFromQuaternion(q);"
   );
 }
 

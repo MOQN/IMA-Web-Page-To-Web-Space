@@ -24,7 +24,8 @@ function setupThree() {
 
   showInstruction(
     "Move the target and change Speed to control how fast the arrow turns toward it.",
-    "targetRotation.setFromUnitVectors(forward, direction);\narrow.quaternion.rotateTowards(targetRotation, step);"
+    "targetRotation.setFromUnitVectors(forward, direction);\n" +
+    "arrow.quaternion.rotateTowards(targetRotation, step);"
   );
 }
 

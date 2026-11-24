@@ -30,7 +30,8 @@ function setupThree() {
 
   showInstruction(
     "Click the floor to choose where the arrow should face.",
-    "targetRotation.setFromUnitVectors(forward, direction);\narrow.quaternion.rotateTowards(targetRotation, step);"
+    "targetRotation.setFromUnitVectors(forward, direction);\n" +
+    "arrow.quaternion.rotateTowards(targetRotation, step);"
   );
 }
 

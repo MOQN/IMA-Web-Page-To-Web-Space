@@ -24,7 +24,8 @@ function setupThree() {
 
   showInstruction(
     "Change Target Speed and Aim Speed to compare target movement with turning speed.",
-    "targetRotation.setFromUnitVectors(forward, direction);\narrow.quaternion.rotateTowards(targetRotation, step);"
+    "targetRotation.setFromUnitVectors(forward, direction);\n" +
+    "arrow.quaternion.rotateTowards(targetRotation, step);"
   );
 }
 

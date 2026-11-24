@@ -11,7 +11,8 @@ function setupThree() {
 
   showInstruction(
     "Move the target angles, then change Speed. Watch the object turn toward the target!",
-    "target.mesh.quaternion.setFromEuler(targetAngles);\ncurrent.mesh.quaternion.rotateTowards(target.mesh.quaternion, step);"
+    "target.mesh.quaternion.setFromEuler(targetAngles);\n" +
+    "current.mesh.quaternion.rotateTowards(target.mesh.quaternion, step);"
   );
 }
 function updateThree() {

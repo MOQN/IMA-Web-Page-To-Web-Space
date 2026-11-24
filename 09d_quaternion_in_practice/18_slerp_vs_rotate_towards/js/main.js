@@ -25,7 +25,9 @@ function setupThree() {
 
   showInstruction(
     "Change Target. The left box eases toward it; the right box turns at a fixed speed.",
-    "goal.setFromAxisAngle(axis, THREE.MathUtils.degToRad(params.angle));\nsmoothArrow.quaternion.slerp(goal, params.follow);\nsteadyArrow.quaternion.rotateTowards(goal, step);"
+    "goal.setFromAxisAngle(axis, THREE.MathUtils.degToRad(params.angle));\n" +
+    "smoothArrow.quaternion.slerp(goal, params.follow);\n" +
+    "steadyArrow.quaternion.rotateTowards(goal, step);"
   );
 }
 

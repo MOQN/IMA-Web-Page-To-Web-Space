@@ -12,7 +12,8 @@ function setupThree() {
 
   showInstruction(
     "Give both objects the same angles, then change the order on the right. See the difference?",
-    "left.mesh.rotation.set(x, y, z, \"XYZ\");\nright.mesh.rotation.set(x, y, z, params.order);"
+    "left.mesh.rotation.set(x, y, z, \"XYZ\");\n" +
+    "right.mesh.rotation.set(x, y, z, params.order);"
   );
 }
 function updateThree() {

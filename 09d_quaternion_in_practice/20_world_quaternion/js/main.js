@@ -31,7 +31,8 @@ function setupThree() {
 
   showInstruction(
     "Turn the parent and child on the left. The green box copies their combined world rotation.",
-    "child.getWorldQuaternion(worldRotation);\nfollower.quaternion.copy(worldRotation);"
+    "child.getWorldQuaternion(worldRotation);\n" +
+    "follower.quaternion.copy(worldRotation);"
   );
 }
 

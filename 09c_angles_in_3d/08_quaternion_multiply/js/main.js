@@ -14,7 +14,8 @@ function setupThree() {
 
   showInstruction(
     "Try X then Y, and Y then X. Combining rotations in a different order changes the pose!",
-    "left.mesh.quaternion.copy(qX).multiply(qY);\nright.mesh.quaternion.copy(qY).multiply(qX);"
+    "left.mesh.quaternion.copy(qX).multiply(qY);\n" +
+    "right.mesh.quaternion.copy(qY).multiply(qX);"
   );
 }
 function updateThree() {
