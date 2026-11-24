@@ -28,14 +28,16 @@ function setupThree() {
 }
 
 function updateThree() {
-  // generate cubes by controller
-  if (controller.userData.isSelecting === true) {
+  // Launch cubes while a controller trigger is held.
+  for (const controller of controllers) {
+    if (!controller.userData.isSelecting) continue;
+
     // controller's position and direction
     const position = controller.position;
     const direction = new THREE.Vector3(0, 0, -1); // default direction
-    direction.applyQuaternion(controller.quaternion); // apply the rotation of the controller 
+    direction.applyQuaternion(controller.quaternion); // apply the rotation of the controller
 
-    // generate a cube using the position and direction      
+    // generate a cube using the position and direction
     let tCube = new Cube()
       .setPosition(position.x, position.y, position.z)
       .setVelocity(direction.x, direction.y, direction.z)
@@ -44,25 +46,14 @@ function updateThree() {
     cubes.push(tCube);
   }
 
-  // generate cubes in real time
-  let numOfCubes = floor(random(1, 2));
-  for (let i = 0; i < numOfCubes; i++) {
-    let tCube = new Cube()
-      .setPosition(0, 6, 0)
-      .setVelocity(random(-0.05, 0.05), random(0.01, 0.05), random(-0.05, 0.05))
-      .setRotationVelocity(random(-0.05, 0.05), random(-0.05, 0.05), random(-0.05, 0.05))
-      .setScale(random(0.3, 0.6));
-    cubes.push(tCube);
-  }
-
   // update the cubes
   for (let c of cubes) {
     let gravity = new THREE.Vector3(0, -0.0001, 0);
     c.applyForce(gravity);
-    c.move();
-    c.rotate();
-    c.age();
-    c.update();
+    c.updatePosition();
+    c.updateRotation();
+    c.updateLifespan();
+    c.updateScale();
   }
 
   // remove the cubes that are done
@@ -103,39 +94,40 @@ function getBox() {
 
 class Cube {
   constructor() {
-    this.pos = new THREE.Vector3();
+    this.mesh = getBox();
+    scene.add(this.mesh);
+
+    this.pos = this.mesh.position;
     this.vel = new THREE.Vector3();
     this.acc = new THREE.Vector3();
 
-    this.scl = new THREE.Vector3(1, 1, 1);
+    this.scale = this.mesh.scale;
+    this.baseScale = new THREE.Vector3(1, 1, 1);
     this.mass = 1;
     //this.setMass(); // feel free to use this method; it arbitrarily defines the mass based on the scale.
 
-    this.rot = new THREE.Vector3();
+    this.rot = this.mesh.rotation;
     this.rotVel = new THREE.Vector3();
     this.rotAcc = new THREE.Vector3();
 
     this.lifespan = 1.0;
     this.lifeReduction = random(0.005, 0.010);
     this.isDone = false;
-    //
-    this.mesh = getBox();
-    scene.add(this.mesh);
   }
   setPosition(x, y, z) {
-    this.pos = new THREE.Vector3(x, y, z);
+    this.pos.set(x, y, z);
     return this;
   }
   setVelocity(x, y, z) {
-    this.vel = new THREE.Vector3(x, y, z);
+    this.vel.set(x, y, z);
     return this;
   }
   setRotationAngle(x, y, z) {
-    this.rot = new THREE.Vector3(x, y, z);
+    this.rot.set(x, y, z);
     return this;
   }
   setRotationVelocity(x, y, z) {
-    this.rotVel = new THREE.Vector3(x, y, z);
+    this.rotVel.set(x, y, z);
     return this;
   }
   setScale(w, h = w, d = w) {
@@ -143,25 +135,28 @@ class Cube {
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
-    this.scl = new THREE.Vector3(w, h, d);
+    this.baseScale.set(w, h, d);
+    this.scale.set(w, h, d);
     return this;
   }
   setMass(mass) {
     if (mass) {
       this.mass = mass;
     } else {
-      this.mass = 1 + (this.scl.x * this.scl.y * this.scl.z) * 0.000001; // arbitrary
+      this.mass = 1 + (this.baseScale.x * this.baseScale.y * this.baseScale.z) * 0.000001; // arbitrary
     }
     return this;
   }
-  move() {
+  updatePosition() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.set(0, 0, 0);
   }
-  rotate() {
+  updateRotation() {
     this.rotVel.add(this.rotAcc);
-    this.rot.add(this.rotVel);
+    this.rot.x += this.rotVel.x;
+    this.rot.y += this.rotVel.y;
+    this.rot.z += this.rotVel.z;
     this.rotAcc.set(0, 0, 0);
   }
   applyForce(f) {
@@ -181,18 +176,18 @@ class Cube {
       this.isDone = true;
     }
   }
-  age() {
+  updateLifespan() {
     this.lifespan -= this.lifeReduction;
     if (this.lifespan <= 0) {
       this.lifespan = 0;
       this.isDone = true;
     }
   }
-  update() {
-    this.mesh.position.set(this.pos.x, this.pos.y, this.pos.z);
-    this.mesh.rotation.set(this.rot.x, this.rot.y, this.rot.z);
-
-    let newScale = this.scl.clone().multiplyScalar(this.lifespan);
-    this.mesh.scale.set(newScale.x, newScale.y, newScale.z);
+  updateScale() {
+    this.scale.set(
+      this.baseScale.x * this.lifespan,
+      this.baseScale.y * this.lifespan,
+      this.baseScale.z * this.lifespan
+    );
   }
 }

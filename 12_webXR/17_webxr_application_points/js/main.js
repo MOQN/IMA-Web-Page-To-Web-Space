@@ -39,11 +39,11 @@ function updateThree() {
     let p = particles[i];
     //p.attractedTo(0, 0, 0);
     p.flow(0.00005);
-    p.move();
+    p.updatePosition();
     p.adjustVelocity(-0.005);
-    p.rotate();
+    p.updateRotation();
 
-    p.age();
+    p.updateLifespan();
     if (p.isDone) {
       particles.splice(i, 1);
       i--;
@@ -144,19 +144,19 @@ class Particle {
     this.isDone = false;
   }
   setPosition(x, y, z) {
-    this.pos = new THREE.Vector3(x, y, z);
+    this.pos.set(x, y, z);
     return this;
   }
   setVelocity(x, y, z) {
-    this.vel = new THREE.Vector3(x, y, z);
+    this.vel.set(x, y, z);
     return this;
   }
   setRotationAngle(x, y, z) {
-    this.rot = new THREE.Vector3(x, y, z);
+    this.rot.set(x, y, z);
     return this;
   }
   setRotationVelocity(x, y, z) {
-    this.rotVel = new THREE.Vector3(x, y, z);
+    this.rotVel.set(x, y, z);
     return this;
   }
   setScale(w, h = w, d = w) {
@@ -164,7 +164,7 @@ class Particle {
     if (w < minScale) w = minScale;
     if (h < minScale) h = minScale;
     if (d < minScale) d = minScale;
-    this.scl = new THREE.Vector3(w, h, d);
+    this.scl.set(w, h, d);
     return this;
   }
   setMass(mass) {
@@ -175,7 +175,7 @@ class Particle {
     }
     return this;
   }
-  move() {
+  updatePosition() {
     this.vel.add(this.acc);
     this.pos.add(this.vel);
     this.acc.set(0, 0, 0);
@@ -183,7 +183,7 @@ class Particle {
   adjustVelocity(amount) {
     this.vel.multiplyScalar(1 + amount);
   }
-  rotate() {
+  updateRotation() {
     this.rotVel.add(this.rotAcc);
     this.rot.add(this.rotVel);
     this.rotAcc.set(0, 0, 0);
@@ -205,7 +205,7 @@ class Particle {
       this.isDone = true;
     }
   }
-  age() {
+  updateLifespan() {
     this.lifespan -= this.lifeReduction;
     if (this.lifespan <= 0) {
       this.lifespan = 0;

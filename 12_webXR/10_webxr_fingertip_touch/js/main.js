@@ -8,12 +8,6 @@ function setupThree() {
   setupGUI();
 
   setupWebXR();
-
-  showInstruction(
-    "Bring the index sphere into the box. Watch the contact state change.",
-    "bounds.setFromObject(box)\n" +
-    "bounds.intersectsSphere(contactSphere)"
-  );
 }
 
 function updateThree(xrFrame) {

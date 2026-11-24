@@ -4,25 +4,18 @@ function setupWebXR() {
   renderer.xr.enabled = true;
   renderer.xr.setReferenceSpaceType("local-floor");
 
-  const status = showInstruction("Enter VR and show one hand.");
-  status.style.top = "auto";
-  status.style.bottom = "80px";
-
-  const button = createHandSessionButton(renderer, status);
-  button.style.position = "fixed";
-  button.style.bottom = "20px";
-  button.style.left = "50%";
-  button.style.transform = "translateX(-50%)";
+  const button = createHandSessionButton(renderer);
   document.body.append(button);
   updateHands = setupHands();
 }
 
-function createHandSessionButton(renderer, status) {
+function createHandSessionButton(renderer) {
   const button = document.createElement("button");
   button.className = "hand-session";
-  button.textContent = "Checking VR support";
+  button.textContent = "CHECKING VR SUPPORT";
   button.disabled = true;
   let session;
+  let status;
 
   async function checkSupport() {
     try {
@@ -33,12 +26,12 @@ function createHandSessionButton(renderer, status) {
       button.disabled = !supported;
 
       if (supported) {
-        button.textContent = "Enter VR";
+        button.textContent = "ENTER VR WITH HANDS";
       } else {
-        button.textContent = "VR unavailable";
+        button.textContent = "XR NOT SUPPORTED";
       }
     } catch {
-      button.textContent = "VR unavailable";
+      button.textContent = "XR NOT SUPPORTED";
     }
   }
 
@@ -48,19 +41,27 @@ function createHandSessionButton(renderer, status) {
       if (session) {
         await session.end();
       } else {
+        if (status) {
+          status.remove();
+          status = undefined;
+        }
         session = await navigator.xr.requestSession("immersive-vr", {
           requiredFeatures: ["local-floor", "hand-tracking"],
         });
         session.addEventListener("end", function() {
           session = undefined;
-          button.textContent = "Enter VR";
+          button.textContent = "ENTER VR WITH HANDS";
         }, { once: true });
         await renderer.xr.setSession(session);
-        button.textContent = "Exit VR";
+        button.textContent = "EXIT VR";
       }
     } catch (error) {
       if (session) await session.end().catch(function() {});
-      status.textContent = "VR hand tracking could not start. Check headset and browser support.";
+      if (!status) {
+        status = showInstruction("VR hand tracking could not start. Check headset and browser support.");
+        status.style.top = "auto";
+        status.style.bottom = "80px";
+      }
     } finally {
       button.disabled = false;
     }
@@ -76,7 +77,7 @@ function setupHands() {
   scene.add(fingertip);
 
   const bounds = new THREE.Box3();
-  const contactSphere = new THREE.Sphere(fingertip.position, 0.012);
+  const contactSphere = new THREE.Sphere(new THREE.Vector3(), 0.012);
   let activeInput;
   let wasTouching = false;
 
@@ -109,7 +110,7 @@ function setupHands() {
     wasTouching = false;
     fingertip.visible = false;
     box.material.color.set(0x55aaff);
-    show("Show one hand");
+    show("Put down controllers and show one hand");
   }
   reset();
   renderer.xr.addEventListener("sessionend", function() {
@@ -146,6 +147,7 @@ function setupHands() {
 
     fingertip.visible = true;
     fingertip.position.copy(indexPose.transform.position);
+    contactSphere.center.copy(fingertip.position);
 
     bounds.setFromObject(box);
     const touching = bounds.intersectsSphere(contactSphere);
@@ -163,7 +165,7 @@ function setupHands() {
     if (touching) {
       show("Touching");
     } else {
-      show("Move to the box");
+      show("Touch the box with your finger.");
     }
   };
 }

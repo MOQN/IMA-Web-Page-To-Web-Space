@@ -1,37 +1,41 @@
-let controller, controllerGrip;
+const controllers = [];
 
 function setupWebXR() {
   renderer.xr.enabled = true;
 
-  // controller 
-  function onSelectStart() {
-    this.userData.isSelecting = true;
-  }
-
-  function onSelectEnd() {
-    this.userData.isSelecting = false;
-  }
-
-  controller = renderer.xr.getController(0);
-  controller.addEventListener("selectstart", onSelectStart);
-  controller.addEventListener("selectend", onSelectEnd);
-  controller.addEventListener("connected", function (event) {
-    this.add(buildController(event.data));
-  });
-  controller.addEventListener("disconnected", function () {
-    this.remove(this.children[0]);
-  });
-  scene.add(controller);
-
-  // controller grip
   const controllerModelFactory = new XRControllerModelFactory();
-  controllerGrip = renderer.xr.getControllerGrip(0);
-  controllerGrip.add(
-    controllerModelFactory.createControllerModel(controllerGrip)
-  );
-  scene.add(controllerGrip);
 
-  // display the XR Button
+  for (let i = 0; i < 2; i++) {
+    const controller = renderer.xr.getController(i);
+    controller.addEventListener("selectstart", function () {
+      controller.userData.isSelecting = true;
+    });
+    controller.addEventListener("selectend", function () {
+      controller.userData.isSelecting = false;
+    });
+    controller.addEventListener("connected", function (event) {
+      const ray = buildController(event.data);
+      if (ray) controller.add(ray);
+    });
+    controller.addEventListener("disconnected", function () {
+      controller.userData.isSelecting = false;
+      const ray = controller.children[0];
+      if (ray) controller.remove(ray);
+    });
+    scene.add(controller);
+    controllers.push(controller);
+
+    const grip = renderer.xr.getControllerGrip(i);
+    grip.add(controllerModelFactory.createControllerModel(grip));
+    scene.add(grip);
+  }
+
+  renderer.xr.addEventListener("sessionend", function () {
+    for (const controller of controllers) {
+      controller.userData.isSelecting = false;
+    }
+  });
+
   document.body.appendChild(XRButton.createButton(renderer));
 }
 
